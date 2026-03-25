@@ -107,31 +107,31 @@ body {{
 }}
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   LETTERHEAD — Logo + brand, centred, elegant
+   LETTERHEAD — Classic stationery, prominent stamp, generous space
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .letterhead {{
     text-align: center;
-    padding-bottom: 10pt;
-    margin-bottom: 12pt;
-    border-bottom: 1.5pt solid #1B3A5C;
+    padding-top: 8pt;
+    padding-bottom: 18pt;
+    margin-bottom: 20pt;
+    border-bottom: 0.75pt solid #ccc;
 }}
 
 .letterhead img {{
-    width: 52pt;
-    height: 52pt;
-    border-radius: 50%%;
-    margin-bottom: 4pt;
+    width: 80pt;
+    height: auto;
+    margin-bottom: 10pt;
     display: block;
     margin-left: auto;
     margin-right: auto;
 }}
 
 .letterhead .company-name {{
-    font-size: 12pt;
+    font-size: 11pt;
     font-weight: 700;
     color: #1B3A5C;
-    letter-spacing: 2.5pt;
+    letter-spacing: 3pt;
     text-transform: uppercase;
     margin: 0;
     padding: 0;
@@ -139,10 +139,9 @@ body {{
 
 .letterhead .tagline {{
     font-size: 7pt;
-    color: #8c8c8c;
-    letter-spacing: 1.5pt;
-    text-transform: uppercase;
-    margin-top: 2pt;
+    color: #999;
+    letter-spacing: 1pt;
+    margin-top: 4pt;
 }}
 
 /* ═══════════════════════════════════════════════════════════════════════════
