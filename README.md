@@ -34,6 +34,10 @@ The `jds/` directory contains a complete in-house documentation and quality mana
 │
 ├── software-projects/    # Software development projects
 │
+├── collections/          # Personal collections
+│   └── rom-archive/      # Classical video game ROM preservation
+│       └── game-boy-color/links-awakening-dx/  # Example game folder
+│
 ├── documents/            # Personal documents
 │   ├── cv/               # CV and cover letters
 │   └── notes/            # Project notes

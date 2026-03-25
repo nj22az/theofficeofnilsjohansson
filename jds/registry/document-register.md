@@ -36,6 +36,7 @@ This is the master list of all documents in the JDS system. Every document must 
 | [JDS-TMP-005](../templates/JDS-TMP-005_drawing-model-template.md) | Drawing / Model Documentation Template | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-TMP-006](../templates/JDS-TMP-006_project-document-template.md) | Project Document Template | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-TMP-007](../templates/JDS-TMP-007_blog-post-template.md) | Blog Post Template | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-TMP-008](../templates/logs/JDS-TMP-008_pressure-vessel-inventory-template.md) | Pressure Vessel Inventory Template | A | 2026-03-25 | APPROVED | N. Johansson |
 
 ## Reports (RPT)
 
