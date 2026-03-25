@@ -1,7 +1,7 @@
 title: The Office of Nils Johansson
 description: Engineering insights from the field — marine systems, 3D modeling, and software tools for practical problem-solving.
 author: Nils Johansson
-baseurl: /theofficeofnilsjohansson/blog
+baseurl: /theofficeofnilsjohansson
 url: https://nj22az.github.io
 
 markdown: kramdown
