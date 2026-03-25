@@ -1,10 +1,15 @@
 # The Office of Nils Johansson
 
-Personal workspace for 3D modeling and software projects.
+Personal workspace for 3D modeling, software projects, and an engineering blog.
+
+## Blog
+
+The `blog/` directory is a Jekyll site served via GitHub Pages — a classical technical engineering blog documenting practical problem-solving, 3D modeling, and lessons from the field.
 
 ## Structure
 
 ```
+├── blog/                 # Jekyll blog (GitHub Pages)
 ├── 3d-modeling/          # 3D modeling projects
 │   ├── blender/          # Blender project files (.blend)
 │   ├── shapr3d/          # Shapr3D projects
