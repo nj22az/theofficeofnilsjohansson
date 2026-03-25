@@ -7,7 +7,8 @@ Personal workspace for 3D modeling and software projects.
 ```
 ├── 3d-modeling/          # 3D modeling projects
 │   ├── blender/          # Blender project files (.blend)
-│   ├── fusion360/        # Fusion 360 projects
+│   ├── shapr3d/          # Shapr3D projects
+│   ├── build123d/        # build123d Python CAD scripts
 │   ├── references/       # Reference images and sketches
 │   └── exports/          # Exported models
 │       ├── stl/          # STL files (3D printing)

@@ -4,7 +4,7 @@
 Personal workspace for Nils Johansson's project files, including 3D modeling and software projects.
 
 ## Structure
-- `3d-modeling/` - 3D modeling projects (Blender, Fusion 360, exports, references)
+- `3d-modeling/` - 3D modeling projects (Blender, Shapr3D, build123d, exports, references)
 - `software-projects/` - Software development projects
 - `documents/` - CV, cover letters, notes
 - `archive/` - Archived past projects (e.g., previous website)
