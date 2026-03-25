@@ -1,0 +1,52 @@
+# Expense Report
+
+| | |
+|---|---|
+| **Document No.** | JEDS-EXP-[NNN] |
+| **Period** | YYYY-MM-DD to YYYY-MM-DD |
+| **Date** | YYYY-MM-DD |
+| **Status** | DRAFT |
+| **Author** | Nils Johansson |
+| **Project** | [Project name or General] |
+
+---
+
+## Expenses
+
+| Date | Description | Category | Currency | Amount | Receipt |
+|------|-------------|----------|----------|--------|---------|
+| | | Travel / Accommodation / Meals / Tools / Materials / Other | | | Yes / No |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| **Total** | | | | **0.00** | |
+
+## Category Summary
+
+| Category | Total |
+|----------|-------|
+| Travel | |
+| Accommodation | |
+| Meals | |
+| Tools & Equipment | |
+| Materials | |
+| Other | |
+| **Grand Total** | **0.00** |
+
+## Receipts
+
+[List attached receipt files]
+
+- [ ] [Receipt description — filename]
+
+## Notes
+
+[Any additional context — purpose of travel, client to invoice, etc.]
+
+---
+
+## Revision History
+
+| Rev | Date | Author | Description |
+|-----|------|--------|-------------|
+| DRAFT | YYYY-MM-DD | Nils Johansson | Initial draft |
