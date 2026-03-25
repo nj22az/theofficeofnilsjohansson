@@ -1,6 +1,6 @@
 # JDS — Johansson Documentation System
 
-**Version:** 2.0
+**Version:** 2.1
 **Effective Date:** 2026-03-25
 **Owner:** Nils Johansson
 
@@ -23,8 +23,12 @@ Every document — whether it's a field service report, a 3D model drawing, a ti
 | How to create a new document | [Document Creation Procedure](procedures/JDS-PRO-001_document-creation.md) |
 | How revisions work | [Revision Control Procedure](procedures/JDS-PRO-002_revision-control.md) |
 | How 3D projects are managed | [3D Model Management Procedure](procedures/JDS-PRO-003_3d-model-management.md) |
+| How documents are reviewed & audited | [Document Review & Audit Procedure](procedures/JDS-PRO-005_document-review-audit.md) |
+| What documents a project needs | [Project Komplekt Standard](procedures/JDS-PRO-006_project-komplekt.md) |
 | Document templates | [Templates folder](templates/) |
 | Master document list | [Document Registry](registry/document-register.md) |
+| System change history | [JDS Changelog](CHANGELOG.md) |
+| Archived documents | [Archive](archive/) |
 | Worked examples | [Examples folder](examples/) |
 
 ---
