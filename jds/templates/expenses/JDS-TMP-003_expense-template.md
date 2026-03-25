@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Document No.** | JEDS-EXP-[NNN] |
+| **Document No.** | JDS-EXP-[NNN] |
 | **Period** | YYYY-MM-DD to YYYY-MM-DD |
 | **Date** | YYYY-MM-DD |
 | **Status** | DRAFT |

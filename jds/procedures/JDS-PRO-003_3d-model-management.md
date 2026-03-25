@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Document No.** | JEDS-PRO-003 |
-| **Revision** | A |
+| **Document No.** | JDS-PRO-003 |
+| **Revision** | B |
 | **Date** | 2026-03-25 |
 | **Status** | APPROVED |
 | **Author** | Nils Johansson |
@@ -12,7 +12,7 @@
 
 ## 1. Purpose
 
-This procedure defines how 3D models, engineering drawings, and related files are organised, named, stored, and tracked within JEDS. Every modeling project — whether it's a single part or a full assembly — follows the same structure so that files are always findable, traceable, and version-controlled.
+This procedure defines how 3D models, engineering drawings, and related files are organised, named, stored, and tracked within JDS. Every modeling project — whether it's a single part or a full assembly — follows the same structure so that files are always findable, traceable, and version-controlled.
 
 ## 2. Scope
 
@@ -20,7 +20,7 @@ Applies to all 3D modeling and drawing work, including:
 - Blender projects (.blend)
 - Shapr3D projects (.shapr)
 - build123d scripts (.py)
-- Exported files (STL, STEP, OBJ, glTF)
+- Exported files (STEP, 3MF, STL — mandatory standard set)
 - Reference images and sketches
 - Related documentation (DWG documents)
 
@@ -28,27 +28,28 @@ Applies to all 3D modeling and drawing work, including:
 
 ### 3.1 Overview
 
-Each modeling project gets its own folder under `3d-modeling/`, named with its JEDS drawing number:
+Each modeling project gets its own folder under `3d-modeling/`, named with its JDS drawing number:
 
 ```
 3d-modeling/
-├── JEDS-DWG-001_flange-adapter/       # One folder per project
+├── JDS-DWG-MEC-001_flange-adapter/    # One folder per project
 │   ├── README.md                       # Project card (quick reference)
 │   ├── source/                         # Source/working files
 │   │   ├── flange-adapter.blend        # Blender file
 │   │   ├── flange-adapter.shapr        # Shapr3D file
 │   │   └── flange-adapter.py           # build123d script
-│   ├── exports/                        # Exported output files
-│   │   ├── flange-adapter.stl
-│   │   ├── flange-adapter.step
-│   │   └── flange-adapter.gltf
+│   ├── exports/                        # Exported output files (standard set)
+│   │   ├── flange-adapter.step         # MANDATORY — CAD interchange
+│   │   ├── flange-adapter.3mf          # MANDATORY — 3D printing (preferred)
+│   │   ├── flange-adapter.stl          # MANDATORY — 3D printing (universal)
+│   │   └── flange-adapter.glb          # Optional — web/presentation
 │   ├── references/                     # Reference material
 │   │   ├── sketch-001.jpg
 │   │   └── datasheet.pdf
 │   └── renders/                        # Screenshots and renders
 │       └── final-render.png
 │
-├── JEDS-DWG-002_bracket-mount/         # Next project
+├── JDS-DWG-STR-001_bracket-mount/     # Next project (Structural domain)
 │   ├── README.md
 │   ├── source/
 │   ├── exports/
@@ -62,8 +63,8 @@ Each modeling project gets its own folder under `3d-modeling/`, named with its J
 
 ### 3.2 Key Rules
 
-1. **One folder per JEDS drawing number.** A project folder is created when a DWG number is assigned.
-2. **Folder name = JEDS number + short description.** Example: `JEDS-DWG-001_flange-adapter/`
+1. **One folder per JDS drawing number.** A project folder is created when a DWG number is assigned.
+2. **Folder name = JDS number (with domain) + short description.** Example: `JDS-DWG-MEC-001_flange-adapter/`
 3. **Source files go in `source/`.** These are the editable working files.
 4. **Exports go in `exports/`.** These are the output files for fabrication, sharing, or viewing.
 5. **References go in `references/`.** Sketches, datasheets, photos — anything used as input.
@@ -99,12 +100,34 @@ assembly-name_full-assembly.blend
 Exports match the source file name with the appropriate extension:
 
 ```
-flange-adapter.stl          # For 3D printing
-flange-adapter.step         # For CAD interchange
-flange-adapter_v2.stl       # Variant — append version if needed
+flange-adapter.step         # MANDATORY — CAD interchange
+flange-adapter.3mf          # MANDATORY — 3D printing (preferred)
+flange-adapter.stl          # MANDATORY — 3D printing (universal)
+flange-adapter.glb          # Optional — web/presentation
+flange-adapter_v2.step      # Variant — append version if needed
 ```
 
-### 4.3 Reference Files
+### 4.3 Mandatory Export Standard
+
+Every 3D model project **must** export these three formats:
+
+| Format | Extension | Why it's mandatory | Use case |
+|--------|-----------|-------------------|----------|
+| **STEP** | `.step` | Preserves solid geometry. Editable in any CAD tool. Your insurance policy for future modifications. | CAD interchange, CNC machining, sharing with engineers |
+| **3MF** | `.3mf` | Modern printing format. Carries units, materials, colour, and tolerances in one file. | 3D printing (preferred by modern slicers) |
+| **STL** | `.stl` | Universal mesh format. Every slicer and viewer reads it. | 3D printing (universal fallback), quick sharing |
+
+**Optional exports** (add when relevant):
+
+| Format | Extension | When to include |
+|--------|-----------|----------------|
+| **glTF/GLB** | `.gltf` / `.glb` | Web viewers, blog posts, presentations, AR/VR |
+| **OBJ** | `.obj` | When specifically requested by a collaborator |
+| **PDF (2D)** | `.pdf` | Dimensioned drawings for machine shops or documentation |
+
+**Why STEP is critical:** STL and 3MF are mesh formats — you cannot easily edit them later. STEP preserves the actual solid geometry, so you or anyone else can reopen it in Shapr3D, FreeCAD, or any CAD tool and modify the design. Always export STEP first.
+
+### 4.4 Reference Files
 
 References use descriptive names:
 
@@ -123,7 +146,7 @@ Every project folder contains a `README.md` that acts as a quick-reference card.
 
 | | |
 |---|---|
-| **JEDS No.** | JEDS-DWG-[NNN] |
+| **JDS No.** | JDS-DWG-[DOM]-[NNN] |
 | **Rev** | A |
 | **Date** | YYYY-MM-DD |
 | **Status** | DRAFT / APPROVED |
@@ -147,11 +170,12 @@ Every project folder contains a `README.md` that acts as a quick-reference card.
 |------|------|-------------|
 | source/[filename] | [Tool] | [What it contains] |
 
-## Exports
+## Exports (mandatory standard set)
 | File | Format | Purpose |
 |------|--------|---------|
-| exports/[filename] | STL | 3D printing |
-| exports/[filename] | STEP | CAD interchange |
+| exports/[filename].step | STEP | CAD interchange (editable) |
+| exports/[filename].3mf | 3MF | 3D printing (preferred) |
+| exports/[filename].stl | STL | 3D printing (universal) |
 
 ## Notes
 [Design decisions, constraints, tolerances, material choices, etc.]
@@ -161,12 +185,12 @@ Every project folder contains a `README.md` that acts as a quick-reference card.
 
 ### Step 1: Assign a DWG number
 
-Check the [Document Registry](../registry/document-register.md) for the next available DWG number.
+Check the [Document Registry](../registry/document-register.md) for the next available DWG number in your domain. Pick the engineering domain code (MEC, MAR, AUT, etc.) from the [Numbering Standard](../quality-manual/JDS-QMS-001_document-numbering.md).
 
 ### Step 2: Create the project folder
 
 ```bash
-mkdir -p 3d-modeling/JEDS-DWG-[NNN]_short-name/{source,exports,references,renders}
+mkdir -p 3d-modeling/JDS-DWG-MEC-001_short-name/{source,exports,references,renders}
 ```
 
 ### Step 3: Create the project card
@@ -175,23 +199,30 @@ Copy the README template from Section 5 into the project folder and fill in the 
 
 ### Step 4: Do the work
 
-Create your models in the `source/` folder. Save exports to `exports/`. Collect references in `references/`.
+Create your models in the `source/` folder. Collect references in `references/`.
 
-### Step 5: Register the document
+### Step 5: Export the standard set
+
+Export all three mandatory formats to `exports/`:
+- `.step` — CAD interchange (always first)
+- `.3mf` — 3D printing (preferred)
+- `.stl` — 3D printing (universal fallback)
+
+### Step 6: Register the document
 
 Add the DWG entry to the [Document Registry](../registry/document-register.md).
 
-### Step 6: Commit
+### Step 7: Commit
 
 Commit the project folder to the repository. Use a descriptive commit message:
 
 ```
-Add JEDS-DWG-001: Flange adapter DN50 — initial model
+Add JDS-DWG-MEC-001: Flange adapter DN50 — initial model
 ```
 
 ## 7. Revision Control for 3D Models
 
-3D models follow the same revision control as other JEDS documents (see JEDS-PRO-002), with these additions:
+3D models follow the same revision control as other JDS documents (see JDS-PRO-002), with these additions:
 
 ### 7.1 What Counts as a Revision
 
@@ -210,8 +241,8 @@ Add JEDS-DWG-001: Flange adapter DN50 — initial model
 
 Example:
 ```
-JEDS-DWG-001  Flange Adapter DN50
-JEDS-DWG-002  Flange Adapter DN80 (variant of DWG-001)
+JDS-DWG-MEC-001  Flange Adapter DN50
+JDS-DWG-MEC-002  Flange Adapter DN80 (variant of DWG-MEC-001)
 ```
 
 ### 7.3 Export on Every Revision
@@ -236,18 +267,19 @@ Binary files (`.blend`, `.shapr`, images, STL) don't diff well in Git. Best prac
 | .blend1 / .blend2 | No | Auto-backups (in .gitignore) |
 | .shapr | Yes | Main working file |
 | .py (build123d) | Yes | Source code — diffs perfectly |
-| .stl / .step / .obj / .gltf | Yes | Output files for sharing |
+| .step / .3mf / .stl | Yes | Mandatory export set |
+| .glb / .obj | Yes | Optional exports when relevant |
 | Reference images | Yes | Keep reasonable sizes (<5MB each) |
 | Renders | Yes | Final renders only, not drafts |
 
 ## 9. Quick Checklist: New 3D Project
 
-- [ ] DWG number assigned from registry
-- [ ] Project folder created: `3d-modeling/JEDS-DWG-[NNN]_name/`
+- [ ] DWG number with domain code assigned from registry
+- [ ] Project folder created: `3d-modeling/JDS-DWG-[DOM]-[NNN]_name/`
 - [ ] Subfolders created: `source/`, `exports/`, `references/`, `renders/`
 - [ ] README.md project card filled in
 - [ ] Source files saved in `source/`
-- [ ] Exports generated and saved in `exports/`
+- [ ] Mandatory exports generated: STEP + 3MF + STL in `exports/`
 - [ ] Document registry updated
 - [ ] Committed to repository with descriptive message
 
@@ -258,3 +290,4 @@ Binary files (`.blend`, `.shapr`, images, STL) don't diff well in Git. Best prac
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
 | A | 2026-03-25 | Nils Johansson | Initial release |
+| B | 2026-03-25 | Nils Johansson | Renamed JEDS to JDS. Added domain codes to folder naming. Added mandatory export standard (STEP + 3MF + STL). |

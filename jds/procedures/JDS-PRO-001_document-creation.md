@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Document No.** | JEDS-PRO-001 |
+| **Document No.** | JDS-PRO-001 |
 | **Revision** | A |
 | **Date** | 2026-03-25 |
 | **Status** | APPROVED |
@@ -12,11 +12,11 @@
 
 ## 1. Purpose
 
-This procedure describes how to create a new document in the JEDS system, from initial idea to approved release.
+This procedure describes how to create a new document in the JDS system, from initial idea to approved release.
 
 ## 2. When to Create a Document
 
-Create a new JEDS document when:
+Create a new JDS document when:
 - You need to record work that was performed (reports, logs)
 - You need to track time or expenses (timesheets, expenses)
 - You're creating a deliverable for a project (drawings, manuals)
@@ -29,7 +29,7 @@ Create a new JEDS document when:
 
 ### Step 1: Determine the Category
 
-Refer to the category table in [JEDS-QMS-001](../quality-manual/JEDS-QMS-001_document-numbering.md) and pick the appropriate code (RPT, PRO, TSH, etc.).
+Refer to the category table in [JDS-QMS-001](../quality-manual/JDS-QMS-001_document-numbering.md) and pick the appropriate code (RPT, PRO, TSH, etc.).
 
 ### Step 2: Get the Next Number
 
@@ -37,24 +37,24 @@ Refer to the category table in [JEDS-QMS-001](../quality-manual/JEDS-QMS-001_doc
 2. Find the last number used in your category
 3. Your document gets the next sequential number
 
-**Example:** Last report was JEDS-RPT-003, so your new one is JEDS-RPT-004.
+**Example:** Last report was JDS-RPT-003, so your new one is JDS-RPT-004.
 
 ### Step 3: Copy the Template
 
 Go to the [templates folder](../templates/) and copy the appropriate template for your document type. Rename it following the file naming convention:
 
 ```
-JEDS-[CAT]-[NNN]_short-description.md
+JDS-[CAT]-[NNN]_short-description.md
 ```
 
 ### Step 4: Fill In the Header
 
-Every JEDS document starts with a header block:
+Every JDS document starts with a header block:
 
 ```markdown
 | | |
 |---|---|
-| **Document No.** | JEDS-RPT-004 |
+| **Document No.** | JDS-RPT-004 |
 | **Revision** | DRAFT |
 | **Date** | 2026-03-25 |
 | **Status** | DRAFT |

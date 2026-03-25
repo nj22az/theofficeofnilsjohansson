@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Document No.** | JEDS-RPT-[NNN] |
+| **Document No.** | JDS-RPT-[NNN] |
 | **Revision** | DRAFT |
 | **Date** | YYYY-MM-DD |
 | **Status** | DRAFT |

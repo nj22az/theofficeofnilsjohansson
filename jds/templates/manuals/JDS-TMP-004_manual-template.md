@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Document No.** | JEDS-MAN-[NNN] |
+| **Document No.** | JDS-MAN-[NNN] |
 | **Revision** | DRAFT |
 | **Date** | YYYY-MM-DD |
 | **Status** | DRAFT |

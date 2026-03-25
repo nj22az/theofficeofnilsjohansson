@@ -1,8 +1,8 @@
-# JEDS Quality Manual
+# JDS Quality Manual
 
 | | |
 |---|---|
-| **Document No.** | JEDS-QMS-000 |
+| **Document No.** | JDS-QMS-000 |
 | **Revision** | A |
 | **Date** | 2026-03-25 |
 | **Status** | APPROVED |
@@ -47,16 +47,16 @@ As a sole-proprietor engineering practice, Nils Johansson holds all three roles 
 
 ## 5. Documentation Hierarchy
 
-The JEDS documentation is organised in four tiers:
+The JDS documentation is organised in four tiers:
 
 ```
 Tier 1: Quality Manual (this document)
    ↓    Defines the overall system, policies, and principles
 
-Tier 2: Procedures (JEDS-PRO series)
+Tier 2: Procedures (JDS-PRO series)
    ↓    Step-by-step instructions for system processes
 
-Tier 3: Templates (JEDS-TMP series)
+Tier 3: Templates (JDS-TMP series)
    ↓    Standardised forms and document formats
 
 Tier 4: Records (RPT, TSH, EXP, LOG, etc.)
@@ -67,11 +67,11 @@ Tier 4: Records (RPT, TSH, EXP, LOG, etc.)
 
 ### 6.1 Numbering
 
-All documents are assigned a unique number following the JEDS numbering standard (JEDS-QMS-001). Numbers are never reused, even if a document is retired.
+All documents are assigned a unique number following the JDS numbering standard (JDS-QMS-001). Numbers are never reused, even if a document is retired.
 
 ### 6.2 Revision Control
 
-Documents follow a controlled revision process (JEDS-PRO-002):
+Documents follow a controlled revision process (JDS-PRO-002):
 
 - **Rev A** = First approved release
 - **Rev B, C, D...** = Subsequent approved revisions
@@ -125,7 +125,7 @@ The documentation system itself shall be reviewed annually (or after significant
 - Aligned with the type of work being produced
 - Up to date with current tools and workflows
 
-Review findings are recorded in a Management Review Report (JEDS-RPT series).
+Review findings are recorded in a Management Review Report (JDS-RPT series).
 
 ## 10. Continuous Improvement
 

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Document No.** | JEDS-RPT-001 |
+| **Document No.** | JDS-RPT-001 |
 | **Revision** | A |
 | **Date** | 2026-03-25 |
 | **Status** | EXAMPLE |
@@ -10,7 +10,7 @@
 | **Project** | N/A — Example document |
 | **Client** | Internal |
 
-> **Note:** This is an example document to demonstrate how a JEDS report looks when completed. The content is fictional but representative of a real field service report.
+> **Note:** This is an example document to demonstrate how a JDS report looks when completed. The content is fictional but representative of a real field service report.
 
 ---
 

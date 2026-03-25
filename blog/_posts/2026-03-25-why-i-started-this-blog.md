@@ -2,11 +2,11 @@
 layout: post
 title: "Why I Started This Blog"
 date: 2026-03-25
-jeds_no: JEDS-BLG-001
+jds_no: JDS-BLG-001
 revision: A
 ---
 
-| **JEDS No.** | JEDS-BLG-001 | **Rev** | A | **Date** | 2026-03-25 |
+| **JDS No.** | JDS-BLG-001 | **Rev** | A | **Date** | 2026-03-25 |
 |---|---|---|---|---|---|
 
 I've been an engineer for over a decade. I've worked in engine rooms, on gas turbine sites, in automation workshops, and in testing labs. Through all of it, one thing has been consistent: the best knowledge is the kind someone took the time to write down.

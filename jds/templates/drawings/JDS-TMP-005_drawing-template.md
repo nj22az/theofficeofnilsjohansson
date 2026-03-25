@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Document No.** | JEDS-DWG-[NNN] |
+| **Document No.** | JDS-DWG-[NNN] |
 | **Revision** | DRAFT |
 | **Date** | YYYY-MM-DD |
 | **Status** | DRAFT |

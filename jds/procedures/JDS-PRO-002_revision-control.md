@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Document No.** | JEDS-PRO-002 |
+| **Document No.** | JDS-PRO-002 |
 | **Revision** | A |
 | **Date** | 2026-03-25 |
 | **Status** | APPROVED |
@@ -37,7 +37,7 @@ Before editing, document what needs to change and why. This goes into the revisi
 
 In Git, create a branch for the revision work:
 ```
-git checkout -b revision/JEDS-RPT-004-revB
+git checkout -b revision/JDS-RPT-004-revB
 ```
 
 This keeps the current approved version intact while you work on the update.
@@ -69,7 +69,7 @@ Add a new row to the revision history table at the bottom of the document:
 
 ### Step 6: Review and Approve
 
-Same review process as a new document (see JEDS-PRO-001).
+Same review process as a new document (see JDS-PRO-001).
 
 ### Step 7: Update the Registry
 
@@ -114,7 +114,7 @@ For minor updates, keep the same revision letter but note the change in the Git 
 When a document is replaced by a newer document (not just a new revision, but an entirely new document):
 
 1. Mark the old document status as `SUPERSEDED`
-2. Add a note at the top: `Superseded by JEDS-XXX-NNN on [date]`
+2. Add a note at the top: `Superseded by JDS-XXX-NNN on [date]`
 3. Update the registry
 4. The old file stays in the repository for reference
 
@@ -145,7 +145,7 @@ During review, either:
 
 ## 8. Traceability Summary
 
-Every change to a JEDS document is traceable through three layers:
+Every change to a JDS document is traceable through three layers:
 
 1. **Revision history table** (in the document itself) — what changed and why
 2. **Document registry** (central log) — current status and revision of every document
