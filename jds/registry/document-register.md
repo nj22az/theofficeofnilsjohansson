@@ -48,6 +48,7 @@ This is the master list of all documents in the JDS system. Every document must 
 | Doc No. | Title | Rev | Date | Status | Author |
 |---------|-------|-----|------|--------|--------|
 | [JDS-RPT-001](../examples/JDS-RPT-001_pump-inspection-example.md) | Example: Pump Inspection Report | A | 2026-03-25 | EXAMPLE | N. Johansson |
+| [JDS-RPT-MEC-002](../examples/JDS-RPT-MEC-002_risk-assessment-example.md) | Example: Risk Assessment — Pressure Vessel Maintenance | A | 2026-03-25 | EXAMPLE | N. Johansson |
 
 ## Manuals (MAN)
 
@@ -82,6 +83,8 @@ This is the master list of all documents in the JDS system. Every document must 
 |---------|-------|-----|------|--------|--------|
 | [JDS-LOG-MEC-001](../../projects/JDS-PRJ-MEC-001_pressure-vessel-maintenance/01-framework/equipment-register.md) | Equipment Register — Pressure Vessels (Framework) | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-LOG-MEC-002](../../projects/JDS-PRJ-MEC-001_pressure-vessel-maintenance/03-active-programs/JDS-LOG-MEC-002_pressure-vessel-inventory-afs2017.md) | Pressure Vessel Inventory — AFS 2017:3 Compliance Guide | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-LOG-MEC-003](../examples/JDS-LOG-MEC-003_equipment-inventory-example.md) | Example: Equipment Inventory — Göteborg Workshop | A | 2026-03-25 | EXAMPLE | N. Johansson |
+| [JDS-LOG-MEC-004](../examples/JDS-LOG-MEC-004_equipment-life-journal-example.md) | Example: Equipment Life Journal — PV-001 Air Receiver | A | 2026-03-25 | EXAMPLE | N. Johansson |
 
 ## Correspondence (COR)
 
