@@ -43,6 +43,44 @@ Personal workspace for Nils Johansson's project files, including 3D modeling and
 - Use descriptive names for project folders
 - Each software project should have its own subfolder under `software-projects/`
 
+## Self-Improvement & Automation
+
+JDS is a living system. Every session should leave the repo better than it was found.
+
+### Mandatory: Before Every Commit
+1. **Validate** — Run `python3 scripts/jds-validate.py --quick` before committing
+2. **Register** — Every new JDS document must be added to `jds/registry/document-register.md`
+3. **Log** — System-level changes must be recorded in `jds/CHANGELOG.md`
+4. **No orphans** — Never leave files unregistered or unlinked
+
+### Mandatory: Before Ending a Session
+1. Run `python3 scripts/jds-validate.py` (full audit)
+2. Fix any errors found
+3. If improvements were made to the system itself, bump the JDS version in:
+   - `jds/README.md` (version number)
+   - `jds/CHANGELOG.md` (new version entry)
+
+### Slash Commands
+- `/audit` — Run the full JDS 5S audit (JDS-PRO-005)
+- `/new-doc` — Create a new document following all JDS procedures
+- `/pdf` — Generate a JDS-compliant PDF from markdown
+
+### Continuous Improvement Cycle (Kaizen)
+When you notice something that could be improved:
+1. **Fix it now** if small (< 5 min)
+2. **Log it** in `jds/registry/corrective-action-log.md` if larger
+3. **Improve the validator** — if a new check would have caught the issue, add it to `scripts/jds-validate.py`
+4. **Improve the templates** — if a template led to the issue, update it
+5. **Improve CLAUDE.md** — if instructions were unclear, clarify them
+
+### Automation Tools
+| Tool | Purpose | Usage |
+|------|---------|-------|
+| `scripts/jds-validate.py` | Automated 5S audit checks | `python3 scripts/jds-validate.py` |
+| `scripts/jds-validate.py --quick` | Quick registry check only | Pre-commit validation |
+| `scripts/md2pdf.py` | JDS document → PDF | `python3 scripts/md2pdf.py <file.md>` |
+| `scripts/md2letter.py` | Letter template → PDF | `python3 scripts/md2letter.py <file.md>` |
+
 ## PDF Generation (JDS-PRO-007 Compliance)
 
 All PDFs exported from JDS documents MUST follow JDS-PRO-007 (Information Design Standard). Use `/pdf <filepath>` to generate compliant PDFs.

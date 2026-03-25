@@ -1,13 +1,14 @@
----
-layout: post
-title: "[Article Title]"
-date: YYYY-MM-DD
-jds_no: JDS-BLG-[DOM]-[NNN]
-revision: A
----
+# [Article Title]
 
-| **JDS No.** | JDS-BLG-[DOM]-[NNN] | **Rev** | A | **Date** | YYYY-MM-DD |
-|---|---|---|---|---|---|
+| | |
+|---|---|
+| **Document No.** | JDS-BLG-[DOM]-[NNN] |
+| **Revision** | A |
+| **Date** | YYYY-MM-DD |
+| **Status** | DRAFT |
+| **Author** | Nils Johansson |
+
+---
 
 [Opening paragraph — set the scene or state the problem. Hook the reader with something concrete.]
 
@@ -27,12 +28,26 @@ revision: A
 
 [Closing thought or call to action. What should the reader take away?]
 
+---
+
+## Revision History
+
+| Rev | Date | Author | Description |
+|-----|------|--------|-------------|
+| A | YYYY-MM-DD | Nils Johansson | Initial draft |
+
 <!--
 JDS BLOG POST CHECKLIST:
 - [ ] JDS number assigned (check registry for next available BLG number)
-- [ ] Front matter complete (layout, title, date, jds_no, revision)
-- [ ] JDS header row visible at top of post
 - [ ] Content reviewed for technical accuracy
+- [ ] Jekyll front matter added when publishing:
+      ---
+      layout: post
+      title: "[Title]"
+      date: YYYY-MM-DD
+      jds_no: JDS-BLG-[DOM]-[NNN]
+      revision: A
+      ---
 - [ ] File saved as: blog/_posts/YYYY-MM-DD-short-slug.md
 - [ ] Document registry updated
 - [ ] Committed to repository
