@@ -11,110 +11,160 @@ import os
 import markdown
 from weasyprint import HTML
 
+"""
+JDS-PRO-007 Information Design Standard — CSS Implementation
+
+Typography:     §4 — 4-level heading hierarchy, 10pt body, 1.5x line height
+Fonts:          §4.3 — Source Sans Pro / Calibri / Inter (sans) + Consolas (mono)
+Layout:         §5.1 — 25mm L/R margins, 20mm top, 25mm bottom (A4)
+Alignment:      §5.2 — Left-align text, right-align numbers in tables
+Colour:         §6.1 — Navy Blue (#1B3A5C), Steel Blue (#4A90A4), Warm Gray (#8C8C8C)
+Uncontrolled:   PRO-005 §6 — Mark exported PDFs as UNCONTROLLED COPY
+"""
+
 CSS = """
+/* ==========================================================================
+   JDS-PRO-007 Compliant Stylesheet
+   Colour palette: Navy Blue, Steel Blue, Warm Gray, White
+   Fonts: Source Sans Pro (primary), Consolas (mono)
+   ========================================================================== */
+
 @page {
     size: A4;
-    margin: 20mm 18mm 25mm 18mm;
+    margin: 20mm 25mm 25mm 25mm;  /* §5.1: 25mm L/R, 20mm top, 25mm bottom */
+
+    @top-left {
+        content: string(doc-title);
+        font-size: 7.5pt;
+        color: #8C8C8C;  /* Warm Gray — §6.1 */
+        font-family: 'Source Sans Pro', 'Calibri', 'Inter', sans-serif;
+    }
+    @top-right {
+        content: "UNCONTROLLED COPY";  /* PRO-005 §6 */
+        font-size: 7.5pt;
+        color: #8C8C8C;
+        font-family: 'Source Sans Pro', 'Calibri', 'Inter', sans-serif;
+    }
     @bottom-center {
         content: "Page " counter(page) " of " counter(pages);
         font-size: 8pt;
-        color: #666;
-        font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        color: #8C8C8C;
+        font-family: 'Source Sans Pro', 'Calibri', 'Inter', sans-serif;
     }
-    @top-right {
-        content: "UNCONTROLLED COPY — FOR REFERENCE ONLY";
-        font-size: 7pt;
-        color: #999;
-        font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-    }
+}
+
+/* First page: no running header (title is already visible) */
+@page :first {
+    @top-left { content: none; }
 }
 
 body {
-    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10pt;
-    line-height: 1.4;
+    font-family: 'Source Sans Pro', 'Calibri', 'Inter', sans-serif;  /* §4.3 */
+    font-size: 10pt;       /* §4.2: 10–11pt */
+    line-height: 1.5;      /* §4.2: 1.4–1.5x */
     color: #1a1a1a;
     max-width: 100%;
+    text-align: left;      /* §5.2: Never justify */
 }
 
+/* --- Heading Hierarchy — §4.1 (4 levels max) --- */
+
 h1 {
-    font-size: 16pt;
-    color: #1B3A5C;
-    border-bottom: 2px solid #1B3A5C;
-    padding-bottom: 4pt;
+    font-size: 20pt;       /* §4.1: 18–22pt */
+    font-weight: 700;
+    color: #1B3A5C;        /* Navy Blue — §6.1 */
+    border-bottom: 2pt solid #1B3A5C;
+    padding-bottom: 6pt;
     margin-top: 0;
+    margin-bottom: 12pt;
+    string-set: doc-title content();  /* Feed into running header */
 }
 
 h2 {
-    font-size: 13pt;
-    color: #1B3A5C;
-    border-bottom: 1px solid #4A90A4;
-    padding-bottom: 3pt;
-    margin-top: 16pt;
+    font-size: 14pt;       /* §4.1: 14–16pt */
+    font-weight: 700;
+    color: #1B3A5C;        /* Navy Blue */
+    border-bottom: 0.75pt solid #4A90A4;  /* Steel Blue line below — §4.1 */
+    padding-bottom: 4pt;
+    margin-top: 18pt;
+    margin-bottom: 8pt;
     page-break-after: avoid;
 }
 
 h3 {
-    font-size: 11pt;
-    color: #4A90A4;
-    margin-top: 12pt;
+    font-size: 12pt;       /* §4.1: 12–13pt */
+    font-weight: 700;
+    color: #4A90A4;        /* Steel Blue — §6.1 */
+    margin-top: 14pt;
+    margin-bottom: 6pt;
     page-break-after: avoid;
 }
 
 h4 {
-    font-size: 10pt;
+    font-size: 11pt;       /* §4.1: 11–12pt */
+    font-weight: 700;
+    font-style: italic;    /* §4.1: Bold italic */
     color: #333;
-    margin-top: 10pt;
+    margin-top: 12pt;
+    margin-bottom: 4pt;
 }
+
+/* --- Tables — §7.3 --- */
 
 table {
     border-collapse: collapse;
     width: 100%;
     margin: 8pt 0;
-    font-size: 9pt;
+    font-size: 9pt;        /* §4.2: never smaller than 9pt */
     page-break-inside: avoid;
 }
 
 th {
-    background-color: #1B3A5C;
+    background-color: #1B3A5C;  /* Navy Blue — §6.1 */
     color: white;
     font-weight: 600;
-    text-align: left;
+    text-align: left;      /* §5.2 */
     padding: 5pt 6pt;
-    border: 1px solid #1B3A5C;
+    border: 1pt solid #1B3A5C;
 }
 
 td {
-    padding: 4pt 6pt;
-    border: 1px solid #ccc;
+    padding: 5pt 6pt;      /* §7.3: generous cell padding */
+    border: 1pt solid #ccc;
     vertical-align: top;
+    text-align: left;      /* §5.2: left-align text */
 }
 
+/* §7.3: subtle alternating row shading */
 tr:nth-child(even) {
     background-color: #f5f7fa;
 }
 
-/* Header metadata table — no colored header */
+/* Header metadata table (first table) — subdued styling for bento identity block */
 table:first-of-type th,
 table:first-of-type td {
-    border: 1px solid #999;
+    border: 1pt solid #999;
 }
 table:first-of-type th {
     background-color: #f0f0f0;
     color: #333;
 }
 
+/* --- Blockquotes (callouts) --- */
+
 blockquote {
-    border-left: 3px solid #4A90A4;
+    border-left: 3pt solid #4A90A4;  /* Steel Blue */
     margin: 10pt 0;
-    padding: 6pt 12pt;
+    padding: 8pt 14pt;
     background-color: #f0f5f7;
     color: #333;
     font-style: italic;
 }
 
+/* --- Code — §4.3: monospace for codes and technical identifiers --- */
+
 code {
-    font-family: 'Consolas', 'Courier New', monospace;
+    font-family: 'Consolas', 'Courier New', monospace;  /* §4.3 */
     background-color: #f5f5f5;
     padding: 1pt 3pt;
     font-size: 9pt;
@@ -123,8 +173,8 @@ code {
 
 pre {
     background-color: #f5f5f5;
-    padding: 8pt;
-    border: 1px solid #ddd;
+    padding: 10pt;
+    border: 1pt solid #ddd;
     border-radius: 3pt;
     font-size: 8.5pt;
     overflow-x: auto;
@@ -136,33 +186,44 @@ pre code {
     padding: 0;
 }
 
+/* --- Horizontal rules (section dividers — ma between sections) --- */
+
 hr {
     border: none;
-    border-top: 1px solid #ccc;
-    margin: 14pt 0;
+    border-top: 1pt solid #ccc;
+    margin: 16pt 0;       /* §2 principle 1: Ma — meaningful white space */
 }
 
 strong {
     color: #1a1a1a;
 }
 
+/* --- Lists --- */
+
 ul, ol {
-    margin: 4pt 0;
+    margin: 6pt 0;
     padding-left: 20pt;
 }
 
 li {
-    margin-bottom: 2pt;
+    margin-bottom: 3pt;
 }
 
-/* Checkbox styling */
 li input[type="checkbox"] {
     margin-right: 4pt;
 }
 
+/* --- Links — Steel Blue — §6.1 --- */
+
 a {
     color: #4A90A4;
     text-decoration: none;
+}
+
+/* --- Paragraph spacing — §4.2: 6–8pt between paragraphs --- */
+
+p {
+    margin: 0 0 7pt 0;
 }
 """
 
