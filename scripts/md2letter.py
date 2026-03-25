@@ -77,7 +77,7 @@ def extract_metadata(md_text):
 
 
 # ---------------------------------------------------------------------------
-# Letter CSS — Elegant letterhead, rounded font, generous whitespace
+# Letter CSS — Old-world stationery, engraved feel, serif typography
 # ---------------------------------------------------------------------------
 
 LETTER_CSS = """
@@ -85,63 +85,86 @@ LETTER_CSS = """
 
 @page {{
     size: A4;
-    margin: 20mm 25mm 25mm 25mm;
+    margin: 22mm 28mm 25mm 28mm;
 
     @bottom-center {{
-        content: "Johansson Engineering  ·  Est. 1983";
-        font-size: 6.5pt;
-        color: #b0b0b0;
-        font-family: 'Varela Round', 'M PLUS Rounded 1c', 'Rounded Mplus 1c', sans-serif;
-        letter-spacing: 0.5pt;
-        border-top: 0.5pt solid #e8ecf0;
+        content: "Est. 1983";
+        font-size: 6pt;
+        color: #aaa;
+        font-family: 'Noto Serif', 'Liberation Serif', 'Georgia', serif;
+        font-style: italic;
+        letter-spacing: 1pt;
+        border-top: 0.25pt solid #ccc;
         padding-top: 8pt;
     }}
 }}
 
 body {{
-    font-family: 'Varela Round', 'M PLUS Rounded 1c', 'Rounded Mplus 1c', 'Noto Sans', sans-serif;
+    font-family: 'Noto Serif', 'Liberation Serif', 'Georgia', serif;
     font-size: 10pt;
-    line-height: 1.55;
-    color: #2c2c2e;
+    line-height: 1.6;
+    color: #2a2a2a;
     text-align: left;
 }}
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   LETTERHEAD — Classic stationery, prominent stamp, generous space
+   LETTERHEAD — Old-world engraved stationery
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .letterhead {{
     text-align: center;
-    padding-top: 8pt;
-    padding-bottom: 18pt;
-    margin-bottom: 20pt;
-    border-bottom: 0.75pt solid #ccc;
+    padding-top: 0;
+    padding-bottom: 14pt;
+    margin-bottom: 24pt;
+}}
+
+.letterhead .ornament-top {{
+    font-size: 8pt;
+    color: #999;
+    letter-spacing: 6pt;
+    margin-bottom: 12pt;
 }}
 
 .letterhead img {{
-    width: 80pt;
+    width: 72pt;
     height: auto;
-    margin-bottom: 10pt;
+    margin-bottom: 12pt;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    opacity: 0.85;
 }}
 
 .letterhead .company-name {{
-    font-size: 11pt;
-    font-weight: 700;
-    color: #1B3A5C;
-    letter-spacing: 3pt;
+    font-family: 'Noto Serif Display', 'Noto Serif', 'Georgia', serif;
+    font-size: 13pt;
+    font-weight: 400;
+    color: #1a1a1a;
+    letter-spacing: 4pt;
     text-transform: uppercase;
     margin: 0;
     padding: 0;
 }}
 
 .letterhead .tagline {{
-    font-size: 7pt;
-    color: #999;
-    letter-spacing: 1pt;
-    margin-top: 4pt;
+    font-family: 'Noto Serif', 'Georgia', serif;
+    font-size: 7.5pt;
+    font-style: italic;
+    color: #888;
+    letter-spacing: 0.5pt;
+    margin-top: 5pt;
+}}
+
+.letterhead .ornament-bottom {{
+    font-size: 6pt;
+    color: #bbb;
+    letter-spacing: 4pt;
+    margin-top: 10pt;
+    border-top: 0.25pt solid #ccc;
+    display: inline-block;
+    padding-top: 6pt;
+    padding-left: 20pt;
+    padding-right: 20pt;
 }}
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -167,8 +190,8 @@ hr:first-of-type {{
    ═══════════════════════════════════════════════════════════════════════════ */
 
 strong {{
-    color: #1d1d1f;
-    font-weight: 700;
+    color: #1a1a1a;
+    font-weight: 600;
 }}
 
 p {{
@@ -180,12 +203,15 @@ p {{
    ═══════════════════════════════════════════════════════════════════════════ */
 
 h2 {{
+    font-family: 'Noto Serif Display', 'Noto Serif', 'Georgia', serif;
     font-size: 11pt;
-    font-weight: 700;
-    color: #1B3A5C;
-    margin: 20pt 0 8pt 0;
+    font-weight: 400;
+    color: #333;
+    margin: 22pt 0 8pt 0;
     padding-bottom: 3pt;
-    border-bottom: 0.75pt solid #e8ecf0;
+    letter-spacing: 1pt;
+    text-transform: uppercase;
+    border-bottom: 0.25pt solid #ccc;
 }}
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -194,8 +220,8 @@ h2 {{
 
 hr {{
     border: none;
-    border-top: 0.75pt solid #e8ecf0;
-    margin: 10pt 0;
+    border-top: 0.25pt solid #ccc;
+    margin: 12pt 0;
 }}
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -346,9 +372,11 @@ def inject_letterhead(html_content, logo_uri):
 
     letterhead_html = (
         '<div class="letterhead">'
+        '<div class="ornament-top">— — —</div>'
         f'{logo_img}'
         '<div class="company-name">Johansson Engineering</div>'
-        '<div class="tagline">Marine · Mechanical · Industrial</div>'
+        '<div class="tagline">Marine &middot; Mechanical &middot; Industrial Engineering</div>'
+        '<div class="ornament-bottom">Stockholm &middot; Sweden</div>'
         '</div>'
     )
 
