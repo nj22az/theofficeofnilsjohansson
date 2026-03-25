@@ -80,6 +80,7 @@ This is the master list of all documents in the JDS system. Every document must 
 | Doc No. | Title | Rev | Date | Status | Author |
 |---------|-------|-----|------|--------|--------|
 | [JDS-LOG-MEC-001](../../projects/JDS-PRJ-MEC-001_pressure-vessel-maintenance/01-framework/equipment-register.md) | Equipment Register — Pressure Vessels (Framework) | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-LOG-MEC-002](../../projects/JDS-PRJ-MEC-001_pressure-vessel-maintenance/03-active-programs/JDS-LOG-MEC-002_pressure-vessel-inventory-afs2017.md) | Pressure Vessel Inventory — AFS 2017:3 Compliance Guide | A | 2026-03-25 | APPROVED | N. Johansson |
 
 ## Correspondence (COR)
 
