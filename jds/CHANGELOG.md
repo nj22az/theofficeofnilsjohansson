@@ -6,6 +6,13 @@ All changes to the JDS documentation system itself are recorded here. This provi
 
 ## [3.0] — 2026-03-25
 
+### Added — Office Document Generation
+- **`scripts/generate-office-docs.py`**: Excel workbook generator for timesheets, expense reports, and mileage logs. JDS-compliant styling (Navy Blue headers, alternating row shading, portrait A4, white background, no gridlines, logo embedding).
+- **JDS-TMP-EXP-002**: Mileage Log Template — distance tracking with SEK/km rate calculations and monthly summary.
+- **QMS-000 §6.4**: Supported File Formats — formalises Excel, PDF, and Word alongside Markdown as JDS document formats.
+- Excel workbooks include: formulas, data validation (expense categories), print setup, UNCONTROLLED COPY footer, logo support.
+- Logo is swappable via `JDS_LOGO_PATH` environment variable for client-branded documents.
+
 ### Added — Language Policy & Authority
 - **JDS-QMS-000 Rev E** — Added §15 Language Policy. JDS is 100% English. All foreign loan words replaced with JDS-owned English terminology. Terminology map established.
 - **Regulatory Traceability Matrix** — New supplemental document mapping every JDS-PRO-010 requirement to AFS 2017:3 sections. Working procedures are clean; compliance evidence is separate.

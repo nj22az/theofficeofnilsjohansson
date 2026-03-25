@@ -42,6 +42,7 @@ This is the master list of all documents in the JDS system. Every document must 
 | [JDS-TMP-BLG-001](../templates/blog-posts/JDS-TMP-BLG-001_blog-post-template.md) | Blog Post Template | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-TMP-LOG-001](../templates/logs/JDS-TMP-LOG-001_pressure-vessel-inventory-template.md) | Pressure Vessel Inventory Template | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-TMP-RPT-002](../templates/reports/JDS-TMP-RPT-002_management-review-template.md) | Management Review Record Template | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-TMP-EXP-002](../templates/expenses/JDS-TMP-EXP-002_mileage-template.md) | Mileage Log Template | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-TMP-COR-001](../templates/correspondence/JDS-TMP-COR-001_cold-letter-template.md) | Cold Introduction Letter Template | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-TMP-LOG-002](../templates/logs/JDS-TMP-LOG-002_supervision-inventory-template.md) | Supervision Inventory Template | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-TMP-LOG-003](../templates/logs/JDS-TMP-LOG-003_supervision-checklist-template.md) | Supervision Checklist Template | A | 2026-03-25 | APPROVED | N. Johansson |
