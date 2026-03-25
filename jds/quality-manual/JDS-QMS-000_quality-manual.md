@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Document No.** | JDS-QMS-000 |
-| **Revision** | A |
+| **Revision** | B |
 | **Date** | 2026-03-25 |
 | **Status** | APPROVED |
 | **Author** | Nils Johansson |
@@ -41,6 +41,10 @@ This system applies to all work produced under The Office of Nils Johansson, inc
 
 As a sole-proprietor engineering practice, Nils Johansson holds all three roles by default. When collaborators are involved, review and approval responsibilities should be explicitly assigned and recorded on the document.
 
+### 3.3 Quality Responsibility
+
+Every document has a named owner who is personally responsible for its accuracy and currency. This is always documented in the document header. This explicit personal accountability (drawn from Chinese quality practice) ensures no document exists without clear ownership.
+
 ## 4. Quality Policy
 
 > We produce engineering work that is accurate, traceable, and professionally documented. Every document is written clearly enough for someone unfamiliar with the project to understand. We maintain our documentation system not because it's required, but because good documentation is good engineering.
@@ -53,7 +57,7 @@ The JDS documentation is organised in four tiers:
 Tier 1: Quality Manual (this document)
    ↓    Defines the overall system, policies, and principles
 
-Tier 2: Procedures (JDS-PRO series)
+Tier 2: Procedures & Standards (JDS-PRO, JDS-QMS series)
    ↓    Step-by-step instructions for system processes
 
 Tier 3: Templates (JDS-TMP series)
@@ -67,11 +71,11 @@ Tier 4: Records (RPT, TSH, EXP, LOG, etc.)
 
 ### 6.1 Numbering
 
-All documents are assigned a unique number following the JDS numbering standard (JDS-QMS-001). Numbers are never reused, even if a document is retired.
+All documents are assigned a unique number following the JDS numbering standard ([JDS-QMS-001](JDS-QMS-001_document-numbering.md)). Numbers are never reused, even if a document is retired.
 
 ### 6.2 Revision Control
 
-Documents follow a controlled revision process (JDS-PRO-002):
+Documents follow a controlled revision process ([JDS-PRO-002](../procedures/JDS-PRO-002_revision-control.md)):
 
 - **Rev A** = First approved release
 - **Rev B, C, D...** = Subsequent approved revisions
@@ -79,24 +83,42 @@ Documents follow a controlled revision process (JDS-PRO-002):
 - **SUPERSEDED** = Replaced by a newer revision
 - **RETIRED** = No longer in use
 
-### 6.3 Storage
+### 6.3 Document Classification
 
-All current documents are stored in this Git repository under the `jeds/` directory. Git provides:
+Every document falls into one of three classification tiers:
+
+| Tier | Meaning | Examples |
+|------|---------|---------|
+| **Public** | May be shared externally without restriction | Blog posts, published articles, open-source code |
+| **Internal** | For internal use only; not for external distribution | Procedures, templates, project documents, quality manual |
+| **Confidential** | Sensitive; restricted distribution | Client-specific data, pricing, personal financial records |
+
+**Default classification:** Internal. Documents are Internal unless explicitly marked otherwise.
+
+**Controlled vs. Uncontrolled Copies:** The Git repository (main branch) is always the controlled copy. Anything exported, emailed, or printed is an uncontrolled copy and should be marked accordingly. See [JDS-PRO-005](../procedures/JDS-PRO-005_document-review-audit.md) for details.
+
+### 6.4 Storage
+
+All current documents are stored in this Git repository. Git provides:
 - Full version history of every change
 - Traceability of who changed what and when
 - Ability to recover any previous version
 - Branching for draft work before approval
 
-### 6.4 Backup
+### 6.5 Backup
 
 The repository is hosted on GitHub, providing remote backup. Local copies should also be maintained.
+
+### 6.6 Archive
+
+Retired and superseded documents are moved to the `jds/archive/` folder. They are never deleted — Git never forgets.
 
 ## 7. Document Lifecycle
 
 ```
 DRAFT → REVIEW → APPROVED → [IN USE] → REVISION → APPROVED
                                     ↓
-                              SUPERSEDED / RETIRED
+                              SUPERSEDED / RETIRED → ARCHIVE
 ```
 
 | Stage | Description |
@@ -105,9 +127,40 @@ DRAFT → REVIEW → APPROVED → [IN USE] → REVISION → APPROVED
 | **REVIEW** | Document is complete and being checked for accuracy. |
 | **APPROVED** | Document is authorised for use. This is the "live" version. |
 | **SUPERSEDED** | A newer revision exists. Kept for reference only. |
-| **RETIRED** | Document is no longer relevant. Kept in archive. |
+| **RETIRED** | Document is no longer relevant. Moved to archive. |
 
-## 8. Quality Objectives
+## 8. Komplekt — Complete Document Sets
+
+Every project type has a defined **komplekt** — the complete set of documents that must exist for the project to be considered finished. This concept, drawn from the Russian ESKD tradition, ensures documentation completeness is defined upfront, not discovered after the fact.
+
+The full komplekt definitions are in [JDS-PRO-006](../procedures/JDS-PRO-006_project-komplekt.md).
+
+**The principle:** A project with an incomplete komplekt is not a finished project, regardless of whether the design or code is done.
+
+## 9. 5S Document Management
+
+The documentation system is maintained using the 5S methodology adapted for document management:
+
+| Step | Japanese | Application to JDS |
+|------|----------|--------------------|
+| **Sort** | Seiri | Remove unnecessary documents. Retire what's unused. |
+| **Set in order** | Seiton | Every document has a defined place and naming convention. |
+| **Shine** | Seiso | Review documents for accuracy. Fix errors and broken links. |
+| **Standardise** | Seiketsu | Use templates consistently. Enforce header and format standards. |
+| **Sustain** | Shitsuke | Quarterly audits and annual reviews to maintain discipline. |
+
+The full audit procedure is in [JDS-PRO-005](../procedures/JDS-PRO-005_document-review-audit.md).
+
+## 10. Before/After Change Documentation
+
+When making significant changes to any document, record both the previous state and the new state. This kaizen-inspired practice makes changes visible and reviewable.
+
+In JDS, this is achieved through:
+1. **Git diffs** — every change is automatically tracked with before/after
+2. **Revision history tables** — the "Description" column explains what changed and why
+3. **CHANGELOG** — system-level changes are recorded in `jds/CHANGELOG.md`
+
+## 11. Quality Objectives
 
 | Objective | Measure |
 |-----------|---------|
@@ -115,28 +168,59 @@ DRAFT → REVIEW → APPROVED → [IN USE] → REVISION → APPROVED
 | Documents are findable | Any document can be located in under 60 seconds via the registry |
 | Revisions are traceable | Every change has a recorded reason, date, and author |
 | Templates are used consistently | All recurring document types use the standard template |
-| System is reviewed regularly | Annual review of QMS procedures and effectiveness |
+| System is reviewed regularly | Quarterly 5S audits, annual review of QMS procedures |
+| Komplekts are complete | Every finished project has a 100% complete komplekt |
+| Documents reflect craftsmanship | Documents are professionally formatted and clear |
 
-## 9. Management Review
+## 12. Management Review
 
 The documentation system itself shall be reviewed annually (or after significant changes to the business) to ensure it remains:
 
 - Practical and not overly bureaucratic
 - Aligned with the type of work being produced
 - Up to date with current tools and workflows
+- Complete in its coverage of document types
 
-Review findings are recorded in a Management Review Report (JDS-RPT series).
+Review findings are recorded in a Management Review Report (JDS-RPT series) or as a Git commit.
 
-## 10. Continuous Improvement
+## 13. Continuous Improvement
 
 Improvements to the system can come from:
 
 - Lessons learned during projects
 - Document errors or near-misses
 - Feedback from clients or collaborators
+- Quarterly 5S audits
 - Annual management review
+- Study of external best practices (technology absorption)
 
-All improvement actions are tracked and implemented through the revision control process.
+All improvement actions are tracked through the revision control process and recorded in the [JDS CHANGELOG](../CHANGELOG.md).
+
+### 13.1 Technology Absorption
+
+When new tools, methods, or standards are studied and adopted, the learning process is documented:
+- What was studied
+- What was adopted and why
+- What was adapted for JDS
+- What was rejected and why
+
+This practice, drawn from Chinese engineering tradition, builds a compounding knowledge base over time.
+
+## 14. Design Principles
+
+JDS incorporates the best principles from global documentation traditions:
+
+| Principle | Origin | Application |
+|-----------|--------|-------------|
+| **One page per topic** | Toyota A3 | Keep documents focused; split if too long |
+| **Komplekt completeness** | Russian ESKD | Define required documents upfront |
+| **5S for documents** | Japanese Lean | Quarterly audit cycle for system health |
+| **Single source of truth** | ISO 9001 / Apple DRI | Main branch = the truth. One owner per document. |
+| **Self-describing codes** | Siemens KKS / ESKD | Document numbers encode type, domain, and sequence |
+| **Before/After tracking** | Japanese Kaizen | Every change documented with previous and new state |
+| **Personal accountability** | Chinese quality practice | Named owner on every document |
+| **Risk-based control** | ISO 9001:2015 | Safety-critical docs get rigorous review; notes get lighter treatment |
+| **Craftsmanship** | Japanese Monozukuri | The document itself reflects professional pride |
 
 ---
 
@@ -145,3 +229,4 @@ All improvement actions are tracked and implemented through the revision control
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
 | A | 2026-03-25 | Nils Johansson | Initial release |
+| B | 2026-03-25 | Nils Johansson | Added Komplekt concept, 5S document management, classification tiers, before/after tracking, design principles from global best practices, technology absorption, archive structure |

@@ -10,41 +10,43 @@ This is the master list of all documents in the JDS system. Every document must 
 
 | Doc No. | Title | Rev | Date | Status | Author |
 |---------|-------|-----|------|--------|--------|
-| JDS-QMS-000 | Quality Manual | A | 2026-03-25 | APPROVED | N. Johansson |
-| JDS-QMS-001 | Document Numbering Standard | B | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-QMS-000](../quality-manual/JDS-QMS-000_quality-manual.md) | Quality Manual | B | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-QMS-001](../quality-manual/JDS-QMS-001_document-numbering.md) | Document Numbering Standard | B | 2026-03-25 | APPROVED | N. Johansson |
 
 ## Procedures (PRO)
 
 | Doc No. | Title | Rev | Date | Status | Author |
 |---------|-------|-----|------|--------|--------|
-| JDS-PRO-001 | Document Creation Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
-| JDS-PRO-002 | Revision Control Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
-| JDS-PRO-003 | 3D Model & Drawing Management Procedure | B | 2026-03-25 | APPROVED | N. Johansson |
-| JDS-PRO-004 | Inspection Planning Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-PRO-001](../procedures/JDS-PRO-001_document-creation.md) | Document Creation Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-PRO-002](../procedures/JDS-PRO-002_revision-control.md) | Revision Control Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-PRO-003](../procedures/JDS-PRO-003_3d-model-management.md) | 3D Model & Drawing Management Procedure | B | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-PRO-004](../../projects/JDS-PRJ-MEC-001_pressure-vessel-maintenance/01-framework/inspection-planning.md) | Inspection Planning Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-PRO-005](../procedures/JDS-PRO-005_document-review-audit.md) | Document Review & Audit Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-PRO-006](../procedures/JDS-PRO-006_project-komplekt.md) | Project Komplekt Standard | A | 2026-03-25 | APPROVED | N. Johansson |
 
 ## Templates (TMP)
 
 | Doc No. | Title | Rev | Date | Status | Author |
 |---------|-------|-----|------|--------|--------|
-| JDS-TMP-001 | Report Template | A | 2026-03-25 | APPROVED | N. Johansson |
-| JDS-TMP-002 | Timesheet Template | A | 2026-03-25 | APPROVED | N. Johansson |
-| JDS-TMP-003 | Expense Report Template | A | 2026-03-25 | APPROVED | N. Johansson |
-| JDS-TMP-004 | Manual Template | A | 2026-03-25 | APPROVED | N. Johansson |
-| JDS-TMP-005 | Drawing / Model Documentation Template | A | 2026-03-25 | APPROVED | N. Johansson |
-| JDS-TMP-006 | Project Document Template | A | 2026-03-25 | APPROVED | N. Johansson |
-| JDS-TMP-007 | Blog Post Template | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-TMP-001](../templates/JDS-TMP-001_report-template.md) | Report Template | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-TMP-002](../templates/JDS-TMP-002_timesheet-template.md) | Timesheet Template | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-TMP-003](../templates/JDS-TMP-003_expense-report-template.md) | Expense Report Template | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-TMP-004](../templates/JDS-TMP-004_manual-template.md) | Manual Template | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-TMP-005](../templates/JDS-TMP-005_drawing-model-template.md) | Drawing / Model Documentation Template | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-TMP-006](../templates/JDS-TMP-006_project-document-template.md) | Project Document Template | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-TMP-007](../templates/JDS-TMP-007_blog-post-template.md) | Blog Post Template | A | 2026-03-25 | APPROVED | N. Johansson |
 
 ## Reports (RPT)
 
 | Doc No. | Title | Rev | Date | Status | Author |
 |---------|-------|-----|------|--------|--------|
-| JDS-RPT-001 | Example: Pump Inspection Report | A | 2026-03-25 | EXAMPLE | N. Johansson |
+| [JDS-RPT-001](../examples/JDS-RPT-001_pump-inspection-example.md) | Example: Pump Inspection Report | A | 2026-03-25 | EXAMPLE | N. Johansson |
 
 ## Manuals (MAN)
 
 | Doc No. | Title | Rev | Date | Status | Author |
 |---------|-------|-----|------|--------|--------|
-| JDS-MAN-MEC-001 | Documentation Guide — Pressure Vessel Records | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-MAN-MEC-001](../../projects/JDS-PRJ-MEC-001_pressure-vessel-maintenance/01-framework/documentation-guide.md) | Documentation Guide — Pressure Vessel Records | A | 2026-03-25 | APPROVED | N. Johansson |
 
 ## Drawings (DWG)
 
@@ -55,7 +57,7 @@ This is the master list of all documents in the JDS system. Every document must 
 
 | Doc No. | Title | Rev | Date | Status | Author |
 |---------|-------|-----|------|--------|--------|
-| JDS-PRJ-MEC-001 | Pressure Vessel Ongoing Maintenance Program | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-PRJ-MEC-001](../../projects/JDS-PRJ-MEC-001_pressure-vessel-maintenance/README.md) | Pressure Vessel Ongoing Maintenance Program | A | 2026-03-25 | APPROVED | N. Johansson |
 
 ## Timesheets (TSH)
 
@@ -71,7 +73,7 @@ This is the master list of all documents in the JDS system. Every document must 
 
 | Doc No. | Title | Rev | Date | Status | Author |
 |---------|-------|-----|------|--------|--------|
-| JDS-LOG-MEC-001 | Equipment Register — Pressure Vessels (Framework) | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-LOG-MEC-001](../../projects/JDS-PRJ-MEC-001_pressure-vessel-maintenance/01-framework/equipment-register.md) | Equipment Register — Pressure Vessels (Framework) | A | 2026-03-25 | APPROVED | N. Johansson |
 
 ## Correspondence (COR)
 
@@ -82,6 +84,6 @@ This is the master list of all documents in the JDS system. Every document must 
 
 | Doc No. | Title | Rev | Date | Status | Author |
 |---------|-------|-----|------|--------|--------|
-| JDS-BLG-001 | Why I Started This Blog | A | 2026-03-25 | PUBLISHED | N. Johansson |
-| JDS-BLG-002 | What the Engine Room Teaches You About Problem-Solving | A | 2026-03-25 | PUBLISHED | N. Johansson |
-| JDS-BLG-003 | Why I Chose build123d for Parametric CAD | A | 2026-03-25 | PUBLISHED | N. Johansson |
+| [JDS-BLG-001](../../blog/_posts/2026-03-25-why-i-started-this-blog.md) | Why I Started This Blog | A | 2026-03-25 | PUBLISHED | N. Johansson |
+| [JDS-BLG-002](../../blog/_posts/2026-03-25-what-the-engine-room-teaches-you.md) | What the Engine Room Teaches You About Problem-Solving | A | 2026-03-25 | PUBLISHED | N. Johansson |
+| [JDS-BLG-003](../../blog/_posts/2026-03-25-why-i-chose-build123d.md) | Why I Chose build123d for Parametric CAD | A | 2026-03-25 | PUBLISHED | N. Johansson |
