@@ -12,6 +12,7 @@ This is the master list of all documents in the JDS system. Every document must 
 |---------|-------|-----|------|--------|--------|
 | [JDS-QMS-000](../quality-manual/JDS-QMS-000_quality-manual.md) | Quality Manual | D | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-QMS-001](../quality-manual/JDS-QMS-001_document-numbering.md) | Document Numbering Standard | C | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-QMS-002](../quality-manual/JDS-QMS-002_retention-schedule.md) | Document Retention Schedule | A | 2026-03-25 | APPROVED | N. Johansson |
 
 ## Procedures (PRO)
 
@@ -25,6 +26,7 @@ This is the master list of all documents in the JDS system. Every document must 
 | [JDS-PRO-006](../procedures/JDS-PRO-006_project-komplekt.md) | Project Komplekt Standard | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-PRO-007](../procedures/JDS-PRO-007_information-design.md) | Information Design Standard | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-PRO-008](../procedures/JDS-PRO-008_corrective-action.md) | Corrective Action Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-PRO-009](../procedures/JDS-PRO-009_competence-management.md) | Competence Management Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
 
 ## Templates (TMP)
 

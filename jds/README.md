@@ -27,6 +27,8 @@ Every document — whether it's a field service report, a 3D model drawing, a ti
 | What documents a project needs | [Project Komplekt Standard](procedures/JDS-PRO-006_project-komplekt.md) |
 | How documents should look | [Information Design Standard](procedures/JDS-PRO-007_information-design.md) |
 | How to handle nonconformances | [Corrective Action Procedure](procedures/JDS-PRO-008_corrective-action.md) |
+| How competence is managed | [Competence Management Procedure](procedures/JDS-PRO-009_competence-management.md) |
+| How long records are kept | [Document Retention Schedule](quality-manual/JDS-QMS-002_retention-schedule.md) |
 | Document templates | [Templates folder](templates/) |
 | Master document list | [Document Registry](registry/document-register.md) |
 | System change history | [JDS Changelog](CHANGELOG.md) |

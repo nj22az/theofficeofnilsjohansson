@@ -8,16 +8,22 @@ All changes to the JDS documentation system itself are recorded here. This provi
 
 ### Added
 - **JDS-PRO-008**: Corrective Action Procedure — systematic nonconformance handling with 5 Whys root cause analysis, severity classification, horizontal deployment, and corrective action log (ISO 9001:2015 clause 10.2)
-- **JDS-TMP-RPT-002**: Management Review Record Template — structured template covering all ISO 9001:2015 clause 9.3 review inputs and outputs (quality performance, corrective actions, audit results, resource adequacy, risk/opportunity)
+- **JDS-PRO-009**: Competence Management Procedure — personal qualifications, training records, certificate management, CPD tracking (ISO 9001:2015 clause 7.2, DNV-ST-0035)
+- **JDS-QMS-002**: Document Retention Schedule — minimum retention periods for all document categories with legal/regulatory rationale (ISO 15489-1:2016)
+- **JDS-TMP-RPT-002**: Management Review Record Template — structured template covering all ISO 9001:2015 clause 9.3 review inputs and outputs
 - **Corrective Action Log** (`jds/registry/corrective-action-log.md`) — central tracker for all nonconformances and corrective actions
 
 ### Changed
 - **JDS-QMS-000** Quality Manual updated to Rev D — added Corrective Action section (§13) referencing JDS-PRO-008, renumbered subsequent sections
-- **Document Registry** updated with PRO-008, TMP-RPT-002, QMS-000 Rev D
-- **JDS README** updated with corrective action procedure reference
+- **Document Registry** updated with QMS-002, PRO-008, PRO-009, TMP-RPT-002, QMS-000 Rev D
+- **JDS README** updated with references to new procedures and retention schedule
 
-### ISO 9001:2015 Alignment
-Closed identified gaps: corrective action procedure (clause 10.2), management review records (clause 9.3). JDS now provides documented coverage for all core ISO 9001:2015 requirements.
+### Standards Alignment
+- **ISO 9001:2015**: Closed all identified gaps — corrective action (clause 10.2), management review records (clause 9.3), competence (clause 7.2), retention of documented information (clause 7.5.3)
+- **ISO 15489-1:2016**: Document retention schedule with defined periods and disposal process
+- **ISO 10013:2021**: JDS exceeds all guidelines for QMS documentation
+- **DNV-ST-0035**: Competence management procedure aligned with service supplier requirements
+- **IEC 82045**: Document numbering and metadata compatible
 
 ---
 
