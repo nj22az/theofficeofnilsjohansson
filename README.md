@@ -6,9 +6,19 @@ Personal workspace for 3D modeling, software projects, and an engineering blog.
 
 The `blog/` directory is a Jekyll site served via GitHub Pages — a classical technical engineering blog documenting practical problem-solving, 3D modeling, and lessons from the field.
 
+## JEDS — Johansson Engineering Documentation System
+
+The `jeds/` directory contains a complete in-house documentation and quality management system. It defines how all documents are numbered, created, revised, and tracked. See [jeds/README.md](jeds/README.md) for the full guide.
+
 ## Structure
 
 ```
+├── jeds/                 # Documentation & quality system (JEDS)
+│   ├── quality-manual/   # Quality manual and standards
+│   ├── procedures/       # Work procedures and routines
+│   ├── templates/        # Document templates
+│   ├── registry/         # Master document register
+│   └── examples/         # Worked examples
 ├── blog/                 # Jekyll blog (GitHub Pages)
 ├── 3d-modeling/          # 3D modeling projects
 │   ├── blender/          # Blender project files (.blend)
