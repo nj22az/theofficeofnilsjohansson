@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Document No.** | JEDS-TSH-[NNN] |
+| **Document No.** | JDS-TSH-[NNN] |
 | **Period** | YYYY-MM-DD to YYYY-MM-DD |
 | **Date** | YYYY-MM-DD |
 | **Status** | DRAFT |
