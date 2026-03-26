@@ -40,8 +40,8 @@ JDS-PRJ-MEC-001_pressure-vessel-maintenance/
 │
 ├── 01-framework/                         ← UNIVERSAL (works in any country)
 │   ├── JDS-LOG-MEC-001_equipment-register.md   ← Master register template
-│   ├── JDS-PRO-004_inspection-planning.md      ← How to schedule inspections
 │   └── JDS-MAN-MEC-001_documentation-guide.md  ← What records you must keep
+│   (JDS-PRO-004 moved to jds/procedures/ — single location for all procedures)
 │
 ├── 02-regulations/                       ← COUNTRY-SPECIFIC rules
 │   └── SE-sweden/

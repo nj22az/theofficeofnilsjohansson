@@ -73,7 +73,7 @@
 - [ ] Revision control procedure working effectively
 - [ ] Templates adequate for current work
 - [ ] Registry accurate and up to date
-- [ ] Komplekts being completed for finished projects
+- [ ] Document sets being completed for finished projects
 - [ ] Information design standards being followed
 
 **Issues identified:** [Describe any process issues, or "None"]
@@ -119,7 +119,7 @@
 | Revisions traceable | 100% | [%] | On track / Behind |
 | Templates used consistently | 100% | [%] | On track / Behind |
 | Quarterly audits completed | 4/year | [N] | On track / Behind |
-| Komplekts complete | 100% | [%] | On track / Behind |
+| Document sets complete | 100% | [%] | On track / Behind |
 
 ## 3. Overall Assessment
 

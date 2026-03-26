@@ -257,7 +257,7 @@ Contact your accredited body to schedule inspections and discuss interval adjust
 
 ---
 
-## 9. Documentation Komplekt (Per Vessel)
+## 9. Document Set Status (Per Vessel)
 
 For each vessel, verify these documents exist and are filed:
 

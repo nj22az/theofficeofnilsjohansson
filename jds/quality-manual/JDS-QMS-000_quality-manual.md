@@ -155,7 +155,7 @@ DRAFT → REVIEW → APPROVED → [IN USE] → REVISION → APPROVED
 
 Every project type has a defined **Complete Document Set** — the full list of documents that must exist for the project to be considered finished. The set is defined at the start of the project, not discovered at the end.
 
-The full definitions are in [JDS-PRO-006](../procedures/JDS-PRO-006_project-komplekt.md).
+The full definitions are in [JDS-PRO-006](../procedures/JDS-PRO-006_complete-document-set.md).
 
 **The principle:** A project with missing documents is not a finished project, no matter how good the design or code is. If the documentation is incomplete, the work is incomplete.
 
@@ -191,7 +191,7 @@ In JDS, this is achieved through:
 | Revisions are traceable | Every change has a recorded reason, date, and author |
 | Templates are used consistently | All recurring document types use the standard template |
 | System is reviewed regularly | Quarterly 5S audits, annual review of QMS procedures |
-| Komplekts are complete | Every finished project has a 100% complete komplekt |
+| Document sets are complete | Every finished project has a 100% complete document set |
 | Documents reflect craftsmanship | Documents are professionally formatted and clear |
 
 ## 12. Management Review
@@ -354,7 +354,7 @@ JDS is built on 21 principles drawn from the best documentation practices worldw
 | # | Principle | What it means | How JDS enforces it |
 |---|-----------|---------------|---------------------|
 | 1 | **One page per topic** | Keep documents focused. If it's too long, split it. | Templates enforce structure. |
-| 2 | **Complete document sets** | Define all required documents at project start, not at the end. | [JDS-PRO-006](../procedures/JDS-PRO-006_project-komplekt.md) |
+| 2 | **Complete document sets** | Define all required documents at project start, not at the end. | [JDS-PRO-006](../procedures/JDS-PRO-006_complete-document-set.md) |
 | 3 | **5S for documents** | Regularly sort, organise, clean, standardise, and maintain documents. | Quarterly audits via [JDS-PRO-005](../procedures/JDS-PRO-005_document-review-audit.md) |
 | 4 | **Single source of truth** | One place, one version. The Git main branch is the truth. | §6.3 Controlled copies |
 | 5 | **Self-describing codes** | Document numbers tell you the type, domain, and sequence at a glance. | [JDS-QMS-001](JDS-QMS-001_document-numbering.md) |
@@ -512,7 +512,7 @@ JDS uses terms that may not be familiar to every reader. This glossary defines t
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
 | A | 2026-03-25 | Nils Johansson | Initial release |
-| B | 2026-03-25 | Nils Johansson | Added Komplekt concept, 5S document management, classification tiers, before/after tracking, design principles from global best practices, technology absorption, archive structure |
+| B | 2026-03-25 | Nils Johansson | Added complete document set concept, 5S document management, classification tiers, before/after tracking, design principles from global best practices, technology absorption, archive structure |
 | C | 2026-03-25 | Nils Johansson | Added Information Design (Japanese), Heritage & Reuse (ISRO), Tiered Change Control (Embraer), Knowledge Gaps & Documentation Confidence (Petrobras/Baikonur), expanded design principles table with 21 principles from 15+ global traditions |
 | D | 2026-03-25 | Nils Johansson | Added Corrective Action section (§13) with reference to JDS-PRO-008, ISO 9001:2015 clause 10.2 alignment |
 | E | 2026-03-25 | Nils Johansson | Added Language Policy (§15). All foreign loan words replaced with JDS-owned English terms. Added Supported File Formats (§6.4) — Excel, PDF, Word alongside Markdown. Sections renumbered. |

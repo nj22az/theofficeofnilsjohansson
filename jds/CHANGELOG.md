@@ -4,6 +4,28 @@ All changes to the JDS documentation system itself are recorded here. This provi
 
 ---
 
+## [3.3] — 2026-03-26
+
+### Fixed — Language Policy Enforcement & Structural Integrity
+
+**Language Policy (CA-2026-005):**
+- **JDS-PRO-006** renamed from "Project Komplekt Standard" to "Complete Document Set Standard" (Rev B) — enforcing QMS-000 §15 language policy
+- Replaced ~40 occurrences of "Komplekt" across 11 files with JDS-owned English terminology
+- Updated all internal links to new filename (`complete-document-set.md`)
+- "Komplekt" retained only in QMS-000 §15.2 glossary (reference column) per policy
+
+**Procedure Location (CA-2026-006):**
+- **JDS-PRO-004** moved from `projects/.../01-framework/` to `jds/procedures/` — all procedures now in single location
+- Updated registry link and project README
+
+**Self-Correction Enforcement (100-point PDF audit):**
+- **md2pdf.py** Rev C: CSS compliance with PRO-007 (H1=20pt, H2=14pt, H3=12pt, margins 20/25/25/25mm), blank page fix, checkbox rendering, language policy in comments
+- **jds-validate.py** expanded to 12 checks / 147+ assertions: added example status consistency check and PRO-007 CSS compliance check
+- All 5 templates rewritten with "When to use" guidance, cross-references, removed empty placeholder rows
+- All 5 examples fixed: EXAMPLE status, missing logbook §2, broken cross-references
+
+---
+
 ## [3.2] — 2026-03-26
 
 ### Changed — Self-Improving System & Plain Language
@@ -249,16 +271,16 @@ Compared JDS against documentation systems from: Taiwan (TSMC), South Korea (Hyu
 
 ### Added
 - **JDS-PRO-005**: Document Review & Audit Procedure — defines 5S-based quarterly audits and annual reviews
-- **JDS-PRO-006**: Project Komplekt Standard — defines required complete document sets per project type
+- **JDS-PRO-006**: Complete Document Set Standard — defines required document sets per project type
 - **JDS CHANGELOG** (this file) — system-level change tracking
 - **Archive structure** (`jds/archive/`) for retired and superseded documents
 - Document classification tiers (Public, Internal, Confidential) added to quality manual
-- Komplekt (complete document set) concept added to quality manual
+- Complete document set concept added to quality manual
 - 5S document management principles added to quality manual
 - Hyperlinks added to document registry
 
 ### Changed
-- **JDS-QMS-000** Quality Manual updated to Rev B — added Komplekt, 5S, classification, and visual management concepts
+- **JDS-QMS-000** Quality Manual updated to Rev B — added complete document set, 5S, classification, and visual management concepts
 - **Document Registry** updated with hyperlinks to all documents and corrected blog post entries
 - **JDS README** updated with references to new procedures
 

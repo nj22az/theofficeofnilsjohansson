@@ -2,7 +2,7 @@
 
 **The Office of Nils Johansson** — Marine, Mechanical & Industrial Engineering
 
-**Version 3.2** | Effective 2026-03-26 | Owner: Nils Johansson
+**Version 3.3** | Effective 2026-03-26 | Owner: Nils Johansson
 
 ---
 
@@ -17,7 +17,7 @@ This repository **is** the Johansson Documentation System. Every project, docume
 | Task | Go here |
 |------|---------|
 | **Create a new document** | [Document Creation Procedure](jds/procedures/JDS-PRO-001_document-creation.md) + [Templates](jds/templates/) |
-| **Start a project** | [Complete Document Set Standard](jds/procedures/JDS-PRO-006_project-komplekt.md) + [Project Template](jds/templates/projects/JDS-TMP-PRJ-001_project-template.md) |
+| **Start a project** | [Complete Document Set Standard](jds/procedures/JDS-PRO-006_complete-document-set.md) + [Project Template](jds/templates/projects/JDS-TMP-PRJ-001_project-template.md) |
 | **Write a report** | [Report Template](jds/templates/reports/JDS-TMP-RPT-001_report-template.md) + [Examples](jds/examples/) |
 | **Submit a timesheet** | `python3 scripts/generate-office-docs.py timesheet` |
 | **Submit expenses or mileage** | `python3 scripts/generate-office-docs.py expense` or `mileage` |

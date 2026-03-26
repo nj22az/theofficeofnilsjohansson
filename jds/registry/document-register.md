@@ -21,9 +21,9 @@ This is the master list of all documents in the JDS system. Every document must 
 | [JDS-PRO-001](../procedures/JDS-PRO-001_document-creation.md) | Document Creation Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-PRO-002](../procedures/JDS-PRO-002_revision-control.md) | Revision Control Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-PRO-003](../procedures/JDS-PRO-003_3d-model-management.md) | 3D Model & Drawing Management Procedure | B | 2026-03-25 | APPROVED | N. Johansson |
-| [JDS-PRO-004](../../projects/JDS-PRJ-MEC-001_pressure-vessel-maintenance/01-framework/JDS-PRO-004_inspection-planning.md) | Inspection Planning Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-PRO-004](../procedures/JDS-PRO-004_inspection-planning.md) | Inspection Planning Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-PRO-005](../procedures/JDS-PRO-005_document-review-audit.md) | Document Review & Audit Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
-| [JDS-PRO-006](../procedures/JDS-PRO-006_project-komplekt.md) | Project Komplekt Standard | A | 2026-03-25 | APPROVED | N. Johansson |
+| [JDS-PRO-006](../procedures/JDS-PRO-006_complete-document-set.md) | Complete Document Set Standard | B | 2026-03-26 | APPROVED | N. Johansson |
 | [JDS-PRO-007](../procedures/JDS-PRO-007_information-design.md) | Information Design Standard | D | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-PRO-008](../procedures/JDS-PRO-008_corrective-action.md) | Corrective Action Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-PRO-009](../procedures/JDS-PRO-009_competence-management.md) | Competence Management Procedure | A | 2026-03-25 | APPROVED | N. Johansson |
