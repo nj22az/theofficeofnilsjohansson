@@ -5,7 +5,7 @@
 | **Document No.** | JDS-COR-GEN-002 |
 | **Revision** | A |
 | **Date** | 2026-03-26 |
-| **Status** | CURRENT |
+| **Status** | EXAMPLE |
 | **Author** | N. Johansson |
 
 ---
@@ -19,7 +19,8 @@
 | **Location** | Gothenburg, Sweden |
 | **Email** | nils@example.com |
 | **Phone** | +46 70 000 0000 |
-| **LinkedIn** | linkedin.com/in/example |
+| **LinkedIn** | https://linkedin.com/in/example |
+| **Website** | — |
 
 ---
 

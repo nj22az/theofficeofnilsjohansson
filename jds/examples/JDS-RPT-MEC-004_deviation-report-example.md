@@ -5,7 +5,7 @@
 | **Document No.** | JDS-RPT-MEC-004 |
 | **Revision** | A |
 | **Date** | 2026-03-26 |
-| **Status** | CURRENT |
+| **Status** | EXAMPLE |
 | **Author** | N. Johansson |
 | **Project** | JDS-PRJ-MEC-001 |
 | **Severity** | Major |
@@ -111,7 +111,7 @@
 | Role | Name | Decision | Date |
 |------|------|----------|------|
 | Author | N. Johansson | Submitted | 2026-04-16 |
-| Reviewer | — | — | — |
+| Reviewer | Pending review | — | — |
 | Client | E. Karlsson | Accepted | 2026-04-16 |
 
 ---

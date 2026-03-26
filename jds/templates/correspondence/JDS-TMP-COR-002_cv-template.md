@@ -8,6 +8,8 @@
 | **Status** | DRAFT |
 | **Author** | [Author Name] |
 
+> **When to use this template:** Use this template to create a professional CV for job applications, client introductions, or competence records. Keep the CV to 2–4 pages. Use the same person and tense throughout (third person or first person). Follow JDS-PRO-007 for formatting.
+
 ---
 
 ## Personal Information
@@ -20,12 +22,13 @@
 | **Email** | [Email Address] |
 | **Phone** | [Phone Number] |
 | **LinkedIn** | [Profile URL] |
+| **Website** | [Portfolio or personal site URL, if applicable] |
 
 ---
 
 ## Professional Summary
 
-[2-3 sentences. What you do, your core competence, and your career direction. Write in third person or first person — be consistent throughout.]
+[2–3 sentences. What you do, your core competence, and your career direction. Write in third person or first person — be consistent throughout.]
 
 ---
 
@@ -46,6 +49,12 @@
 **[Start Date] – [End Date or Present]** | [Location]
 
 - [Key responsibility or achievement — quantify where possible]
+- [Key responsibility or achievement]
+- [Key responsibility or achievement]
+
+### [Job Title] — [Company Name]
+**[Start Date] – [End Date]** | [Location]
+
 - [Key responsibility or achievement]
 - [Key responsibility or achievement]
 
@@ -89,7 +98,7 @@
 
 | Language | Level |
 |----------|-------|
-| [Language] | [Native / Fluent / Professional / Basic] |
+| [Language] | [Native / Fluent / Professional / Basic — or CEFR level] |
 | [Language] | [Level] |
 
 ---
@@ -104,4 +113,4 @@ Available upon request.
 
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
-| A | YYYY-MM-DD | [Author Name] | Initial version |
+| A | YYYY-MM-DD | [Author Name] | Template created |

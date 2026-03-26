@@ -5,7 +5,7 @@
 | **Document No.** | JDS-LOG-MEC-005 |
 | **Revision** | A |
 | **Date** | 2026-03-26 |
-| **Status** | CURRENT |
+| **Status** | EXAMPLE |
 | **Author** | N. Johansson |
 | **Project** | JDS-PRJ-MEC-001 |
 | **Client** | Scandinavian Process Industries AB |
@@ -16,6 +16,14 @@
 ## 1. Purpose
 
 Field service logbook for the annual pressure vessel inspection at SPI Gothenburg facility, April 2026. Records all on-site activities, findings, measurements, and follow-up actions.
+
+## 2. How to Use This Logbook
+
+1. **One entry per visit or shift.** Start a new row for each day or shift on site.
+2. **Record as you go.** Write entries during or immediately after the work — not from memory days later.
+3. **Be specific.** Record equipment IDs, measurements, serial numbers, and locations.
+4. **Flag follow-ups.** If something needs action later, mark it clearly in the Actions column.
+5. **Revision** — create a new revision when the logbook is reviewed or when a significant correction is needed.
 
 ---
 
@@ -30,8 +38,8 @@ Field service logbook for the annual pressure vessel inspection at SPI Gothenbur
 
 ### Daily Log
 
-| Date | Time | Activity | Equipment / Location | Observations | Actions Required |
-|------|------|----------|---------------------|-------------|-----------------|
+| Date | Time | Activity | Equipment / Location | Observations | Actions |
+|------|------|----------|---------------------|-------------|---------|
 | 2026-04-14 | 08:00 | Arrival, safety briefing | Main gate / Control room | Access badges issued. Safety induction completed. | — |
 | 2026-04-14 | 08:30 | Review previous certificates | Control room | All four certificates from 2025 inspection on file. PV-003 had corrosion note. | Pull PV-003 history |
 | 2026-04-14 | 09:15 | External visual — PV-001 | Compressor room, Bay 1 | Good condition. No visible corrosion, leaks, or damage. Paint intact. | — |
@@ -53,8 +61,8 @@ Field service logbook for the annual pressure vessel inspection at SPI Gothenbur
 
 ## 4. Measurements & Readings
 
-| Date | Equipment ID | Parameter | Value | Unit | Acceptable Range | Status |
-|------|-------------|-----------|-------|------|-----------------|--------|
+| Date | Equipment ID | Parameter | Value | Unit | Range | Status |
+|------|-------------|-----------|-------|------|---------|--------|
 | 2026-04-14 | PV-001 | Wall thickness (point 1, bottom) | 7.9 | mm | 6.2 – 8.0 | OK |
 | 2026-04-14 | PV-001 | Wall thickness (point 5, middle) | 8.0 | mm | 6.2 – 8.0 | OK |
 | 2026-04-14 | PV-002 | Wall thickness (point 1, bottom) | 7.8 | mm | 6.2 – 8.0 | OK |
@@ -76,7 +84,7 @@ Field service logbook for the annual pressure vessel inspection at SPI Gothenbur
 ## 6. Issues & Deviations
 
 | Date | Issue | Severity | Immediate Action | Follow-up Required |
-|------|-------|----------|-----------------|-------------------|
+|------|-------|----------|---------|-------------------|
 | 2026-04-15 | PV-003 wall thinning at support saddle (6.8mm, nominal 8.0mm) | Medium | Area marked and photographed. Thickness trend documented. | Monitor at next inspection. If below 7.0mm, recommend repair or shortened interval. |
 | 2026-04-14 | PV-002 support bracket surface rust | Low | Noted and photographed. | Recommend repaint by client maintenance team. |
 

@@ -8,10 +8,13 @@
 | **Status** | DRAFT |
 | **Author** | [Author Name] |
 
+> **When to use this template:** Use this for formal correspondence — site access requests, introductions, proposals, complaints, or any letter that needs a traceable record. For sales introductions, see JDS-TMP-COR-001 instead. Keep letters to 1–2 pages. Follow JDS-PRO-007 for formatting.
+
 ---
 
 **From:**<br>
 [Your Name]<br>
+[Your Company / Organisation]<br>
 [Your Address]<br>
 [City, Postal Code]<br>
 [Country]<br>
@@ -32,6 +35,8 @@
 
 **Reference:** [Previous correspondence reference, if applicable]
 
+**CC:** [Names / roles copied on this letter, if applicable]
+
 ---
 
 Dear [Mr./Ms. Surname / To Whom It May Concern],
@@ -45,7 +50,8 @@ Dear [Mr./Ms. Surname / To Whom It May Concern],
 Kind regards,
 
 **[Your Name]**<br>
-[Title / Position]
+[Title / Position]<br>
+[Company / Organisation]
 
 ---
 
@@ -57,4 +63,4 @@ Kind regards,
 
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
-| A | YYYY-MM-DD | [Author Name] | Initial version |
+| A | YYYY-MM-DD | [Author Name] | Template created |

@@ -5,7 +5,7 @@
 | **Document No.** | JDS-RPT-MEC-003 |
 | **Revision** | A |
 | **Date** | 2026-03-26 |
-| **Status** | CURRENT |
+| **Status** | EXAMPLE |
 | **Author** | N. Johansson |
 | **Project** | JDS-PRJ-MEC-001 |
 | **Client** | Scandinavian Process Industries AB |
@@ -134,7 +134,7 @@ The wear ring clearance is approaching the service limit (0.35mm of 0.50mm max).
 | Role | Name | Date |
 |------|------|------|
 | Maintenance Engineer | N. Johansson | 2026-03-19 |
-| Reviewed By | — | — |
+| Reviewed By | Pending review | — |
 | Client Acceptance | T. Eriksson | 2026-03-19 |
 
 ---

@@ -10,6 +10,8 @@
 | **Project** | [Project Name / Number] |
 | **Severity** | [Critical / Major / Minor] |
 
+> **When to use this template:** Use this to document any deviation from a plan, specification, procedure, or expected condition. This includes equipment defects, process failures, documentation errors, and non-conformances. Follow the root cause analysis method in JDS-PRO-008 §4 (Corrective Action Procedure). If maintenance was performed, document the work in a maintenance report (JDS-TMP-RPT-004).
+
 ---
 
 ## 1. Deviation Summary
@@ -44,7 +46,6 @@
 | Action | Taken By | Date | Status |
 |--------|---------|------|--------|
 | [What was done] | [Name] | YYYY-MM-DD | Complete / In Progress |
-| | | | |
 
 ---
 
@@ -125,4 +126,4 @@
 
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
-| A | YYYY-MM-DD | [Author Name] | Initial report |
+| A | YYYY-MM-DD | [Author Name] | Template created |

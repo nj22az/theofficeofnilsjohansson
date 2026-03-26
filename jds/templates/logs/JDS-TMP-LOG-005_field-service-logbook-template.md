@@ -25,6 +25,8 @@ This logbook records all field service activities performed at the site. Each en
 4. **Flag follow-ups.** If something needs action later, mark it clearly in the Actions column.
 5. **Revision** — create a new revision when the logbook is reviewed or when a significant correction is needed.
 
+> **Related documents:** If a significant issue is found, raise a deviation report (JDS-TMP-RPT-005). After the visit, write a maintenance report (JDS-TMP-RPT-004) referencing this logbook.
+
 ---
 
 ## 3. Service Log
@@ -38,12 +40,9 @@ This logbook records all field service activities performed at the site. Each en
 
 ### Daily Log
 
-| Date | Time | Activity | Equipment / Location | Observations | Actions Required |
-|------|------|----------|---------------------|-------------|-----------------|
-| YYYY-MM-DD | HH:MM | [What was done] | [Equipment ID / Area] | [What was found or noted] | [Follow-up needed — who, when] |
-| | | | | | |
-| | | | | | |
-| | | | | | |
+| Date | Time | Activity | Equipment / Location | Observations | Actions |
+|------|------|----------|---------------------|-------------|---------|
+| YYYY-MM-DD | HH:MM | [What was done] | [Equipment ID / Area] | [What was found or noted] | [Follow-up needed] |
 
 ---
 
@@ -51,10 +50,9 @@ This logbook records all field service activities performed at the site. Each en
 
 Record any measurements taken during the service visit.
 
-| Date | Equipment ID | Parameter | Value | Unit | Acceptable Range | Status |
-|------|-------------|-----------|-------|------|-----------------|--------|
+| Date | Equipment ID | Parameter | Value | Unit | Range | Status |
+|------|-------------|-----------|-------|------|-------|--------|
 | YYYY-MM-DD | [ID] | [What was measured] | [Value] | [Unit] | [Min – Max] | OK / Flag |
-| | | | | | | |
 
 ---
 
@@ -63,7 +61,6 @@ Record any measurements taken during the service visit.
 | Date | Item | Part Number | Qty | Source | Notes |
 |------|------|------------|-----|--------|-------|
 | YYYY-MM-DD | [Description] | [Part No.] | [Qty] | [Stock / Ordered] | [Notes] |
-| | | | | | |
 
 ---
 
@@ -74,7 +71,6 @@ Any unexpected findings, deviations from plan, or safety concerns observed durin
 | Date | Issue | Severity | Immediate Action | Follow-up Required |
 |------|-------|----------|-----------------|-------------------|
 | YYYY-MM-DD | [Description] | Low / Medium / High | [What was done on site] | [What needs to happen next] |
-| | | | | |
 
 ---
 
@@ -82,8 +78,8 @@ Any unexpected findings, deviations from plan, or safety concerns observed durin
 
 | Role | Name | Signature | Date |
 |------|------|-----------|------|
-| Service Engineer | [Name] | __________ | YYYY-MM-DD |
-| Client Representative | [Name] | __________ | YYYY-MM-DD |
+| Service Engineer | [Name] | __________________ | YYYY-MM-DD |
+| Client Representative | [Name] | __________________ | YYYY-MM-DD |
 
 ---
 
@@ -91,4 +87,4 @@ Any unexpected findings, deviations from plan, or safety concerns observed durin
 
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
-| A | YYYY-MM-DD | [Author Name] | Initial logbook |
+| A | YYYY-MM-DD | [Author Name] | Template created |

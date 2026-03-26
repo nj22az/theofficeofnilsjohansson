@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""JDS PDF Generator — JDS-PRO-007 Information Design Standard (Rev B).
+"""JDS PDF Generator — JDS-PRO-007 Information Design Standard (Rev C).
 
-Converts JDS markdown documents to PDF with a design philosophy that blends
-Japanese information design (Ma, Bento, Zukai, Monozukuri) with Apple-style
-softness and warmth. Playful but professional.
+Converts JDS markdown documents to PDF following the JDS visual design
+standard: generous active space, compartment-based layout, clear hierarchy,
+and craft precision in every detail. Professional and approachable.
 
 Usage: python3 md2pdf.py <input.md> [output.pdf]
 """
@@ -90,23 +90,28 @@ def extract_metadata(md_text):
 
 
 # ---------------------------------------------------------------------------
-# JDS-PRO-007 Rev B — Apple-Inspired Soft Design
+# JDS-PRO-007 Rev C — Soft Professional Design
 #
-# Design philosophy:
-#   Rounded warmth  — Soft corners, subtle shadows, approachable
-#   Ma (間)         — Space has meaning. Every gap is intentional.
-#   Bento (弁当)    — Self-contained compartments with clear boundaries.
-#   Monozukuri      — Precision visible in every choice.
-#   Playful rigour  — Professional without being cold.
+# Design philosophy (QMS-000 §20):
+#   Active space    — Space has meaning. Every gap is intentional.
+#   Compartments    — Self-contained sections with clear boundaries.
+#   Craft precision — Precision visible in every typographic choice.
+#   Visual warmth   — Professional without being cold. Rounded, approachable.
 #
-# Key changes from previous version:
-#   - Rounded corners on all containers (tables, blockquotes, code)
-#   - Subtle box-shadows for depth
-#   - Warmer colour temperature (warm blacks, soft grays)
-#   - Logo integrated into first page header
-#   - Softer table headers (no heavy navy rules)
-#   - More generous padding throughout
-#   - Card-like containers for metadata and tables
+# PRO-007 compliance:
+#   - Typography: H1=20pt, H2=14pt, H3=12pt, body=10pt, line-height 1.5x
+#   - Layout: A4, 25mm L/R margins, 20mm top, 25mm bottom
+#   - Colours: Navy #1B3A5C, Steel Blue #4A90A4, Warm Gray #8C8C8C
+#   - Tables: Navy headers, alternating rows, max 7 columns
+#   - Page numbers: centred bottom
+#   - Uncontrolled copy mark: top-right
+#
+# Rev C changes (from Rev B):
+#   - Corrected heading sizes to match PRO-007 exactly
+#   - Corrected margins to 25mm L/R, 20mm top, 25mm bottom
+#   - Allowed large tables to break across pages (prevents blank pages)
+#   - Removed all unexplained cultural terminology (language policy §15)
+#   - Added checkbox rendering support
 # ---------------------------------------------------------------------------
 
 CSS = """
@@ -116,7 +121,7 @@ CSS = """
 
 @page {{
     size: A4;
-    margin: 24mm 24mm 22mm 24mm;
+    margin: 20mm 25mm 25mm 25mm;
 
     @top-left {{
         content: "{doc_no}";
@@ -178,7 +183,7 @@ CSS = """
 }}
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   BODY — Warm, readable, generous
+   BODY — Warm, readable, generous spacing
    ═══════════════════════════════════════════════════════════════════════════ */
 
 body {{
@@ -217,11 +222,11 @@ body {{
 }}
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   HEADING HIERARCHY — Warm navy, generous spacing
+   HEADING HIERARCHY — PRO-007 §4: H1=20pt, H2=14pt, H3=12pt, H4=11pt
    ═══════════════════════════════════════════════════════════════════════════ */
 
 h1 {{
-    font-size: 22pt;
+    font-size: 20pt;
     font-weight: 700;
     color: #1B3A5C;
     border-bottom: 2.5pt solid #1B3A5C;
@@ -233,20 +238,20 @@ h1 {{
 }}
 
 h2 {{
-    font-size: 15pt;
+    font-size: 14pt;
     font-weight: 700;
     color: #1B3A5C;
-    margin: 28pt 0 12pt 0;
+    margin: 24pt 0 10pt 0;
     padding-bottom: 4pt;
     border-bottom: 1pt solid #e8ecf0;
     page-break-after: avoid;
 }}
 
 h3 {{
-    font-size: 11.5pt;
+    font-size: 12pt;
     font-weight: 600;
     color: #4A90A4;
-    margin: 20pt 0 8pt 0;
+    margin: 18pt 0 8pt 0;
     page-break-after: avoid;
 }}
 
@@ -522,7 +527,7 @@ em {{
 }}
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   PRINT HELPERS
+   PRINT HELPERS — prevent orphan headings, allow large table breaks
    ═══════════════════════════════════════════════════════════════════════════ */
 
 h2, h3 {{
@@ -533,12 +538,34 @@ h1, h2, h3, h4 {{
     page-break-inside: avoid;
 }}
 
-table, pre, blockquote {{
+/* Small tables stay on one page; large tables (>6 rows) are allowed to
+   break across pages to avoid blank-page gaps (Rev C fix). */
+table {{
+    page-break-inside: auto;
+}}
+
+/* Metadata card and small tables should not break */
+table:first-of-type {{
     page-break-inside: avoid;
 }}
 
+pre, blockquote {{
+    page-break-inside: avoid;
+}}
+
+/* Keep table rows together — individual rows should not split */
+tr {{
+    page-break-inside: avoid;
+}}
+
+/* Keep heading + following content on same page */
 h2 + *, h3 + * {{
     page-break-before: avoid;
+}}
+
+/* Revision history should stay with its heading */
+div.rev-history {{
+    page-break-inside: avoid;
 }}
 """
 
@@ -609,6 +636,10 @@ def md_to_pdf(input_path, output_path=None):
         md_content,
         extensions=["tables", "fenced_code", "toc", "sane_lists"],
     )
+
+    # Post-process: render checkboxes as visual symbols
+    html_content = html_content.replace('[x]', '<span style="color:#1B3A5C;font-weight:700;">&#9745;</span>')
+    html_content = html_content.replace('[ ]', '<span style="color:#999;">&#9744;</span>')
 
     # Post-process: wrap revision history table
     html_content = wrap_revision_history(html_content)

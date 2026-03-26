@@ -5,7 +5,7 @@
 | **Document No.** | JDS-COR-GEN-003 |
 | **Revision** | A |
 | **Date** | 2026-03-26 |
-| **Status** | CURRENT |
+| **Status** | EXAMPLE |
 | **Author** | N. Johansson |
 
 ---
@@ -53,7 +53,7 @@ Johansson Engineering
 
 ---
 
-**Enclosures:** Inspection scope document (JDS-RPT-MEC-010), Previous inspection summary
+**Enclosures:** Inspection scope document, Previous inspection summary
 
 ---
 

@@ -11,6 +11,8 @@
 | **Client** | [Client Name] |
 | **Site** | [Site / Location Name] |
 
+> **When to use this template:** Use this to document completed maintenance work — preventive, corrective, condition-based, or overhaul. The report provides a permanent record of what was found, what was done, and what should happen next. If a deviation was found, raise a deviation report (JDS-TMP-RPT-005) as a companion document.
+
 ---
 
 ## 1. Summary
@@ -22,7 +24,7 @@
 | **Date Performed** | [Date or date range] |
 | **Performed By** | [Name(s) and company] |
 | **Work Order** | [Reference number, if applicable] |
-| **Result** | [Equipment returned to service / Requires further work / Decommissioned] |
+| **Result** | [Equipment returned to service / Requires further work / Awaiting parts / Decommissioned] |
 
 ---
 
@@ -70,8 +72,8 @@
 
 | Parameter | Measured Value | Acceptable Range | Status |
 |-----------|--------------|-----------------|--------|
-| [Parameter] | [Value] [Unit] | [Min – Max] | OK / Flag |
-| [Parameter] | [Value] [Unit] | [Min – Max] | OK / Flag |
+| [Parameter] | [Value + Unit] | [Min – Max] | OK / Flag |
+| [Parameter] | [Value + Unit] | [Min – Max] | OK / Flag |
 
 ---
 
@@ -84,14 +86,12 @@
 | Part | Part Number | Old Condition | New Part Source |
 |------|------------|---------------|----------------|
 | [Part name] | [Part No.] | [Worn / Failed / Preventive] | [Stock / Ordered / Client-supplied] |
-| | | | |
 
 ### 5.2 Materials Used
 
 | Material | Quantity | Purpose |
 |----------|---------|---------|
 | [Material] | [Qty + Unit] | [What it was used for] |
-| | | |
 
 ---
 
@@ -102,7 +102,6 @@
 | Test | Acceptance Criteria | Result | Status |
 |------|-------------------|--------|--------|
 | [Test description] | [What constitutes a pass] | [Measured result] | Pass / Fail |
-| | | | |
 
 ---
 
@@ -113,17 +112,16 @@
 | Priority | Recommendation | Responsible | Due Date |
 |----------|---------------|------------|----------|
 | High / Medium / Low | [What should be done] | [Who] | [When] |
-| | | | |
 
 ---
 
 ## 8. Sign-Off
 
-| Role | Name | Date |
-|------|------|------|
-| Maintenance Engineer | [Name] | YYYY-MM-DD |
-| Reviewed By | [Name] | YYYY-MM-DD |
-| Client Acceptance | [Name] | YYYY-MM-DD |
+| Role | Name | Signature | Date |
+|------|------|-----------|------|
+| Maintenance Engineer | [Name] | __________________ | YYYY-MM-DD |
+| Reviewed By | [Name] | __________________ | YYYY-MM-DD |
+| Client Acceptance | [Name] | __________________ | YYYY-MM-DD |
 
 ---
 
@@ -131,4 +129,4 @@
 
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
-| A | YYYY-MM-DD | [Author Name] | Initial report |
+| A | YYYY-MM-DD | [Author Name] | Template created |
