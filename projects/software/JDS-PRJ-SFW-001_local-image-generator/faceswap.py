@@ -89,6 +89,41 @@ def _face_similarity(a, b):
     return float(np.dot(e1, e2) / (np.linalg.norm(e1) * np.linalg.norm(e2)))
 
 
+def _face_pose_score(face):
+    """Score face pose quality 0-1 based on landmark symmetry.
+    1.0 = perfect frontal, <0.3 = extreme profile (likely poor swap).
+    Uses the 5 keypoints: left_eye, right_eye, nose, left_mouth, right_mouth."""
+    kps = face.kps
+    if kps is None or len(kps) < 5:
+        return 0.5  # unknown, assume OK
+
+    le, re, nose = kps[0], kps[1], kps[2]
+
+    # Eye-to-nose distance ratio (asymmetric = turned head)
+    d_left = np.linalg.norm(le - nose)
+    d_right = np.linalg.norm(re - nose)
+    ratio = min(d_left, d_right) / max(d_left, d_right, 1e-6)
+
+    # Eye distance relative to bbox (small = far away or extreme angle)
+    eye_dist = np.linalg.norm(le - re)
+    bbox_w = face.bbox[2] - face.bbox[0]
+    eye_ratio = eye_dist / max(bbox_w, 1e-6)
+
+    # Combined score: both should be close to 1.0 for good frontal face
+    score = (ratio * 0.6 + min(eye_ratio / 0.4, 1.0) * 0.4)
+    return float(np.clip(score, 0.0, 1.0))
+
+
+def _pose_warning(face, label=""):
+    """Return warning string if face is at a difficult angle, else None."""
+    score = _face_pose_score(face)
+    if score < 0.3:
+        return f"{label}Face is near-profile ({score:.0%} quality) — results may be poor."
+    if score < 0.5:
+        return f"{label}Face is at a steep angle ({score:.0%} quality) — results may show artifacts."
+    return None
+
+
 # ---------------------------------------------------------------------------
 # Masking — FaceSwapLab: landmark convex hull instead of simple oval
 # ---------------------------------------------------------------------------
@@ -243,6 +278,12 @@ def swap(source, target, refine=False, status=None, done=None, error=None):
             src_face = _largest_face(src_faces)
             tgt_face = _largest_face(tgt_faces)
 
+            # Pose quality check — warn but proceed
+            for w in [_pose_warning(src_face, "Source: "),
+                      _pose_warning(tgt_face, "Target: ")]:
+                if w and status:
+                    status(w)
+
             swapper = _get_swapper()
             if swapper is not None:
                 if status: status("Neural swap (ReActor)...")
@@ -357,6 +398,12 @@ def bidi_swap(photo_a, photo_b, refine=False,
 
             face_a = _largest_face(faces_a)
             face_b = _largest_face(faces_b)
+
+            for w in [_pose_warning(face_a, "Photo A: "),
+                      _pose_warning(face_b, "Photo B: ")]:
+                if w and status:
+                    status(w)
+
             swapper = _get_swapper()
 
             # Result 1: A's face on B's body
