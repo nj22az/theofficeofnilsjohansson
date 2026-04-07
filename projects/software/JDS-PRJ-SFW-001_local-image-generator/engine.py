@@ -3,16 +3,9 @@
 import os
 import gc
 import threading
-from models import MODELS_DIR
-
-_pipe = None
-_lock = threading.Lock()
-_model_id = None
-
-
-def _bg(fn):
-    """Run fn in a daemon thread."""
-    threading.Thread(target=fn, daemon=True).start()
+from PIL import Image
+from models import (MODELS_DIR, MAX_SEED, HIRES_MAX_DIM, UPSCALE_TILE,
+                    bg_thread as _bg)
 
 
 def device():
@@ -86,12 +79,7 @@ def load(model_id, status=None, done=None, error=None):
 
 def _seed(s):
     import torch
-    return s if s >= 0 else torch.randint(0, 2**32 - 1, (1,)).item()
-
-
-def _gen(fn):
-    import torch
-    return torch.Generator(device="cpu")
+    return s if s >= 0 else torch.randint(0, MAX_SEED, (1,)).item()
 
 
 def txt2img(prompt, neg="", w=512, h=512, steps=30, cfg=7.0, seed=-1,
@@ -292,7 +280,7 @@ def upscale(image, scale=2, status=None, done=None, error=None):
                                 num_block=23, num_grow_ch=32, scale=scale)
                 _up = RealESRGANer(
                     scale=scale, model_path=None, model=model,
-                    tile=256, tile_pad=10, pre_pad=0, half=False)
+                    tile=UPSCALE_TILE, tile_pad=10, pre_pad=0, half=False)
                 _up._sc = scale
                 _upscaler = _up  # noqa
 
@@ -320,7 +308,7 @@ def hires_fix(image, prompt, neg="", scale=2, strength=0.35,
             from PIL import Image as PILImage
 
             new_w, new_h = image.width * scale, image.height * scale
-            cap = 1536  # memory safety for 16GB
+            cap = HIRES_MAX_DIM
             if max(new_w, new_h) > cap:
                 r = cap / max(new_w, new_h)
                 new_w, new_h = int(new_w * r), int(new_h * r)

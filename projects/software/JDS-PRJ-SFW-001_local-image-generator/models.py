@@ -1,15 +1,67 @@
 """models.py — Config, constants, model registry, colour palette."""
 
 import json
+import threading
 from pathlib import Path
 
 APP_NAME = "JDS Image Studio"
-APP_VERSION = "3.0.0"
+APP_VERSION = "4.0.0"
 
 CONFIG_DIR = Path.home() / ".jds-image-studio"
 CONFIG_FILE = CONFIG_DIR / "config.json"
 MODELS_DIR = CONFIG_DIR / "models"
+HISTORY_DIR = CONFIG_DIR / "history"
 OUTPUT_DIR = Path.home() / "Pictures" / "JDS-Image-Studio"
+
+# Shared defaults — used by engine, cloudgen, gui
+DEFAULT_WIDTH = 512
+DEFAULT_HEIGHT = 512
+DEFAULT_STEPS = 30
+DEFAULT_CFG = 7.0
+MAX_SEED = 2**32 - 1
+
+# Face detection
+FACE_DET_SIZE = (640, 640)
+FACE_CROP_PAD = 0.3
+IDENTITY_THUMB_SIZE = (512, 512)
+
+# Upscaling / hires fix
+HIRES_MAX_DIM = 1536
+UPSCALE_TILE = 256
+FACE_FIX_MAX_DIM = 768
+FACE_FIX_STRENGTH = 0.4
+
+# Diffusion refinement (DiffFace)
+REFINE_STEPS = 15
+REFINE_CFG = 5.0
+REFINE_STRENGTH = 0.25
+
+# Pose quality thresholds
+POSE_POOR = 0.3
+POSE_WARN = 0.5
+
+# Mask parameters
+LANDMARK_BLUR_SIZE = (51, 51)
+LANDMARK_BLUR_SIGMA = 20
+FACE_ELLIPSE_W = 0.55
+FACE_ELLIPSE_H = 0.65
+DEFAULT_BRUSH_SIZE = 30
+MASK_OVERLAY_ALPHA = 100
+
+# Cloud API
+HORDE_ANON_KEY = "0000000000"
+HORDE_API_BASE = "https://stablehorde.net/api/v2"
+PRODIA_API_URL = "https://api.prodia.com/v1/sd/generate"
+HTTP_TIMEOUT = 30
+HTTP_TIMEOUT_SHORT = 15
+PRODIA_MAX_POLLS = 120
+HORDE_MAX_POLLS = 180
+
+# GUI
+WINDOW_SIZE = "1200x820"
+WINDOW_MIN = (1000, 700)
+SIDEBAR_WIDTH = 330
+SIZE_PRESETS = [(512, 512), (512, 768), (768, 512), (768, 768), (1024, 1024)]
 
 # Curated models — realistic humans, faces, unrestricted
 MODELS = [
@@ -64,10 +116,8 @@ NEG_PRESETS = {
         "jpeg artifacts, deformed, ugly, bad anatomy"
     ),
 }
-# Default key for backward compat
-NEG_PHOTO = NEG_PRESETS["Photo (general)"]
 
-# iOS flat colour palette
+# iOS flat colour palette (all UI colours centralized here)
 C = {
     "bg":       "#F2F2F7",
     "surface":  "#FFFFFF",
@@ -81,7 +131,19 @@ C = {
     "sep":      "#E5E5EA",
     "fill":     "#E5E5EA",
     "mask_red": "#FF3B30",
+    "pink":     "#FF2D55",
+    "pink_h":   "#CC1A3D",
+    "purple":   "#AF52DE",
+    "purple_h": "#8B3FBF",
+    "indigo":   "#5856D6",
+    "indigo_h": "#4240A8",
 }
+
+
+# Shared background thread launcher (used by all modules)
+def bg_thread(fn):
+    """Run fn in a daemon thread."""
+    threading.Thread(target=fn, daemon=True).start()
 
 LIGHT_DIRS = ["left", "right", "top", "bottom",
               "top-left", "top-right", "bottom-left", "bottom-right"]

@@ -5,12 +5,9 @@ runs a high-detail inpaint pass at larger resolution, pastes back.
 Result: sharp faces, correct hands, natural proportions.
 """
 
-import threading
 from PIL import Image, ImageDraw, ImageFilter
 
-
-def _bg(fn):
-    threading.Thread(target=fn, daemon=True).start()
+from models import (FACE_FIX_MAX_DIM, FACE_FIX_STRENGTH, bg_thread as _bg)
 
 
 def _load_detector():
@@ -123,8 +120,8 @@ def fix_faces(image, pipe_fn, prompt, neg="",
                 # Scale up for detail
                 up_w = int(ew * detail) // 8 * 8
                 up_h = int(eh * detail) // 8 * 8
-                up_w = min(up_w, 768)
-                up_h = min(up_h, 768)
+                up_w = min(up_w, FACE_FIX_MAX_DIM)
+                up_h = min(up_h, FACE_FIX_MAX_DIM)
                 crop_up = crop.resize((up_w, up_h), Image.LANCZOS)
 
                 # Soft mask centered on face within the crop
@@ -139,7 +136,7 @@ def fix_faces(image, pipe_fn, prompt, neg="",
                 # Run inpaint
                 if status: status(f"Fixing face {i + 1}/{len(faces)}...")
                 fixed = pipe_fn(prompt, crop_up, mask_up, neg,
-                                steps, cfg, 0.4)
+                                steps, cfg, FACE_FIX_STRENGTH)
 
                 # Scale back and paste
                 fixed_down = fixed.resize((ew, eh), Image.LANCZOS)

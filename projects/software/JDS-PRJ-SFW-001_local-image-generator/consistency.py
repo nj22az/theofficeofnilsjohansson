@@ -10,22 +10,17 @@ Two methods:
 
 import os
 import json
-import threading
 import numpy as np
 from pathlib import Path
 from PIL import Image
 
-from models import CONFIG_DIR
+from models import (CONFIG_DIR, FACE_DET_SIZE, FACE_CROP_PAD,
+                    IDENTITY_THUMB_SIZE, bg_thread as _bg)
 
 FACES_DIR = CONFIG_DIR / "faces"
 
-# IP-Adapter model IDs on HuggingFace
+# IP-Adapter model ID on HuggingFace
 IP_ADAPTER_REPO = "h94/IP-Adapter"
-IP_ADAPTER_FACEID = "h94/IP-Adapter-FaceID"
-
-
-def _bg(fn):
-    threading.Thread(target=fn, daemon=True).start()
 
 
 def _faces_dir():
@@ -48,7 +43,7 @@ def extract_face(image, status=None, done=None, error=None):
 
             app = FaceAnalysis(name="buffalo_l",
                                providers=["CPUExecutionProvider"])
-            app.prepare(ctx_id=0, det_size=(640, 640))
+            app.prepare(ctx_id=0, det_size=FACE_DET_SIZE)
 
             img_np = np.array(image.convert("RGB"))
             faces = app.get(img_np)
@@ -84,7 +79,7 @@ def save_identity(name, image, status=None, done=None, error=None):
 
             app = FaceAnalysis(name="buffalo_l",
                                providers=["CPUExecutionProvider"])
-            app.prepare(ctx_id=0, det_size=(640, 640))
+            app.prepare(ctx_id=0, det_size=FACE_DET_SIZE)
 
             img_np = np.array(image.convert("RGB"))
             faces = app.get(img_np)
@@ -104,7 +99,7 @@ def save_identity(name, image, status=None, done=None, error=None):
 
             # Save face crop as thumbnail
             x1, y1, x2, y2 = [int(v) for v in face.bbox]
-            pad = int((x2 - x1) * 0.3)
+            pad = int((x2 - x1) * FACE_CROP_PAD)
             x1, y1 = max(0, x1 - pad), max(0, y1 - pad)
             x2 = min(image.width, x2 + pad)
             y2 = min(image.height, y2 + pad)
@@ -113,7 +108,7 @@ def save_identity(name, image, status=None, done=None, error=None):
 
             # Save reference image
             ref = image.copy()
-            ref.thumbnail((512, 512), Image.LANCZOS)
+            ref.thumbnail(IDENTITY_THUMB_SIZE, Image.LANCZOS)
             ref.save(str(d / "reference.png"))
 
             # Metadata

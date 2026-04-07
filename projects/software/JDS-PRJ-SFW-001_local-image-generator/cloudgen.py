@@ -10,16 +10,14 @@ All follow the same callback pattern as engine.py (status/done/error).
 
 import io
 import json
-import threading
 from PIL import Image
 
-from models import CONFIG_DIR
+from models import (CONFIG_DIR, DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_STEPS,
+                    DEFAULT_CFG, HORDE_ANON_KEY, HORDE_API_BASE,
+                    PRODIA_API_URL, HTTP_TIMEOUT, HTTP_TIMEOUT_SHORT,
+                    PRODIA_MAX_POLLS, HORDE_MAX_POLLS, bg_thread as _bg)
 
 _SETTINGS_FILE = CONFIG_DIR / "cloud.json"
-
-
-def _bg(fn):
-    threading.Thread(target=fn, daemon=True).start()
 
 
 # ---------------------------------------------------------------------------
@@ -28,7 +26,7 @@ def _bg(fn):
 
 def load_settings():
     defaults = {"backend": "horde", "hf_token": "",
-                "prodia_key": "", "horde_key": "0000000000",
+                "prodia_key": "", "horde_key": HORDE_ANON_KEY,
                 "cloud_model": "AlbedoBase XL (SDXL)"}
     if _SETTINGS_FILE.exists():
         try:
@@ -100,9 +98,9 @@ CLOUD_MODELS = {
 # Backend 1: HuggingFace Inference API
 # ---------------------------------------------------------------------------
 
-def _hf_generate(prompt, neg="", model="", w=512, h=512, steps=30,
-                 cfg=7.0, image=None, strength=0.75,
-                 token="", status=None, done=None, error=None):
+def _hf_generate(prompt, neg="", model="", w=DEFAULT_WIDTH, h=DEFAULT_HEIGHT,
+                 steps=DEFAULT_STEPS, cfg=DEFAULT_CFG, image=None,
+                 strength=0.75, token="", status=None, done=None, error=None):
     def _run():
         try:
             from huggingface_hub import InferenceClient
@@ -148,8 +146,9 @@ def _hf_generate(prompt, neg="", model="", w=512, h=512, steps=30,
 # Backend 2: Prodia API (free key from prodia.com)
 # ---------------------------------------------------------------------------
 
-def _prodia_generate(prompt, neg="", model="sdxl", w=512, h=512,
-                     steps=30, cfg=7.0, key="",
+def _prodia_generate(prompt, neg="", model="sdxl", w=DEFAULT_WIDTH,
+                     h=DEFAULT_HEIGHT, steps=DEFAULT_STEPS, cfg=DEFAULT_CFG,
+                     key="",
                      status=None, done=None, error=None):
     def _run():
         try:
@@ -175,26 +174,26 @@ def _prodia_generate(prompt, neg="", model="sdxl", w=512, h=512,
             }).encode()
 
             req = urllib.request.Request(
-                "https://api.prodia.com/v1/sd/generate",
+                PRODIA_API_URL,
                 data=body, headers=headers, method="POST")
-            with urllib.request.urlopen(req, timeout=30) as resp:
+            with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
                 job = json.loads(resp.read())
 
             job_id = job["job"]
             if status: status(f"Cloud: generating (job {job_id[:8]})...")
 
-            for _ in range(120):
+            for _ in range(PRODIA_MAX_POLLS):
                 time.sleep(2)
                 req = urllib.request.Request(
                     f"https://api.prodia.com/v1/job/{job_id}",
                     headers=headers)
-                with urllib.request.urlopen(req, timeout=15) as resp:
+                with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT_SHORT) as resp:
                     result = json.loads(resp.read())
 
                 if result["status"] == "succeeded":
                     img_url = result["imageUrl"]
                     req = urllib.request.Request(img_url)
-                    with urllib.request.urlopen(req, timeout=30) as resp:
+                    with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
                         img = Image.open(io.BytesIO(resp.read()))
                     if status: status("Cloud generation complete.")
                     if done: done(img, -1)
@@ -214,11 +213,9 @@ def _prodia_generate(prompt, neg="", model="sdxl", w=512, h=512,
 # Backend 3: AI Horde (free, no key needed, community GPUs)
 # ---------------------------------------------------------------------------
 
-_HORDE_API = "https://stablehorde.net/api/v2"
-
-
-def _horde_generate(prompt, neg="", model="SDXL 1.0", w=512, h=512,
-                    steps=30, cfg=7.0, key="0000000000",
+def _horde_generate(prompt, neg="", model="SDXL 1.0", w=DEFAULT_WIDTH,
+                    h=DEFAULT_HEIGHT, steps=DEFAULT_STEPS, cfg=DEFAULT_CFG,
+                    key=HORDE_ANON_KEY,
                     status=None, done=None, error=None):
     def _run():
         try:
@@ -227,7 +224,7 @@ def _horde_generate(prompt, neg="", model="SDXL 1.0", w=512, h=512,
 
             if status: status(f"Cloud: submitting to AI Horde ({model})...")
 
-            headers = {"apikey": key or "0000000000",
+            headers = {"apikey": key or HORDE_ANON_KEY,
                        "Content-Type": "application/json"}
             body = json.dumps({
                 "prompt": prompt,
@@ -248,27 +245,27 @@ def _horde_generate(prompt, neg="", model="SDXL 1.0", w=512, h=512,
                 body = json.dumps(body_dict).encode()
 
             req = urllib.request.Request(
-                f"{_HORDE_API}/generate/async",
+                f"{HORDE_API_BASE}/generate/async",
                 data=body, headers=headers, method="POST")
-            with urllib.request.urlopen(req, timeout=30) as resp:
+            with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
                 job = json.loads(resp.read())
 
             job_id = job["id"]
             if status: status(f"Cloud: queued on Horde (ID {job_id[:8]})...")
 
-            for _ in range(180):
+            for _ in range(HORDE_MAX_POLLS):
                 time.sleep(3)
                 req = urllib.request.Request(
-                    f"{_HORDE_API}/generate/check/{job_id}",
-                    headers={"apikey": key or "0000000000"})
-                with urllib.request.urlopen(req, timeout=15) as resp:
+                    f"{HORDE_API_BASE}/generate/check/{job_id}",
+                    headers={"apikey": key or HORDE_ANON_KEY})
+                with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT_SHORT) as resp:
                     check = json.loads(resp.read())
 
                 if check.get("done"):
                     req = urllib.request.Request(
-                        f"{_HORDE_API}/generate/status/{job_id}",
-                        headers={"apikey": key or "0000000000"})
-                    with urllib.request.urlopen(req, timeout=15) as resp:
+                        f"{HORDE_API_BASE}/generate/status/{job_id}",
+                        headers={"apikey": key or HORDE_ANON_KEY})
+                    with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT_SHORT) as resp:
                         result = json.loads(resp.read())
 
                     gens = result.get("generations", [])
@@ -279,7 +276,7 @@ def _horde_generate(prompt, neg="", model="SDXL 1.0", w=512, h=512,
                     img_url = gens[0].get("img")
                     if img_url:
                         req = urllib.request.Request(img_url)
-                        with urllib.request.urlopen(req, timeout=30) as resp:
+                        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
                             img = Image.open(io.BytesIO(resp.read()))
                         if status: status("Cloud generation complete.")
                         if done: done(img, -1)

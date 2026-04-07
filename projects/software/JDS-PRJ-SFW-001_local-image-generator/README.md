@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Document No.** | JDS-PRJ-SFW-001 |
-| **Revision** | P |
+| **Revision** | R |
 | **Date** | 2026-04-07 |
 | **Status** | CURRENT |
 | **Author** | N. Johansson |
@@ -110,6 +110,7 @@ JDS-PRJ-SFW-001_local-image-generator/
 
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
+| R | 2026-04-07 | N. Johansson | Full 7-point code audit per JDS-PRO-004. Fixed: critical Image import bug in engine.py, removed dead code (_gen, NEG_PHOTO, IP_ADAPTER_FACEID, unused import), consolidated 6 duplicate _bg() into shared bg_thread(), extracted 30+ hardcoded values to models.py config, centralized 3 missing UI colours. Version 4.0.0 |
 | P | 2026-04-07 | N. Johansson | Smart masking (clothing/skin/body/face auto-detection via rembg + HSV/YCrCb skin detection), ControlNet (openpose/canny/depth for pose preservation), inpaint workflow presets (7 presets), one-click Auto Mask + Inpaint. New smartmask.py (184 lines). 13 files, 3774 total lines |
 | N | 2026-04-07 | N. Johansson | Expanded cloud model registry with NSFW-capable models. AI Horde default (free, no key, unrestricted). Added WAI-NSFW SDXL, AlbedoBase XL, ICBINP XL, Pony Diffusion XL, PPP to Horde. WAI-NSFW SDXL on HuggingFace. All backends pass nsfw:true/censor_nsfw:false flags |
 | M | 2026-04-07 | N. Johansson | Cloud generation: three free backends (HuggingFace Inference API, Prodia, AI Horde). Toggle "Use Cloud" for SDXL/Flux quality without local GPU load. Backend selector, cloud model picker, API key settings popup. New cloudgen.py module (315 lines) |

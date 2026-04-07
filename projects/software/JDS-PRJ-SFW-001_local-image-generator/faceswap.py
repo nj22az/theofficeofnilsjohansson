@@ -9,12 +9,14 @@ FaceSwapLab features: landmark convex hull mask, face similarity ranking,
 face checkpoints (save/reuse faces across sessions).
 """
 
-import threading
 import numpy as np
 from pathlib import Path
 from PIL import Image
 
-from models import CONFIG_DIR
+from models import (CONFIG_DIR, FACE_DET_SIZE, FACE_CROP_PAD, FACE_ELLIPSE_W,
+                    FACE_ELLIPSE_H, LANDMARK_BLUR_SIZE, LANDMARK_BLUR_SIGMA,
+                    POSE_POOR, POSE_WARN, REFINE_STEPS, REFINE_CFG,
+                    REFINE_STRENGTH, bg_thread as _bg)
 
 SWAPPER_DIR = CONFIG_DIR / "swapper"
 SWAPPER_FILE = SWAPPER_DIR / "inswapper_128.onnx"
@@ -22,10 +24,6 @@ CHECKPOINTS_DIR = CONFIG_DIR / "face_checkpoints"
 
 _analyser = None
 _swapper = None
-
-
-def _bg(fn):
-    threading.Thread(target=fn, daemon=True).start()
 
 
 # ---------------------------------------------------------------------------
@@ -62,7 +60,7 @@ def _get_analyser():
         from insightface.app import FaceAnalysis
         _analyser = FaceAnalysis(name="buffalo_l",
                                   providers=["CPUExecutionProvider"])
-        _analyser.prepare(ctx_id=0, det_size=(640, 640))
+        _analyser.prepare(ctx_id=0, det_size=FACE_DET_SIZE)
     return _analyser
 
 
@@ -117,9 +115,9 @@ def _face_pose_score(face):
 def _pose_warning(face, label=""):
     """Return warning string if face is at a difficult angle, else None."""
     score = _face_pose_score(face)
-    if score < 0.3:
+    if score < POSE_POOR:
         return f"{label}Face is near-profile ({score:.0%} quality) — results may be poor."
-    if score < 0.5:
+    if score < POSE_WARN:
         return f"{label}Face is at a steep angle ({score:.0%} quality) — results may show artifacts."
     return None
 
@@ -141,11 +139,11 @@ def _landmark_mask(shape, face):
     else:
         x1, y1, x2, y2 = [int(v) for v in face.bbox]
         cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
-        rw = int((x2 - x1) * 0.55)
-        rh = int((y2 - y1) * 0.65)
+        rw = int((x2 - x1) * FACE_ELLIPSE_W)
+        rh = int((y2 - y1) * FACE_ELLIPSE_H)
         cv2.ellipse(mask, (cx, cy), (rw, rh), 0, 0, 360, 255, -1)
 
-    mask = cv2.GaussianBlur(mask, (51, 51), 20)
+    mask = cv2.GaussianBlur(mask, LANDMARK_BLUR_SIZE, LANDMARK_BLUR_SIGMA)
     return mask
 
 
@@ -241,7 +239,8 @@ def _diffusion_refine(result_img, mask_np, status=None, done=None, error=None):
             prompt="highly detailed realistic face, sharp features, natural skin",
             image=result_img, mask=mask_img,
             neg="blurry, deformed, artifact, seam, boundary",
-            steps=15, cfg=5.0, strength=0.25, seed=-1,
+            steps=REFINE_STEPS, cfg=REFINE_CFG, strength=REFINE_STRENGTH,
+            seed=-1,
             status=status,
             done=lambda img, s: (done(img) if done else None),
             error=error)
@@ -478,7 +477,7 @@ def save_checkpoint(name, image, status=None, done=None, error=None):
             np.save(str(d / "embedding.npy"), face.embedding)
 
             x1, y1, x2, y2 = [int(v) for v in face.bbox]
-            pad = int((x2 - x1) * 0.3)
+            pad = int((x2 - x1) * FACE_CROP_PAD)
             crop = image.crop((max(0, x1 - pad), max(0, y1 - pad),
                                min(image.width, x2 + pad),
                                min(image.height, y2 + pad)))

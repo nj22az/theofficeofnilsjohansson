@@ -6,13 +6,11 @@ Core workflow: subject detection (rembg) + skin detection (HSV) = clothing mask.
 Used for: clothing removal/replacement, body editing, targeted regeneration.
 """
 
-import threading
 import numpy as np
 from PIL import Image
 
-
-def _bg(fn):
-    threading.Thread(target=fn, daemon=True).start()
+from models import (FACE_DET_SIZE, FACE_ELLIPSE_W, FACE_ELLIPSE_H,
+                    bg_thread as _bg)
 
 
 def _skin_mask(img_np):
@@ -112,7 +110,7 @@ def face_region_mask(image, status=None, done=None, error=None):
 
             app = FaceAnalysis(name="buffalo_l",
                                providers=["CPUExecutionProvider"])
-            app.prepare(ctx_id=0, det_size=(640, 640))
+            app.prepare(ctx_id=0, det_size=FACE_DET_SIZE)
 
             img_np = np.array(image.convert("RGB"))
             faces = app.get(img_np)

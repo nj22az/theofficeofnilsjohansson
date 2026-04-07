@@ -5,7 +5,7 @@ import datetime
 from pathlib import Path
 from PIL import Image
 
-HISTORY_DIR = Path.home() / ".jds-image-studio" / "history"
+from models import HISTORY_DIR
 
 
 def save(image, prompt, neg="", seed=0, model="",

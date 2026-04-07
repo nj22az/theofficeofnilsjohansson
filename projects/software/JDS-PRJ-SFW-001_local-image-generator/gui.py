@@ -2,7 +2,6 @@
 
 import os
 import sys
-import traceback
 import datetime
 from pathlib import Path
 from tkinter import filedialog, messagebox
@@ -20,8 +19,9 @@ import faceswap
 import cloudgen
 import smartmask
 from models import (APP_NAME, APP_VERSION, MODELS, NEG_PRESETS, C,
-                    LIGHT_DIRS, INPAINT_PRESETS, OUTPUT_DIR,
-                    load_config, save_config)
+                    LIGHT_DIRS, INPAINT_PRESETS, SIZE_PRESETS,
+                    WINDOW_SIZE, WINDOW_MIN, SIDEBAR_WIDTH,
+                    OUTPUT_DIR, load_config, save_config)
 from painter import MaskPainter
 
 MODES = ["txt2img", "img2img", "inpaint", "edit"]
@@ -231,8 +231,8 @@ class App(ctk.CTk):
         self._busy = False
 
         self.title(APP_NAME)
-        self.geometry("1200x820")
-        self.minsize(1000, 700)
+        self.geometry(WINDOW_SIZE)
+        self.minsize(*WINDOW_MIN)
         self.configure(fg_color=C["bg"])
         ctk.set_appearance_mode("light")
         ctk.set_default_color_theme("blue")
