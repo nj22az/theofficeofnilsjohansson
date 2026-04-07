@@ -22,7 +22,13 @@ from models import (APP_NAME, APP_VERSION, MODELS, NEG_PRESETS, C,
                     LIGHT_DIRS, INPAINT_PRESETS, SIZE_PRESETS,
                     WINDOW_SIZE, WINDOW_MIN, SIDEBAR_WIDTH,
                     OUTPUT_DIR, QUALITY_ANCHORS, LIGHTING_PRESETS,
-                    LENS_PRESETS, ENHANCED_NEGATIVE,
+                    LENS_PRESETS, ENHANCED_NEGATIVE, PROMPT_TEMPLATES,
+                    AVATAR_ETHNICITY, AVATAR_AGE, AVATAR_HAIR_STYLE,
+                    AVATAR_HAIR_COLOR, AVATAR_EYE_COLOR, AVATAR_EYE_SHAPE,
+                    AVATAR_FACE_SHAPE, AVATAR_SKIN_TONE, AVATAR_LIPS,
+                    AVATAR_MAKEUP, AVATAR_BREAST_SIZE, AVATAR_BUTT_SIZE,
+                    AVATAR_BODY_TYPE, AVATAR_POSE, AVATAR_EXPRESSION,
+                    AVATAR_OUTFIT, AVATAR_SETTING,
                     load_config, save_config)
 from painter import MaskPainter
 
@@ -276,18 +282,29 @@ class App(ctk.CTk):
             command=self._mode_changed,
             font=("SF Pro Text", 12)).pack(fill="x", padx=px, pady=(2, 8))
 
-        # Prompt
-        self._label(sc, "Prompt")
+        # Prompt template dropdown
+        tpl_row = ctk.CTkFrame(sc, fg_color="transparent")
+        tpl_row.pack(fill="x", padx=px, pady=(0, 2))
+        self._label(tpl_row, "Prompt", pack=False).pack(side="left")
+        self.tpl_menu = ctk.CTkOptionMenu(
+            tpl_row, values=list(PROMPT_TEMPLATES.keys()),
+            font=("SF Pro Text", 10), width=180, height=22,
+            fg_color=C["fill"], text_color=C["accent"],
+            button_color=C["sep"], button_hover_color=C["muted"],
+            command=self._apply_template)
+        self.tpl_menu.set("Template...")
+        self.tpl_menu.pack(side="right")
+
         self.prompt = ctk.CTkTextbox(sc, height=70, corner_radius=10,
                                       font=("SF Pro Text", 12),
                                       fg_color=C["fill"], text_color=C["text"],
                                       border_width=0)
-        self.prompt.pack(fill="x", padx=px, pady=(0, 4))
+        self.prompt.pack(fill="x", padx=px, pady=(0, 2))
 
         # Prompt Enhance row
         enh_row = ctk.CTkFrame(sc, fg_color="transparent")
         enh_row.pack(fill="x", padx=px, pady=(0, 2))
-        self.enhance_var = ctk.BooleanVar(value=False)
+        self.enhance_var = ctk.BooleanVar(value=True)
         ctk.CTkCheckBox(enh_row, text="Enhance",
                         variable=self.enhance_var,
                         font=("SF Pro Text", 11),
@@ -298,7 +315,7 @@ class App(ctk.CTk):
             font=("SF Pro Text", 10), width=110, height=22,
             fg_color=C["fill"], text_color=C["accent"],
             button_color=C["sep"], button_hover_color=C["muted"])
-        self.quality_menu.set("Photorealistic")
+        self.quality_menu.set("Asian Realism")
         self.lighting_menu = ctk.CTkOptionMenu(
             enh_row, values=list(LIGHTING_PRESETS.keys()),
             font=("SF Pro Text", 10), width=100, height=22,
@@ -311,8 +328,95 @@ class App(ctk.CTk):
             fg_color=C["fill"], text_color=C["accent"],
             button_color=C["sep"], button_hover_color=C["muted"])
         self.lens_menu.set("85mm portrait")
-        # Hidden by default, shown when Enhance checked
+        # Shown by default since Enhance is on
         self._enh_menus = [self.quality_menu, self.lighting_menu, self.lens_menu]
+        for menu in self._enh_menus:
+            menu.pack(side="left", padx=(4, 0))
+
+        # --- Avatar Creator (collapsible) ---
+        av_toggle = ctk.CTkFrame(sc, fg_color="transparent")
+        av_toggle.pack(fill="x", padx=px, pady=(2, 0))
+        self.avatar_var = ctk.BooleanVar(value=False)
+        ctk.CTkCheckBox(av_toggle, text="Avatar Creator",
+                        variable=self.avatar_var,
+                        font=("SF Pro Text", 11, "bold"),
+                        checkbox_height=18, checkbox_width=18,
+                        command=self._toggle_avatar).pack(side="left")
+        ctk.CTkLabel(av_toggle, text="(builds prompt from selections)",
+                     font=("SF Pro Text", 9), text_color=C["muted"]
+                     ).pack(side="left", padx=(6, 0))
+
+        self.avatar_frame = ctk.CTkFrame(sc, fg_color=C["surface"],
+                                          corner_radius=8)
+        # Not packed yet — shown when checkbox is on
+
+        # Helper to create avatar dropdown rows
+        av_dd_font = ("SF Pro Text", 10)
+        av_lbl_font = ("SF Pro Text", 9)
+
+        def _av_row(parent, label, values, default_idx=0):
+            row = ctk.CTkFrame(parent, fg_color="transparent")
+            row.pack(fill="x", padx=6, pady=(2, 0))
+            ctk.CTkLabel(row, text=label, font=av_lbl_font,
+                         text_color=C["muted"], width=70, anchor="w"
+                         ).pack(side="left")
+            menu = ctk.CTkOptionMenu(
+                row, values=values, font=av_dd_font,
+                width=180, height=20, corner_radius=4,
+                fg_color=C["fill"], text_color=C["text"],
+                button_color=C["sep"], button_hover_color=C["muted"])
+            menu.set(values[default_idx])
+            menu.pack(side="left", fill="x", expand=True)
+            return menu
+
+        af = self.avatar_frame
+        ctk.CTkLabel(af, text="Character Builder",
+                     font=("SF Pro Text", 11, "bold"),
+                     text_color=C["text"]).pack(padx=6, pady=(6, 2), anchor="w")
+
+        self.av_ethnicity = _av_row(af, "Ethnicity", AVATAR_ETHNICITY)
+        self.av_age = _av_row(af, "Age", AVATAR_AGE, 1)
+        self.av_face = _av_row(af, "Face", AVATAR_FACE_SHAPE)
+        self.av_skin = _av_row(af, "Skin", AVATAR_SKIN_TONE, 2)
+        self.av_eye_shape = _av_row(af, "Eye shape", AVATAR_EYE_SHAPE)
+        self.av_eye_color = _av_row(af, "Eye colour", AVATAR_EYE_COLOR)
+        self.av_hair_style = _av_row(af, "Hair style", AVATAR_HAIR_STYLE)
+        self.av_hair_color = _av_row(af, "Hair colour", AVATAR_HAIR_COLOR)
+        self.av_makeup = _av_row(af, "Makeup", AVATAR_MAKEUP, 1)
+        self.av_lips = _av_row(af, "Lips", AVATAR_LIPS)
+        self.av_expression = _av_row(af, "Expression", AVATAR_EXPRESSION)
+        self.av_body = _av_row(af, "Body type", AVATAR_BODY_TYPE, 2)
+        self.av_breast = _av_row(af, "Breast", AVATAR_BREAST_SIZE, 2)
+        self.av_butt = _av_row(af, "Butt", AVATAR_BUTT_SIZE, 2)
+        self.av_pose = _av_row(af, "Pose", AVATAR_POSE)
+        self.av_outfit = _av_row(af, "Outfit", AVATAR_OUTFIT)
+        self.av_setting = _av_row(af, "Setting", AVATAR_SETTING)
+
+        # Height / Weight in avatar frame
+        hw_row = ctk.CTkFrame(af, fg_color="transparent")
+        hw_row.pack(fill="x", padx=6, pady=(2, 0))
+        ctk.CTkLabel(hw_row, text="Height cm", font=av_lbl_font,
+                     text_color=C["muted"]).pack(side="left")
+        self.av_height = ctk.CTkEntry(hw_row, width=40, height=20,
+                                       corner_radius=4, font=av_dd_font,
+                                       fg_color=C["fill"], border_width=0,
+                                       placeholder_text="160")
+        self.av_height.pack(side="left", padx=(2, 8))
+        ctk.CTkLabel(hw_row, text="Weight kg", font=av_lbl_font,
+                     text_color=C["muted"]).pack(side="left")
+        self.av_weight = ctk.CTkEntry(hw_row, width=40, height=20,
+                                       corner_radius=4, font=av_dd_font,
+                                       fg_color=C["fill"], border_width=0,
+                                       placeholder_text="50")
+        self.av_weight.pack(side="left", padx=(2, 0))
+
+        # Build Prompt button
+        ctk.CTkButton(af, text="Build Prompt from Avatar",
+                      corner_radius=6, height=28,
+                      font=("SF Pro Text", 11, "bold"),
+                      fg_color=C["accent"], hover_color=C["hover"],
+                      command=self._build_avatar_prompt
+                      ).pack(fill="x", padx=6, pady=(6, 6))
 
         # Negative prompt
         nr = ctk.CTkFrame(sc, fg_color="transparent")
@@ -865,6 +969,110 @@ class App(ctk.CTk):
     # -------------------------------------------------------------------
     def _msg(self, t):
         self.after(0, lambda: self.status.configure(text=t))
+
+    def _toggle_avatar(self):
+        """Show/hide avatar creator panel."""
+        if self.avatar_var.get():
+            self.avatar_frame.pack(fill="x", padx=18, pady=(2, 4),
+                                    before=self.neg)
+        else:
+            self.avatar_frame.pack_forget()
+
+    def _build_avatar_prompt(self):
+        """Assemble a complete prompt from all avatar dropdown selections."""
+        parts = []
+
+        # Core identity
+        ethnicity = self.av_ethnicity.get()
+        age = self.av_age.get()
+        parts.append(f"beautiful {ethnicity} woman, {age}")
+
+        # Face
+        parts.append(self.av_face.get())
+        parts.append(self.av_skin.get())
+        parts.append(self.av_eye_shape.get())
+        parts.append(f"{self.av_eye_color.get()} eyes")
+
+        # Hair
+        parts.append(f"{self.av_hair_color.get()} {self.av_hair_style.get()}")
+
+        # Makeup & lips
+        parts.append(self.av_makeup.get())
+        parts.append(self.av_lips.get())
+
+        # Expression
+        parts.append(self.av_expression.get())
+
+        # Body
+        parts.append(self.av_body.get())
+        parts.append(self.av_breast.get())
+        parts.append(self.av_butt.get())
+
+        # Height/weight
+        try:
+            h_cm = int(self.av_height.get())
+            w_kg = int(self.av_weight.get())
+            bmi = w_kg / ((h_cm / 100) ** 2)
+            if h_cm < 155:
+                parts.append("petite short stature")
+            elif h_cm < 163:
+                parts.append("petite")
+            elif h_cm >= 170:
+                parts.append("tall")
+            parts.append(f"{h_cm}cm {w_kg}kg proportions")
+        except (ValueError, TypeError, ZeroDivisionError):
+            pass
+
+        # Pose
+        parts.append(self.av_pose.get())
+
+        # Outfit (skip if "None")
+        outfit = self.av_outfit.get()
+        if outfit and not outfit.startswith("None"):
+            parts.append(outfit)
+
+        # Setting (skip if "None")
+        setting = self.av_setting.get()
+        if setting and not setting.startswith("None"):
+            parts.append(setting)
+
+        # Quality footer
+        parts.append("photorealistic, detailed skin texture, professional photography")
+
+        # Fill prompt box
+        prompt = ", ".join(parts)
+        self.prompt.delete("1.0", "end")
+        self.prompt.insert("1.0", prompt)
+
+        # Auto-set quality anchor and neg preset
+        self.quality_menu.set("Asian Realism")
+        self.enhance_var.set(True)
+        self._toggle_enhance()
+        self._apply_neg_preset("Asian realism")
+        self.neg_preset.set("Asian realism")
+
+        self._msg("Avatar prompt built. Hit Generate!")
+
+    def _apply_template(self, name):
+        """Fill prompt box with selected template."""
+        text = PROMPT_TEMPLATES.get(name, "")
+        if not text:
+            return
+        self.prompt.delete("1.0", "end")
+        self.prompt.insert("1.0", text)
+        # Auto-select matching quality anchor and neg preset
+        if "gravure" in name.lower():
+            self.quality_menu.set("Gravure")
+            self._apply_neg_preset("Gravure (glamour)")
+            self.neg_preset.set("Gravure (glamour)")
+        elif "k-beauty" in name.lower() or "korean" in name.lower():
+            self.quality_menu.set("K-Beauty")
+            self._apply_neg_preset("Asian realism")
+            self.neg_preset.set("Asian realism")
+        elif "asian" in name.lower():
+            self.quality_menu.set("Asian Realism")
+            self._apply_neg_preset("Asian realism")
+            self.neg_preset.set("Asian realism")
 
     def _toggle_enhance(self):
         """Show/hide quality, lighting, lens dropdowns."""

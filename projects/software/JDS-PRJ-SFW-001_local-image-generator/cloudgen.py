@@ -32,10 +32,10 @@ _SETTINGS_FILE = CONFIG_DIR / "cloud.json"
 # ---------------------------------------------------------------------------
 
 def load_settings():
-    defaults = {"backend": "horde", "hf_token": "",
+    defaults = {"backend": "huggingface", "hf_token": "",
                 "prodia_key": "", "horde_key": HORDE_ANON_KEY,
                 "replicate_token": "",
-                "cloud_model": "AlbedoBase XL (SDXL)"}
+                "cloud_model": "black-forest-labs/FLUX.1-dev"}
     if _SETTINGS_FILE.exists():
         try:
             with open(_SETTINGS_FILE) as f:

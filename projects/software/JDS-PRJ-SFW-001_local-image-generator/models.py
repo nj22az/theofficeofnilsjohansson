@@ -5,7 +5,7 @@ import threading
 from pathlib import Path
 
 APP_NAME = "JDS Image Studio"
-APP_VERSION = "4.3.0"
+APP_VERSION = "5.0.0"
 
 CONFIG_DIR = Path.home() / ".jds-image-studio"
 CONFIG_FILE = CONFIG_DIR / "config.json"
@@ -78,10 +78,24 @@ QUALITY_ANCHORS = {
         "and subsurface scattering, sharp focus, natural skin tones, "
         "realistic anatomy, highly detailed face and body"
     ),
+    "Asian Realism": (
+        "photorealistic, beautiful asian woman, ultra-detailed skin textures "
+        "with visible pores and subsurface scattering, natural asian features, "
+        "monolid or double eyelid eyes, warm natural skin tone, "
+        "sharp focus, realistic anatomy, highly detailed face and body, "
+        "professional photography, 8K UHD"
+    ),
     "Gravure": (
         "photorealistic, japanese gravure idol photography, magazine quality, "
-        "ultra-detailed skin textures, natural skin tones, sharp focus, "
-        "professional studio photography, highly detailed face and body"
+        "ultra-detailed skin textures, natural asian skin tones, sharp focus, "
+        "professional studio photography, highly detailed face and body, "
+        "beautiful japanese woman, natural features"
+    ),
+    "K-Beauty": (
+        "photorealistic, beautiful korean woman, flawless dewy skin, "
+        "ultra-detailed skin textures, natural korean features, "
+        "glass skin effect, soft luminous complexion, sharp focus, "
+        "professional beauty photography, highly detailed face"
     ),
     "Portrait": (
         "photorealistic portrait, ultra-detailed face, catchlight in eyes, "
@@ -191,6 +205,16 @@ NEG_PRESETS = {
         "blurry, low quality, watermark, text, logo, signature, "
         "jpeg artifacts, deformed, ugly, bad anatomy"
     ),
+    "Asian realism": (
+        "cartoon, anime, drawing, painting, illustration, sketch, 3d render, "
+        "cgi, doll, plastic, deformed, ugly, blurry, bad anatomy, bad hands, "
+        "extra fingers, missing fingers, extra limbs, disfigured, "
+        "western features, caucasian features, blue eyes, blonde hair, "
+        "unrealistic eye size, anime eyes, exaggerated features, "
+        "oversized breasts, disproportionate body, bad skin, waxy skin, "
+        "flat lighting, overexposed, watermark, text, logo, signature, "
+        "low quality, jpeg artifacts, bad eyes, asymmetric face"
+    ),
     "Gravure (glamour)": (
         "cartoon, anime, 3d render, cgi, doll, plastic, deformed, ugly, blurry, "
         "bad anatomy, bad hands, extra fingers, missing fingers, extra limbs, "
@@ -228,6 +252,184 @@ C = {
 def bg_thread(fn):
     """Run fn in a daemon thread."""
     threading.Thread(target=fn, daemon=True).start()
+
+# --- Avatar Creator (realistic character builder) ---
+AVATAR_ETHNICITY = [
+    "Japanese", "Korean", "Chinese", "Vietnamese", "Thai",
+    "Filipino", "Indonesian", "Malaysian", "Taiwanese",
+    "Mixed Asian",
+]
+
+AVATAR_AGE = [
+    "18-20 (young)", "21-25 (early twenties)", "26-30 (late twenties)",
+    "31-35 (early thirties)", "36-40 (late thirties)", "41-50 (mature)",
+]
+
+AVATAR_HAIR_STYLE = [
+    "straight long hair", "straight medium hair", "straight short bob",
+    "wavy long hair", "wavy shoulder-length hair",
+    "curly long hair", "curly medium hair",
+    "bangs with long hair", "bangs with bob cut",
+    "side-swept bangs", "curtain bangs",
+    "ponytail", "high ponytail", "low ponytail",
+    "twin tails", "braided hair", "messy bun", "elegant updo",
+    "pixie cut", "layered medium hair",
+    "wet hair look", "beach waves",
+]
+
+AVATAR_HAIR_COLOR = [
+    "natural black", "dark brown", "light brown", "auburn",
+    "honey brown", "chestnut", "ash brown",
+    "blonde highlights", "ombre brown to blonde",
+    "red tinted", "burgundy", "dark red",
+    "pink", "purple", "blue-black",
+]
+
+AVATAR_EYE_COLOR = [
+    "dark brown", "brown", "light brown", "hazel",
+    "amber", "dark eyes", "black",
+]
+
+AVATAR_EYE_SHAPE = [
+    "natural asian eyes", "monolid", "double eyelid",
+    "almond-shaped eyes", "round eyes", "hooded eyes",
+    "cat eyes", "upturned eyes",
+]
+
+AVATAR_FACE_SHAPE = [
+    "oval face", "round face", "heart-shaped face",
+    "v-line jaw face", "diamond face", "square jaw face",
+]
+
+AVATAR_SKIN_TONE = [
+    "fair porcelain skin", "light ivory skin", "natural beige skin",
+    "warm golden skin", "light tan skin", "medium tan skin",
+    "honey skin tone", "olive skin tone",
+]
+
+AVATAR_LIPS = [
+    "natural lips", "full lips", "thin lips",
+    "gradient lip tint (korean style)", "red lipstick",
+    "pink lipstick", "nude lipstick", "berry lipstick",
+    "coral lipstick", "no makeup lips", "glossy lips",
+]
+
+AVATAR_MAKEUP = [
+    "natural no-makeup look", "light natural makeup",
+    "korean glass skin makeup", "soft glam makeup",
+    "smoky eye makeup", "cat eye eyeliner",
+    "dewy luminous makeup", "matte elegant makeup",
+    "heavy glamour makeup", "editorial bold makeup",
+]
+
+AVATAR_BREAST_SIZE = [
+    "flat chest", "small breasts (A cup)", "small-medium breasts (B cup)",
+    "medium breasts (C cup)", "medium-large breasts (D cup)",
+    "large breasts (DD cup)", "very large breasts",
+]
+
+AVATAR_BUTT_SIZE = [
+    "small flat butt", "small round butt", "medium round butt",
+    "athletic toned butt", "large round butt", "very curvy butt",
+]
+
+AVATAR_BODY_TYPE = [
+    "very slim, thin frame", "slim, slender figure",
+    "slim fit, toned body", "athletic, muscular tone",
+    "average build, natural curves", "curvy hourglass figure",
+    "full figured, voluptuous", "petite and slim",
+]
+
+AVATAR_POSE = [
+    "standing naturally", "sitting elegantly", "leaning forward",
+    "looking over shoulder", "hands on hips", "arms crossed",
+    "lying on side", "kneeling", "walking towards camera",
+    "candid laughing", "playful pose", "confident pose",
+    "shy pose, looking down", "stretching", "dynamic action pose",
+]
+
+AVATAR_EXPRESSION = [
+    "soft smile", "confident smile", "serious look",
+    "playful wink", "sultry gaze", "innocent look",
+    "laughing", "shy expression", "pouting lips",
+    "surprised look", "dreamy expression", "fierce look",
+]
+
+AVATAR_OUTFIT = [
+    "None (use prompt)", "casual t-shirt and jeans", "summer dress",
+    "elegant evening dress", "school uniform", "office blouse and skirt",
+    "crop top and shorts", "bikini swimsuit", "one-piece swimsuit",
+    "lingerie set", "silk robe", "kimono", "hanbok",
+    "athletic wear", "oversized sweater", "leather jacket",
+    "cocktail dress", "wedding dress",
+    "topless", "nude",
+]
+
+AVATAR_SETTING = [
+    "None (use prompt)", "professional studio, white background",
+    "studio, dark background", "bedroom, soft lighting",
+    "beach, golden hour", "Tokyo street, neon lights",
+    "cherry blossom garden", "rooftop cityscape",
+    "cafe interior, window light", "bathroom, steam",
+    "pool, summer sun", "hotel room, luxury",
+    "forest, dappled sunlight", "rain, wet streets",
+    "gym, dramatic lighting", "onsen hot spring",
+]
+
+# Ready-to-use prompt templates (fill prompt box with one click)
+PROMPT_TEMPLATES = {
+    "Template...": "",
+    "Asian — studio portrait": (
+        "beautiful {japanese|korean|chinese|vietnamese} woman, "
+        "close-up portrait, natural makeup, black hair, brown eyes, "
+        "soft smile, detailed skin texture, professional studio lighting"
+    ),
+    "Asian — full body": (
+        "beautiful {japanese|korean|chinese} woman, full body shot, "
+        "slim natural figure, elegant pose, {casual outfit|summer dress|business attire}, "
+        "natural lighting, professional photography"
+    ),
+    "Asian — outdoor": (
+        "beautiful {japanese|korean|vietnamese} woman, outdoor photoshoot, "
+        "{cherry blossom garden|urban tokyo street|tropical beach|bamboo forest}, "
+        "natural sunlight, candid pose, magazine quality"
+    ),
+    "Gravure — beach": (
+        "japanese gravure idol, beach photoshoot, {white bikini|red bikini|black swimsuit}, "
+        "ocean background, golden hour sunlight, wet skin, "
+        "natural body, playful pose, magazine cover"
+    ),
+    "Gravure — studio": (
+        "japanese gravure idol, studio photoshoot, {white lingerie|black lingerie|silk robe}, "
+        "soft studio lighting, natural body proportions, "
+        "elegant pose, warm skin tones, magazine editorial"
+    ),
+    "Gravure — casual": (
+        "japanese gravure idol, {school uniform|oversized sweater|crop top and shorts}, "
+        "indoor setting, natural window light, relaxed pose, "
+        "cute expression, magazine quality photography"
+    ),
+    "K-Beauty — closeup": (
+        "beautiful korean woman, beauty closeup, glass skin, dewy complexion, "
+        "{natural makeup|gradient lip tint|smoky eye}, flawless skin, "
+        "ring light, beauty campaign photography"
+    ),
+    "K-Beauty — fashion": (
+        "beautiful korean woman, {elegant hanbok|modern streetwear|luxury fashion}, "
+        "{Seoul cityscape|traditional palace|minimalist studio} background, "
+        "editorial photography, sharp focus"
+    ),
+    "Asian — artistic": (
+        "beautiful {japanese|korean|chinese} woman, fine art photography, "
+        "{flowing silk fabric|flower petals|water reflections}, "
+        "dramatic {Rembrandt|butterfly|split} lighting, museum quality"
+    ),
+    "Asian — fitness": (
+        "beautiful {japanese|korean} woman, fitness photoshoot, "
+        "{yoga pose|athletic wear|gym setting}, toned body, "
+        "natural proportions, professional sports photography"
+    ),
+}
 
 LIGHT_DIRS = ["left", "right", "top", "bottom",
               "top-left", "top-right", "bottom-left", "bottom-right"]

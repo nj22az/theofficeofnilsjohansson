@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Document No.** | JDS-PRJ-SFW-001 |
-| **Revision** | V |
+| **Revision** | W |
 | **Date** | 2026-04-07 |
 | **Status** | CURRENT |
 | **Author** | N. Johansson |
@@ -43,7 +43,8 @@ Double-click to launch. Close to quit. Nothing stays running.
 - **Face checkpoints** — save/reuse faces across sessions (FaceSwapLab concept)
 - **Cloud generation** — HuggingFace (free) / AI Horde (free) / Prodia (free key) / Replicate (free tier) for SDXL, Flux, NSFW-capable models
 - **Cloud video** — image-to-video via HuggingFace SVD (free) or Replicate (free tier), generates 25-frame .mp4 from any image
-- **Prompt Enhance** — one-click quality anchors (photorealistic/gravure/portrait/cinematic), lighting presets (studio/golden hour/Rembrandt/ring light), lens simulation (85mm/50mm/135mm bokeh)
+- **Avatar Creator** — full character builder: ethnicity, age, face shape, skin tone, eye shape/colour, hair style/colour, makeup, lips, expression, breast size, butt size, body type, height/weight, pose, outfit, setting — builds optimized prompt from selections
+- **Prompt Enhance** — one-click quality anchors (photorealistic/Asian realism/gravure/K-beauty/portrait/cinematic), lighting presets, lens simulation (photorealistic/gravure/portrait/cinematic), lighting presets (studio/golden hour/Rembrandt/ring light), lens simulation (85mm/50mm/135mm bokeh)
 - **Gravure presets** — optimized prompts for Japanese glamour photography (swimwear, lingerie, portrait)
 - **Unrestricted** — no safety filters, no content restrictions, your machine your rules
 - **5 curated models** — Realistic Vision v5.1 (default), Deliberate v2, Dreamlike, SD 1.5, SD 2.1
@@ -113,6 +114,7 @@ JDS-PRJ-SFW-001_local-image-generator/
 
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
+| W | 2026-04-07 | N. Johansson | Avatar Creator: full character builder with 17 customizable attributes (ethnicity, age, face shape, skin tone, eye shape/colour, hair style/colour, makeup, lips, expression, breast size, butt size, body type, height/weight, pose, outfit, setting). Builds complete optimized prompt from selections. Asian Realism + K-Beauty quality anchors, Asian realism negative preset. Default cloud backend changed to HuggingFace Flux Dev (free). 11 prompt templates. Version 5.0.0 |
 | V | 2026-04-07 | N. Johansson | Cloud video generation (image-to-video): HuggingFace SVD-XT (free) and Replicate backends. Replicate as 4th cloud backend for Flux models. Video button in edit panel, video backend selector, Replicate token in Cloud Settings. All free backends prioritized. Version 4.3.0 |
 | U | 2026-04-07 | N. Johansson | Prompt Enhance system: quality anchors (Photorealistic/Gravure/Portrait/Cinematic), 6 lighting presets, 4 lens presets, enhanced master negative prompt. Enhance checkbox in GUI with dynamic dropdowns. prompts.py enhance() function. Version 4.2.0 |
 | T | 2026-04-07 | N. Johansson | Gravure photography presets: 3 inpaint presets (swimwear, lingerie, portrait) + 1 negative prompt preset with optimized prompts for Japanese glamour photography. Version 4.1.0 |
