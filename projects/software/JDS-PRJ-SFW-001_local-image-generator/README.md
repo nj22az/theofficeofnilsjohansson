@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Document No.** | JDS-PRJ-SFW-001 |
-| **Revision** | F |
+| **Revision** | G |
 | **Date** | 2026-04-07 |
 | **Status** | CURRENT |
 | **Author** | N. Johansson |
@@ -95,6 +95,7 @@ JDS-PRJ-SFW-001_local-image-generator/
 
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
+| G | 2026-04-07 | N. Johansson | Character identity consistency (IP-Adapter concept): save a face, generate new scenes keeping the same person. insightface for face embedding |
 | F | 2026-04-07 | N. Johansson | Face auto-fix (Adetailer), image history gallery, dynamic prompts {a|b|c}, inspired by Forge ecosystem research |
 | E | 2026-04-07 | N. Johansson | Upscaling: Real-ESRGAN 2x/4x upscaler + Hires Fix (model-based detail enhancement), capped at 1536px for 16GB safety |
 | D | 2026-04-07 | N. Johansson | Error dialogs, dependency checker, body proportion presets (4 negative prompt presets), syntax validated |

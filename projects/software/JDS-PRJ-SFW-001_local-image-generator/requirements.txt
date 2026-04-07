@@ -28,3 +28,6 @@ basicsr>=1.4.2
 
 # Face detection (for face auto-fix)
 opencv-python>=4.8.0
+
+# Character identity consistency (IP-Adapter / face embedding)
+insightface>=0.7.3

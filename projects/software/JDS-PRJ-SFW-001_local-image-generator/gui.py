@@ -15,6 +15,7 @@ import lighting
 import history
 import prompts
 import fixer
+import consistency
 from models import (APP_NAME, APP_VERSION, MODELS, NEG_PRESETS, C,
                     LIGHT_DIRS, OUTPUT_DIR, load_config, save_config)
 from painter import MaskPainter
@@ -416,6 +417,46 @@ class App(ctk.CTk):
                       fg_color=C["orange"], hover_color="#CC7700",
                       command=self._apply_light).pack(fill="x", pady=(4, 6))
 
+        # Identity (character consistency)
+        self._label(self.p_edit, "Character Identity")
+        id_row1 = ctk.CTkFrame(self.p_edit, fg_color="transparent")
+        id_row1.pack(fill="x", pady=(0, 4))
+        self.id_name = ctk.CTkEntry(
+            id_row1, corner_radius=8, fg_color=C["fill"], border_width=0,
+            font=("SF Pro Text", 11), placeholder_text="Name (e.g. Mai)")
+        self.id_name.pack(side="left", fill="x", expand=True, padx=(0, 4))
+        ctk.CTkButton(id_row1, text="Save", width=55, corner_radius=8,
+                      height=28, font=("SF Pro Text", 11, "bold"),
+                      fg_color="#AF52DE", hover_color="#8B3FBF",
+                      command=self._save_identity).pack(side="right")
+
+        id_row2 = ctk.CTkFrame(self.p_edit, fg_color="transparent")
+        id_row2.pack(fill="x", pady=(0, 2))
+        self.id_select = ctk.CTkOptionMenu(
+            id_row2, values=["(none)"] + consistency.list_identities(),
+            font=("SF Pro Text", 11), width=150,
+            fg_color=C["fill"], text_color=C["text"],
+            button_color=C["sep"], button_hover_color=C["muted"],
+            command=self._on_identity_selected)
+        self.id_select.set("(none)")
+        self.id_select.pack(side="left", fill="x", expand=True, padx=(0, 4))
+        ctk.CTkButton(id_row2, text="Generate", width=75, corner_radius=8,
+                      height=28, font=("SF Pro Text", 11, "bold"),
+                      fg_color=C["accent"], hover_color=C["hover"],
+                      command=self._generate_with_identity).pack(side="right")
+
+        self.id_strength_lbl = ctk.CTkLabel(
+            self.p_edit, text="Identity strength: 0.6 (face stays, scene changes)",
+            font=("SF Pro Text", 10), text_color=C["muted"])
+        self.id_strength_lbl.pack(anchor="w")
+        self.id_strength = ctk.CTkSlider(
+            self.p_edit, from_=0.3, to=1.0, number_of_steps=14,
+            command=lambda v: self.id_strength_lbl.configure(
+                text=f"Identity strength: {v:.1f} "
+                     f"({'face locked' if v > 0.7 else 'face stays, scene changes'})"))
+        self.id_strength.set(0.6)
+        self.id_strength.pack(fill="x", pady=(0, 6))
+
         # --- Settings ---
         ctk.CTkFrame(sc, height=1, fg_color=C["sep"]).pack(fill="x", padx=px, pady=(4, 6))
         self._label(sc, "Settings")
@@ -758,6 +799,74 @@ class App(ctk.CTk):
             error=lambda e: self.after(0, lambda: show_error("Face Fix Error",
                 f"Face fix failed:\n\n{e}\n\n"
                 "Install: pip install opencv-python")))
+
+    def _save_identity(self):
+        name = self.id_name.get().strip()
+        if not name:
+            show_error("Name Required", "Enter a name for this identity (e.g. Mai, Anna).")
+            return
+        img = self.current_image or self.input_image
+        if not img:
+            show_error("No Image", "Generate or load a photo first.")
+            return
+        consistency.save_identity(
+            name, img, status=self._msg,
+            done=lambda n: self.after(0, lambda: self._refresh_identities()),
+            error=lambda e: self.after(0, lambda: show_error("Identity Error",
+                f"Could not save identity:\n\n{e}\n\n"
+                "Install: pip install insightface onnxruntime")))
+
+    def _refresh_identities(self):
+        ids = ["(none)"] + consistency.list_identities()
+        self.id_select.configure(values=ids)
+        self._msg("Identity saved.")
+
+    def _on_identity_selected(self, name):
+        if name == "(none)":
+            return
+        try:
+            _, face, ref = consistency.load_identity(name)
+            if ref:
+                self._show(ref)
+                self._msg(f"Identity '{name}' loaded — change prompt and Generate.")
+        except Exception as e:
+            show_error("Load Error", str(e))
+
+    def _generate_with_identity(self):
+        name = self.id_select.get()
+        if name == "(none)":
+            show_error("No Identity", "Select a saved identity first,\n"
+                       "or save one from a generated image.")
+            return
+        prompt = self.prompt.get("1.0", "end").strip()
+        if not prompt:
+            self._msg("Enter a prompt (new scene/outfit)."); return
+        neg = self.neg.get("1.0", "end").strip()
+        steps, cfg, seed = self._params()
+        try:
+            w = int(self.e_w.get()) // 8 * 8
+            h = int(self.e_h.get()) // 8 * 8
+        except ValueError:
+            w, h = 512, 768
+        strength = self.id_strength.get()
+
+        self._busy = True
+        self.gen_btn.configure(state="disabled", text="Working...")
+
+        def ok(img, s):
+            self._busy = False
+            self.after(0, lambda: self._finish(img, s))
+            self.after(0, lambda: self.gen_btn.configure(state="normal", text="Generate"))
+
+        def fail(e):
+            self._busy = False
+            self.after(0, lambda: self.gen_btn.configure(state="normal", text="Generate"))
+            self.after(0, lambda: show_error("Identity Generation Error",
+                f"Failed:\n\n{e}"))
+
+        consistency.generate_with_identity(
+            name, prompt, neg, w, h, steps, cfg, seed, strength,
+            status=self._msg, done=ok, error=fail)
 
     def _show_history(self):
         HistoryWindow(self)
