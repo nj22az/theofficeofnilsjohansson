@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Document No.** | JDS-PRJ-SFW-001 |
-| **Revision** | A |
+| **Revision** | B |
 | **Date** | 2026-04-07 |
 | **Status** | CURRENT |
 | **Author** | N. Johansson |
@@ -14,15 +14,23 @@
 
 A fully local, unrestricted image generation desktop app that runs on Apple Silicon using Stable Diffusion. No cloud, no internet required after model download, no content filters. Your machine, your rules.
 
+Double-click to launch. Close the window to shut down. Nothing stays running.
+
 ## Key Features
 
+- **Double-click launch** — `setup.command` (one-time), then `JDS Image Studio.command` to run
+- **Model Manager** — Browse, download, and switch models from inside the app
+- **Optimised for realistic humans** — Recommended models curated for photorealistic faces and skin
 - **Text-to-Image** — Generate images from text prompts
-- **Image-to-Image** — Transform existing photos with a prompt and strength control
+- **Image-to-Image** — Transform existing photos with strength control
 - **No safety filters** — Full unrestricted generation (safety checker disabled)
+- **Photo negative preset** — One-click negative prompt for clean realistic photos
+- **Quick size presets** — 512x512, 512x768, 768x512, 768x768
 - **Flat iOS-style GUI** — Clean, modern interface built with CustomTkinter
-- **Apple Silicon optimised** — Runs on MPS (Metal Performance Shaders) backend
-- **Any model** — Load HuggingFace models or local .safetensors model folders
-- **Seed control** — Reproduce results with explicit seed values
+- **Apple Silicon native** — Runs on MPS (Metal Performance Shaders) backend
+- **DPM++ 2M Karras scheduler** — Fast, high-quality sampling
+- **Seed control** — Reproduce and copy seeds
+- **Clean shutdown** — Close window to unload model and free all memory
 
 ## System Requirements
 
@@ -36,63 +44,73 @@ A fully local, unrestricted image generation desktop app that runs on Apple Sili
 
 ## Quick Start
 
+### First time (one-time setup)
+
+1. Double-click **`setup.command`** in Finder
+2. Wait for dependencies to install (~2-5 min)
+
+### Every time after
+
+1. Double-click **`JDS Image Studio.command`** in Finder
+2. The Model Manager opens automatically on first launch
+3. Click **Download & Load** on "Realistic Vision v5.1" (recommended)
+4. Enter a prompt and hit **Generate**
+
+### Alternative (terminal)
+
 ```bash
-# 1. Navigate to the project
 cd projects/software/JDS-PRJ-SFW-001_local-image-generator/
-
-# 2. Create a virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# 3. Install dependencies
+python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
-
-# 4. Launch the app
 python3 app.py
 ```
 
-On first run, click **Load Model** to download the default model (~5 GB). Subsequent launches use the cached model.
+## Recommended Models for Realistic Humans
+
+| Model | Size | Best For |
+|-------|------|----------|
+| **Realistic Vision v5.1** | ~5 GB | Photorealistic humans, faces, skin (recommended) |
+| Dreamlike Photoreal 2.0 | ~4 GB | Photorealistic with artistic flair |
+| Stable Diffusion 2.1 | ~5 GB | General purpose baseline |
+| Stable Diffusion 1.5 | ~4 GB | Lighter, faster, huge LoRA ecosystem |
+
+All models are downloaded via the in-app Model Manager and cached at `~/.jds-image-studio/models/`.
 
 ## How It Works
 
 ```
-User prompt → Diffusers pipeline (MPS) → Generated image → Preview & save
+Double-click → App launches → Model loads into MPS (Metal)
+    → Enter prompt → Generate → Image preview → Save
+Close window → Model unloaded → Memory freed → Process exits
 ```
 
-1. The app loads a Stable Diffusion model via HuggingFace Diffusers
-2. The model runs on Apple's Metal backend (MPS) — fully on-device
-3. Generated images display in the preview panel
-4. Save to disk in PNG or JPEG format
-
-## Recommended Models for M1 Pro 16GB
-
-| Model | Size | Notes |
-|-------|------|-------|
-| `stabilityai/stable-diffusion-2-1` | ~5 GB | Default, good general quality |
-| `runwayml/stable-diffusion-v1-5` | ~4 GB | Lighter, faster |
-| `prompthero/openjourney-v4` | ~4 GB | Stylised art |
-| Any local .safetensors folder | Varies | Browse to folder in app |
+No server. No background processes. Everything runs inside the app process.
 
 ## Project Structure
 
 ```
 JDS-PRJ-SFW-001_local-image-generator/
-    app.py              # Main application (GUI + generation engine)
-    requirements.txt    # Python dependencies
-    README.md           # This file (project card)
-    CHANGELOG.md        # All revisions tracked here
+    app.py                      # Main application
+    requirements.txt            # Python dependencies
+    setup.command               # One-time installer (double-click)
+    JDS Image Studio.command    # App launcher (double-click)
+    README.md                   # This file (project card)
+    CHANGELOG.md                # All revisions tracked here
 ```
 
 ## Configuration
 
-Settings are saved to `~/.jds-image-studio/config.json` and persist between sessions:
-- Last used model
-- Default image dimensions
-- Default steps and guidance scale
+Settings persist at `~/.jds-image-studio/config.json`:
+- Selected model
+- Downloaded model list
+- Default image dimensions, steps, guidance scale
 - Output directory
+
+Models cached at `~/.jds-image-studio/models/` (survives app updates).
 
 ## Revision History
 
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
+| B | 2026-04-07 | N. Johansson | Model Manager, double-click launch, realistic human models, DPM++ scheduler, negative presets, size presets, copy seed, clean shutdown |
 | A | 2026-04-07 | N. Johansson | Initial release — txt2img, img2img, flat iOS GUI, MPS backend |
