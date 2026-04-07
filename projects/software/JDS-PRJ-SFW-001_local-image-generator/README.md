@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Document No.** | JDS-PRJ-SFW-001 |
-| **Revision** | G |
+| **Revision** | H |
 | **Date** | 2026-04-07 |
 | **Status** | CURRENT |
 | **Author** | N. Johansson |
@@ -31,6 +31,8 @@ Double-click to launch. Close to quit. Nothing stays running.
 - **Background removal** — one click, subject detected automatically (rembg)
 - **Background replacement** — describe new background, AI generates it around the subject
 - **Lighting effects** — simulate sun, lamp, any direction with warmth control
+- **Face swap** — put one person's face on another photo, Poisson blending for seamless edges
+- **Multi-face swap** — swap all faces in a group photo with one source face
 - **Unrestricted** — no safety filters, no content restrictions, your machine your rules
 - **5 curated models** — Realistic Vision v5.1 (default), Deliberate v2, Dreamlike, SD 1.5, SD 2.1
 - **Model Manager** — download any HuggingFace model from inside the app
@@ -73,6 +75,8 @@ JDS-PRJ-SFW-001_local-image-generator/
     fixer.py        Face/hand auto-detection and fix (Adetailer concept)
     history.py      Auto-save generations with metadata, gallery browser
     prompts.py      Dynamic prompt templating {a|b|c}
+    consistency.py  Character identity persistence (IP-Adapter)
+    faceswap.py     Natural face swap (Poisson blending)
     gui.py          Main window, sidebar, all modes
     setup.command               One-time installer
     JDS Image Studio.command    App launcher
@@ -95,6 +99,7 @@ JDS-PRJ-SFW-001_local-image-generator/
 
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
+| H | 2026-04-07 | N. Johansson | Face swap: warp source face onto target with affine alignment, Poisson seamless blending, colour correction. Single and multi-face swap modes |
 | G | 2026-04-07 | N. Johansson | Character identity consistency (IP-Adapter concept): save a face, generate new scenes keeping the same person. insightface for face embedding |
 | F | 2026-04-07 | N. Johansson | Face auto-fix (Adetailer), image history gallery, dynamic prompts {a|b|c}, inspired by Forge ecosystem research |
 | E | 2026-04-07 | N. Johansson | Upscaling: Real-ESRGAN 2x/4x upscaler + Hires Fix (model-based detail enhancement), capped at 1536px for 16GB safety |

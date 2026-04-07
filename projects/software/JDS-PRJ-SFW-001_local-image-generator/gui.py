@@ -16,6 +16,7 @@ import history
 import prompts
 import fixer
 import consistency
+import faceswap
 from models import (APP_NAME, APP_VERSION, MODELS, NEG_PRESETS, C,
                     LIGHT_DIRS, OUTPUT_DIR, load_config, save_config)
 from painter import MaskPainter
@@ -223,6 +224,7 @@ class App(ctk.CTk):
         self.current_image = None
         self.input_image = None
         self.last_seed = None
+        self.swap_face_src = None
         self._busy = False
 
         self.title(APP_NAME)
@@ -456,6 +458,32 @@ class App(ctk.CTk):
                      f"({'face locked' if v > 0.7 else 'face stays, scene changes'})"))
         self.id_strength.set(0.6)
         self.id_strength.pack(fill="x", pady=(0, 6))
+
+        # Face swap
+        self._label(self.p_edit, "Face Swap")
+        swap_row = ctk.CTkFrame(self.p_edit, fg_color="transparent")
+        swap_row.pack(fill="x", pady=(0, 4))
+        ctk.CTkButton(swap_row, text="Load Face", width=90,
+                      corner_radius=8, height=28,
+                      font=("SF Pro Text", 11),
+                      fg_color=C["fill"], text_color=C["text"],
+                      hover_color=C["sep"],
+                      command=self._load_swap_face).pack(side="left", padx=(0, 4))
+        ctk.CTkButton(swap_row, text="Swap onto Current", width=130,
+                      corner_radius=8, height=28,
+                      font=("SF Pro Text", 11, "bold"),
+                      fg_color="#AF52DE", hover_color="#8B3FBF",
+                      command=self._do_swap).pack(side="left", padx=(0, 4))
+        ctk.CTkButton(swap_row, text="Swap All", width=70,
+                      corner_radius=8, height=28,
+                      font=("SF Pro Text", 11),
+                      fg_color=C["fill"], text_color=C["text"],
+                      hover_color=C["sep"],
+                      command=self._do_multi_swap).pack(side="left")
+        self.swap_status = ctk.CTkLabel(
+            self.p_edit, text="Load a face photo, then swap onto current image.",
+            font=("SF Pro Text", 10), text_color=C["muted"])
+        self.swap_status.pack(anchor="w", pady=(0, 6))
 
         # --- Settings ---
         ctk.CTkFrame(sc, height=1, fg_color=C["sep"]).pack(fill="x", padx=px, pady=(4, 6))
@@ -799,6 +827,47 @@ class App(ctk.CTk):
             error=lambda e: self.after(0, lambda: show_error("Face Fix Error",
                 f"Face fix failed:\n\n{e}\n\n"
                 "Install: pip install opencv-python")))
+
+    def _load_swap_face(self):
+        p = filedialog.askopenfilename(
+            filetypes=[("Images", "*.png *.jpg *.jpeg *.webp *.bmp")])
+        if p:
+            try:
+                self.swap_face_src = Image.open(p)
+                self.swap_status.configure(
+                    text=f"Face loaded: {os.path.basename(p)}")
+                self._msg(f"Swap face loaded: {os.path.basename(p)}")
+            except Exception as e:
+                show_error("Image Error", str(e))
+
+    def _do_swap(self):
+        if not self.swap_face_src:
+            show_error("No Face", "Click 'Load Face' first to pick the face source.")
+            return
+        tgt = self.current_image or self.input_image
+        if not tgt:
+            show_error("No Target", "Generate or load a target image first.")
+            return
+        faceswap.swap(
+            self.swap_face_src, tgt, status=self._msg,
+            done=lambda img: self.after(0, lambda: self._finish(img)),
+            error=lambda e: self.after(0, lambda: show_error("Face Swap Error",
+                f"Swap failed:\n\n{e}\n\n"
+                "Install: pip install insightface opencv-python onnxruntime")))
+
+    def _do_multi_swap(self):
+        if not self.swap_face_src:
+            show_error("No Face", "Click 'Load Face' first.")
+            return
+        tgt = self.current_image or self.input_image
+        if not tgt:
+            show_error("No Target", "Generate or load a target image first.")
+            return
+        faceswap.multi_swap(
+            self.swap_face_src, tgt, status=self._msg,
+            done=lambda img: self.after(0, lambda: self._finish(img)),
+            error=lambda e: self.after(0, lambda: show_error("Face Swap Error",
+                f"Multi-swap failed:\n\n{e}")))
 
     def _save_identity(self):
         name = self.id_name.get().strip()
