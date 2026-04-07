@@ -459,29 +459,73 @@ class App(ctk.CTk):
         self.id_strength.set(0.6)
         self.id_strength.pack(fill="x", pady=(0, 6))
 
-        # Face swap
+        # Face swap (ReActor + FaceSwapLab + DiffFace)
         self._label(self.p_edit, "Face Swap")
-        swap_row = ctk.CTkFrame(self.p_edit, fg_color="transparent")
-        swap_row.pack(fill="x", pady=(0, 4))
-        ctk.CTkButton(swap_row, text="Load Face", width=90,
+
+        # Model status + download
+        model_row = ctk.CTkFrame(self.p_edit, fg_color="transparent")
+        model_row.pack(fill="x", pady=(0, 4))
+        self.swap_model_lbl = ctk.CTkLabel(
+            model_row, text="Neural swap: checking...",
+            font=("SF Pro Text", 10), text_color=C["muted"])
+        self.swap_model_lbl.pack(side="left")
+        self.swap_dl_btn = ctk.CTkButton(
+            model_row, text="Get Swapper Model", width=130,
+            corner_radius=8, height=24, font=("SF Pro Text", 10),
+            fg_color=C["orange"], hover_color="#CC7700",
+            command=self._download_swapper)
+        self._refresh_swapper_status()
+
+        # Source face row
+        swap_row1 = ctk.CTkFrame(self.p_edit, fg_color="transparent")
+        swap_row1.pack(fill="x", pady=(0, 4))
+        ctk.CTkButton(swap_row1, text="Load Face", width=80,
                       corner_radius=8, height=28,
                       font=("SF Pro Text", 11),
                       fg_color=C["fill"], text_color=C["text"],
                       hover_color=C["sep"],
                       command=self._load_swap_face).pack(side="left", padx=(0, 4))
-        ctk.CTkButton(swap_row, text="Swap onto Current", width=130,
+
+        # Checkpoint dropdown
+        self.ckpt_var = ctk.StringVar(value="")
+        self.ckpt_menu = ctk.CTkOptionMenu(
+            swap_row1, values=[""] + faceswap.list_checkpoints(),
+            variable=self.ckpt_var, width=100, height=28,
+            corner_radius=8, font=("SF Pro Text", 10),
+            fg_color=C["fill"], text_color=C["text"],
+            command=self._load_checkpoint_face)
+        self.ckpt_menu.pack(side="left", padx=(0, 4))
+        ctk.CTkButton(swap_row1, text="Save", width=50,
+                      corner_radius=8, height=28,
+                      font=("SF Pro Text", 10),
+                      fg_color=C["fill"], text_color=C["text"],
+                      hover_color=C["sep"],
+                      command=self._save_swap_checkpoint).pack(side="left")
+
+        # Action row
+        swap_row2 = ctk.CTkFrame(self.p_edit, fg_color="transparent")
+        swap_row2.pack(fill="x", pady=(0, 4))
+        ctk.CTkButton(swap_row2, text="Swap", width=80,
                       corner_radius=8, height=28,
                       font=("SF Pro Text", 11, "bold"),
                       fg_color="#AF52DE", hover_color="#8B3FBF",
                       command=self._do_swap).pack(side="left", padx=(0, 4))
-        ctk.CTkButton(swap_row, text="Swap All", width=70,
+        ctk.CTkButton(swap_row2, text="Swap All", width=70,
                       corner_radius=8, height=28,
                       font=("SF Pro Text", 11),
                       fg_color=C["fill"], text_color=C["text"],
                       hover_color=C["sep"],
-                      command=self._do_multi_swap).pack(side="left")
+                      command=self._do_multi_swap).pack(side="left", padx=(0, 4))
+        self.refine_var = ctk.BooleanVar(value=False)
+        ctk.CTkCheckBox(swap_row2, text="Refine (SD)",
+                        variable=self.refine_var,
+                        font=("SF Pro Text", 10),
+                        width=20, height=20, corner_radius=4,
+                        fg_color=C["accent"], hover_color=C["hover"]
+                        ).pack(side="left", padx=(4, 0))
+
         self.swap_status = ctk.CTkLabel(
-            self.p_edit, text="Load a face photo, then swap onto current image.",
+            self.p_edit, text="Load a face or pick a checkpoint, then swap.",
             font=("SF Pro Text", 10), text_color=C["muted"])
         self.swap_status.pack(anchor="w", pady=(0, 6))
 
@@ -828,6 +872,25 @@ class App(ctk.CTk):
                 f"Face fix failed:\n\n{e}\n\n"
                 "Install: pip install opencv-python")))
 
+    # --- Face swap (ReActor + FaceSwapLab + DiffFace) ---
+
+    def _refresh_swapper_status(self):
+        if faceswap.swapper_ready():
+            self.swap_model_lbl.configure(
+                text="Neural swap ready", text_color=C["green"])
+            self.swap_dl_btn.pack_forget()
+        else:
+            self.swap_model_lbl.configure(
+                text="Neural swap: model not found", text_color=C["orange"])
+            self.swap_dl_btn.pack(side="right")
+
+    def _download_swapper(self):
+        faceswap.download_swapper(
+            status=self._msg,
+            done=lambda: self.after(0, self._refresh_swapper_status),
+            error=lambda e: self.after(0, lambda: show_error(
+                "Download Error", str(e))))
+
     def _load_swap_face(self):
         p = filedialog.askopenfilename(
             filetypes=[("Images", "*.png *.jpg *.jpeg *.webp *.bmp")])
@@ -840,16 +903,49 @@ class App(ctk.CTk):
             except Exception as e:
                 show_error("Image Error", str(e))
 
+    def _load_checkpoint_face(self, name):
+        if not name:
+            return
+        face_img, ref_img = faceswap.load_checkpoint(name)
+        if ref_img:
+            self.swap_face_src = ref_img
+            self.swap_status.configure(text=f"Checkpoint: {name}")
+            self._msg(f"Loaded face checkpoint: {name}")
+        else:
+            show_error("Checkpoint Error", f"Could not load '{name}'.")
+
+    def _save_swap_checkpoint(self):
+        img = self.swap_face_src or self.current_image or self.input_image
+        if not img:
+            show_error("No Image", "Load a face photo or generate an image first.")
+            return
+        dlg = ctk.CTkInputDialog(text="Checkpoint name:", title="Save Face")
+        name = dlg.get_input()
+        if not name or not name.strip():
+            return
+        faceswap.save_checkpoint(
+            name.strip(), img, status=self._msg,
+            done=lambda n: self.after(0, self._refresh_checkpoints),
+            error=lambda e: self.after(0, lambda: show_error(
+                "Checkpoint Error", str(e))))
+
+    def _refresh_checkpoints(self):
+        names = [""] + faceswap.list_checkpoints()
+        self.ckpt_menu.configure(values=names)
+        self._msg("Face checkpoint saved.")
+
     def _do_swap(self):
         if not self.swap_face_src:
-            show_error("No Face", "Click 'Load Face' first to pick the face source.")
+            show_error("No Face",
+                       "Click 'Load Face' or pick a checkpoint first.")
             return
         tgt = self.current_image or self.input_image
         if not tgt:
             show_error("No Target", "Generate or load a target image first.")
             return
         faceswap.swap(
-            self.swap_face_src, tgt, status=self._msg,
+            self.swap_face_src, tgt, refine=self.refine_var.get(),
+            status=self._msg,
             done=lambda img: self.after(0, lambda: self._finish(img)),
             error=lambda e: self.after(0, lambda: show_error("Face Swap Error",
                 f"Swap failed:\n\n{e}\n\n"
@@ -857,14 +953,15 @@ class App(ctk.CTk):
 
     def _do_multi_swap(self):
         if not self.swap_face_src:
-            show_error("No Face", "Click 'Load Face' first.")
+            show_error("No Face", "Click 'Load Face' or pick a checkpoint.")
             return
         tgt = self.current_image or self.input_image
         if not tgt:
             show_error("No Target", "Generate or load a target image first.")
             return
         faceswap.multi_swap(
-            self.swap_face_src, tgt, status=self._msg,
+            self.swap_face_src, tgt, refine=self.refine_var.get(),
+            status=self._msg,
             done=lambda img: self.after(0, lambda: self._finish(img)),
             error=lambda e: self.after(0, lambda: show_error("Face Swap Error",
                 f"Multi-swap failed:\n\n{e}")))

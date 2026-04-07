@@ -1,21 +1,59 @@
-"""faceswap.py — Natural face swap between two images.
+"""faceswap.py — Neural face swap (ReActor + FaceSwapLab + DiffFace).
 
-Takes a face from a source photo and blends it onto a target photo.
-Uses insightface for detection/alignment + Poisson blending for seamless edges.
+Three swap modes (auto-selected):
+1. Neural (INSwapper) — ReActor-grade quality, needs inswapper_128.onnx
+2. Poisson (affine warp + seamlessClone) — fallback, no extra model
+3. Neural + Refine — swap then SD inpaint to fix artifacts (DiffFace concept)
 
-Usage:
-  swap(source_img, target_img) → result with source face on target body
+FaceSwapLab features: landmark convex hull mask, face similarity ranking,
+face checkpoints (save/reuse faces across sessions).
 """
 
 import threading
 import numpy as np
+from pathlib import Path
 from PIL import Image
 
+from models import CONFIG_DIR
+
+SWAPPER_DIR = CONFIG_DIR / "swapper"
+SWAPPER_FILE = SWAPPER_DIR / "inswapper_128.onnx"
+CHECKPOINTS_DIR = CONFIG_DIR / "face_checkpoints"
+
 _analyser = None
+_swapper = None
 
 
 def _bg(fn):
     threading.Thread(target=fn, daemon=True).start()
+
+
+# ---------------------------------------------------------------------------
+# Model management
+# ---------------------------------------------------------------------------
+
+def swapper_ready():
+    """True if inswapper_128.onnx is downloaded and ready."""
+    return SWAPPER_FILE.exists()
+
+
+def download_swapper(status=None, done=None, error=None):
+    """Download inswapper_128.onnx from HuggingFace."""
+    def _run():
+        try:
+            SWAPPER_DIR.mkdir(parents=True, exist_ok=True)
+            if status: status("Downloading swapper model (~500 MB)...")
+            from huggingface_hub import hf_hub_download
+            hf_hub_download("ezioruan/inswapper_128.onnx",
+                            "inswapper_128.onnx",
+                            local_dir=str(SWAPPER_DIR))
+            if status: status("Swapper model ready.")
+            if done: done()
+        except Exception as e:
+            if error: error(f"Download failed: {e}\n\n"
+                            "Manual: place inswapper_128.onnx in\n"
+                            f"{SWAPPER_DIR}")
+    _bg(_run)
 
 
 def _get_analyser():
@@ -28,48 +66,161 @@ def _get_analyser():
     return _analyser
 
 
+def _get_swapper():
+    global _swapper
+    if _swapper is not None:
+        return _swapper
+    if not SWAPPER_FILE.exists():
+        return None
+    import insightface
+    _swapper = insightface.model_zoo.get_model(
+        str(SWAPPER_FILE), providers=["CPUExecutionProvider"])
+    return _swapper
+
+
 def _largest_face(faces):
     return max(faces, key=lambda f: (f.bbox[2] - f.bbox[0]) *
                (f.bbox[3] - f.bbox[1]))
 
 
-def _get_face_landmarks(img_np):
-    """Detect face and return 5-point landmarks + bbox."""
-    app = _get_analyser()
-    faces = app.get(img_np)
-    if not faces:
-        return None, None
-    face = _largest_face(faces)
-    return face.kps, face.bbox
+def _face_similarity(a, b):
+    """Cosine similarity between two face embeddings (FaceSwapLab)."""
+    e1, e2 = a.embedding, b.embedding
+    return float(np.dot(e1, e2) / (np.linalg.norm(e1) * np.linalg.norm(e2)))
 
 
-def _align_face(src_kps, dst_kps):
-    """Compute affine transform from source landmarks to dest landmarks."""
-    import cv2
-    src_pts = np.float32(src_kps[:3])
-    dst_pts = np.float32(dst_kps[:3])
-    return cv2.getAffineTransform(src_pts, dst_pts)
+# ---------------------------------------------------------------------------
+# Masking — FaceSwapLab: landmark convex hull instead of simple oval
+# ---------------------------------------------------------------------------
 
-
-def _create_face_mask(shape, bbox, kps):
-    """Create a soft oval mask around the face for blending."""
+def _landmark_mask(shape, face):
+    """Convex hull from 106-point landmarks, fallback to ellipse from bbox."""
     import cv2
     h, w = shape[:2]
     mask = np.zeros((h, w), dtype=np.uint8)
 
-    x1, y1, x2, y2 = [int(v) for v in bbox]
-    cx = (x1 + x2) // 2
-    cy = (y1 + y2) // 2
-    rw = int((x2 - x1) * 0.55)
-    rh = int((y2 - y1) * 0.65)
+    lm = getattr(face, "landmark_2d_106", None)
+    if lm is not None and len(lm) >= 10:
+        hull = cv2.convexHull(np.int32(lm))
+        cv2.fillConvexPoly(mask, hull, 255)
+    else:
+        x1, y1, x2, y2 = [int(v) for v in face.bbox]
+        cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
+        rw = int((x2 - x1) * 0.55)
+        rh = int((y2 - y1) * 0.65)
+        cv2.ellipse(mask, (cx, cy), (rw, rh), 0, 0, 360, 255, -1)
 
-    cv2.ellipse(mask, (cx, cy), (rw, rh), 0, 0, 360, 255, -1)
     mask = cv2.GaussianBlur(mask, (51, 51), 20)
     return mask
 
 
-def swap(source, target, status=None, done=None, error=None):
-    """Swap face from source image onto target image. Natural blending."""
+# ---------------------------------------------------------------------------
+# Colour correction — Lab space (better perceptual match than RGB)
+# ---------------------------------------------------------------------------
+
+def _colour_correct(result, target, mask):
+    import cv2
+    mask_bool = mask > 128
+    if not np.any(mask_bool):
+        return result
+
+    try:
+        res_lab = cv2.cvtColor(result, cv2.COLOR_RGB2LAB).astype(np.float32)
+        tgt_lab = cv2.cvtColor(target, cv2.COLOR_RGB2LAB).astype(np.float32)
+
+        for ch in range(3):
+            sv = res_lab[:, :, ch][mask_bool]
+            tv = tgt_lab[:, :, ch][mask_bool]
+            if len(sv) == 0:
+                continue
+            sm, ss = sv.mean(), max(sv.std(), 1)
+            tm, ts = tv.mean(), max(tv.std(), 1)
+            res_lab[:, :, ch] = (res_lab[:, :, ch] - sm) * (ts / ss) + tm
+
+        corrected = cv2.cvtColor(
+            np.clip(res_lab, 0, 255).astype(np.uint8), cv2.COLOR_LAB2RGB)
+    except Exception:
+        corrected = _rgb_correct(result, target, mask_bool)
+
+    mask_f = (mask / 255.0)[:, :, np.newaxis]
+    return (corrected * mask_f + target * (1 - mask_f)).astype(np.uint8)
+
+
+def _rgb_correct(result, target, mask_bool):
+    """Fallback per-channel RGB correction."""
+    out = result.copy()
+    for ch in range(3):
+        sv = out[:, :, ch][mask_bool].astype(np.float32)
+        tv = target[:, :, ch][mask_bool].astype(np.float32)
+        if len(sv) == 0:
+            continue
+        sm, ss = sv.mean(), max(sv.std(), 1)
+        tm, ts = tv.mean(), max(tv.std(), 1)
+        out[:, :, ch] = np.clip(
+            (out[:, :, ch].astype(np.float32) - sm) * (ts / ss) + tm,
+            0, 255).astype(np.uint8)
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Affine + Poisson swap (fallback when no INSwapper model)
+# ---------------------------------------------------------------------------
+
+def _affine_swap(src_np, tgt_np, src_face, tgt_face):
+    import cv2
+    M = cv2.getAffineTransform(np.float32(src_face.kps[:3]),
+                                np.float32(tgt_face.kps[:3]))
+    h, w = tgt_np.shape[:2]
+    warped = cv2.warpAffine(src_np, M, (w, h),
+                             borderMode=cv2.BORDER_REFLECT_101)
+    mask = _landmark_mask(tgt_np.shape, tgt_face)
+
+    try:
+        x1, y1, x2, y2 = [int(v) for v in tgt_face.bbox]
+        center = ((x1 + x2) // 2, (y1 + y2) // 2)
+        mask_bin = (mask > 128).astype(np.uint8) * 255
+        result = cv2.seamlessClone(warped, tgt_np, mask_bin,
+                                    center, cv2.NORMAL_CLONE)
+    except Exception:
+        mask_3 = np.stack([mask / 255.0] * 3, axis=-1)
+        result = (warped * mask_3 + tgt_np * (1 - mask_3)).astype(np.uint8)
+
+    return _colour_correct(result, tgt_np, mask)
+
+
+# ---------------------------------------------------------------------------
+# Diffusion refinement — DiffFace concept (SD inpaint over swapped area)
+# ---------------------------------------------------------------------------
+
+def _diffusion_refine(result_img, mask_np, status=None, done=None, error=None):
+    """Low-strength inpaint over swapped face to fix artifacts."""
+    try:
+        import engine
+        if not engine._pipe:
+            if done:
+                done(result_img)
+            return
+
+        mask_img = Image.fromarray(mask_np).convert("L")
+        engine.inpaint(
+            prompt="highly detailed realistic face, sharp features, natural skin",
+            image=result_img, mask=mask_img,
+            neg="blurry, deformed, artifact, seam, boundary",
+            steps=15, cfg=5.0, strength=0.25, seed=-1,
+            status=status,
+            done=lambda img, s: (done(img) if done else None),
+            error=error)
+    except Exception:
+        if done:
+            done(result_img)
+
+
+# ---------------------------------------------------------------------------
+# Public API — swap / multi_swap
+# ---------------------------------------------------------------------------
+
+def swap(source, target, refine=False, status=None, done=None, error=None):
+    """Swap face from source onto target. Auto-selects best method."""
     def _run():
         try:
             import cv2
@@ -78,49 +229,37 @@ def swap(source, target, status=None, done=None, error=None):
             src_np = np.array(source.convert("RGB"))
             tgt_np = np.array(target.convert("RGB"))
 
-            src_kps, src_bbox = _get_face_landmarks(src_np)
-            tgt_kps, tgt_bbox = _get_face_landmarks(tgt_np)
+            app = _get_analyser()
+            src_faces = app.get(src_np)
+            tgt_faces = app.get(tgt_np)
 
-            if src_kps is None:
+            if not src_faces:
                 if error: error("No face found in source image.")
                 return
-            if tgt_kps is None:
+            if not tgt_faces:
                 if error: error("No face found in target image.")
                 return
 
-            if status: status("Aligning face...")
+            src_face = _largest_face(src_faces)
+            tgt_face = _largest_face(tgt_faces)
 
-            # Compute transform to map source face onto target
-            M = _align_face(src_kps, tgt_kps)
-            h, w = tgt_np.shape[:2]
+            swapper = _get_swapper()
+            if swapper is not None:
+                if status: status("Neural swap (ReActor)...")
+                result = swapper.get(tgt_np.copy(), tgt_face, src_face,
+                                     paste_back=True)
+                mask = _landmark_mask(result.shape, tgt_face)
+                result = _colour_correct(result, tgt_np, mask)
+            else:
+                if status: status("Poisson swap (no swapper model)...")
+                result = _affine_swap(src_np, tgt_np, src_face, tgt_face)
 
-            # Warp source image to align with target face
-            warped = cv2.warpAffine(src_np, M, (w, h),
-                                     borderMode=cv2.BORDER_REFLECT_101)
-
-            # Create blending mask around target face
-            mask = _create_face_mask(tgt_np.shape, tgt_bbox, tgt_kps)
-
-            if status: status("Blending...")
-
-            # Try Poisson blending (seamless clone) for natural edges
-            try:
-                x1, y1, x2, y2 = [int(v) for v in tgt_bbox]
-                center = ((x1 + x2) // 2, (y1 + y2) // 2)
-
-                # Poisson needs a binary mask
-                mask_bin = (mask > 128).astype(np.uint8) * 255
-
-                result = cv2.seamlessClone(
-                    warped, tgt_np, mask_bin,
-                    center, cv2.NORMAL_CLONE)
-            except Exception:
-                # Fallback: alpha blending
-                mask_3 = np.stack([mask / 255.0] * 3, axis=-1)
-                result = (warped * mask_3 + tgt_np * (1 - mask_3)).astype(np.uint8)
-
-            # Colour correction: match source face to target skin tone
-            result = _colour_correct(result, tgt_np, mask)
+            if refine:
+                if status: status("Refining with diffusion...")
+                mask = _landmark_mask(result.shape, tgt_face)
+                _diffusion_refine(Image.fromarray(result), mask,
+                                  status, done, error)
+                return
 
             if status: status("Face swap complete.")
             if done: done(Image.fromarray(result))
@@ -134,39 +273,14 @@ def swap(source, target, status=None, done=None, error=None):
     _bg(_run)
 
 
-def _colour_correct(result, target, mask):
-    """Match the swapped face colour to the target skin tone."""
-    import cv2
-
-    mask_bool = mask > 128
-
-    for ch in range(3):
-        src_vals = result[:, :, ch][mask_bool].astype(np.float32)
-        tgt_vals = target[:, :, ch][mask_bool].astype(np.float32)
-
-        if len(src_vals) == 0:
-            continue
-
-        src_mean, src_std = src_vals.mean(), max(src_vals.std(), 1)
-        tgt_mean, tgt_std = tgt_vals.mean(), max(tgt_vals.std(), 1)
-
-        corrected = (result[:, :, ch].astype(np.float32) - src_mean)
-        corrected = corrected * (tgt_std / src_std) + tgt_mean
-        result[:, :, ch] = np.clip(corrected, 0, 255).astype(np.uint8)
-
-    # Blend correction only within the mask
-    mask_f = (mask / 255.0)[:, :, np.newaxis]
-    blended = result * mask_f + target * (1 - mask_f)
-    return blended.astype(np.uint8)
-
-
-def multi_swap(source, target, status=None, done=None, error=None):
-    """Swap ALL faces in target with the source face."""
+def multi_swap(source, target, refine=False,
+               status=None, done=None, error=None):
+    """Swap ALL faces in target with source. Similarity-ranked (FaceSwapLab)."""
     def _run():
         try:
             import cv2
-            if status: status("Detecting all faces...")
 
+            if status: status("Detecting all faces...")
             src_np = np.array(source.convert("RGB"))
             tgt_np = np.array(target.convert("RGB"))
 
@@ -182,26 +296,35 @@ def multi_swap(source, target, status=None, done=None, error=None):
             src_face = _largest_face(src_faces)
             result = tgt_np.copy()
 
+            # Sort by similarity — best matches first (FaceSwapLab)
+            tgt_faces.sort(
+                key=lambda f: _face_similarity(src_face, f), reverse=True)
+
+            swapper = _get_swapper()
+            all_masks = []
+
             for i, tgt_face in enumerate(tgt_faces):
                 if status: status(f"Swapping face {i+1}/{len(tgt_faces)}...")
 
-                M = _align_face(src_face.kps, tgt_face.kps)
-                h, w = result.shape[:2]
-                warped = cv2.warpAffine(src_np, M, (w, h),
-                                         borderMode=cv2.BORDER_REFLECT_101)
-                mask = _create_face_mask(result.shape, tgt_face.bbox, tgt_face.kps)
+                if swapper is not None:
+                    result = swapper.get(result, tgt_face, src_face,
+                                         paste_back=True)
+                    mask = _landmark_mask(result.shape, tgt_face)
+                    result = _colour_correct(result, tgt_np, mask)
+                else:
+                    result = _affine_swap(src_np, result, src_face, tgt_face)
+                    mask = _landmark_mask(result.shape, tgt_face)
 
-                try:
-                    x1, y1, x2, y2 = [int(v) for v in tgt_face.bbox]
-                    center = ((x1 + x2) // 2, (y1 + y2) // 2)
-                    mask_bin = (mask > 128).astype(np.uint8) * 255
-                    result = cv2.seamlessClone(warped, result, mask_bin,
-                                               center, cv2.NORMAL_CLONE)
-                except Exception:
-                    mask_3 = np.stack([mask / 255.0] * 3, axis=-1)
-                    result = (warped * mask_3 + result * (1 - mask_3)).astype(np.uint8)
+                all_masks.append(mask)
 
-                result = _colour_correct(result, tgt_np, mask)
+            if refine and all_masks:
+                if status: status("Refining with diffusion...")
+                combined = np.zeros_like(all_masks[0])
+                for m in all_masks:
+                    combined = np.maximum(combined, m)
+                _diffusion_refine(Image.fromarray(result), combined,
+                                  status, done, error)
+                return
 
             if status: status(f"Swapped {len(tgt_faces)} face(s).")
             if done: done(Image.fromarray(result))
@@ -209,3 +332,64 @@ def multi_swap(source, target, status=None, done=None, error=None):
         except Exception as e:
             if error: error(str(e))
     _bg(_run)
+
+
+# ---------------------------------------------------------------------------
+# Face checkpoints — FaceSwapLab: save/reuse faces across sessions
+# ---------------------------------------------------------------------------
+
+def save_checkpoint(name, image, status=None, done=None, error=None):
+    """Save face as reusable checkpoint (embedding + crop + reference)."""
+    def _run():
+        try:
+            if status: status(f"Saving checkpoint '{name}'...")
+            img_np = np.array(image.convert("RGB"))
+            faces = _get_analyser().get(img_np)
+
+            if not faces:
+                if error: error("No face detected."); return
+
+            face = _largest_face(faces)
+            d = CHECKPOINTS_DIR / name
+            d.mkdir(parents=True, exist_ok=True)
+
+            np.save(str(d / "embedding.npy"), face.embedding)
+
+            x1, y1, x2, y2 = [int(v) for v in face.bbox]
+            pad = int((x2 - x1) * 0.3)
+            crop = image.crop((max(0, x1 - pad), max(0, y1 - pad),
+                               min(image.width, x2 + pad),
+                               min(image.height, y2 + pad)))
+            crop.save(str(d / "face.png"))
+
+            ref = image.copy()
+            ref.thumbnail((512, 512), Image.LANCZOS)
+            ref.save(str(d / "reference.png"))
+
+            if status: status(f"Checkpoint '{name}' saved.")
+            if done: done(name)
+        except Exception as e:
+            if error: error(str(e))
+    _bg(_run)
+
+
+def list_checkpoints():
+    if not CHECKPOINTS_DIR.exists():
+        return []
+    return sorted([p.name for p in CHECKPOINTS_DIR.iterdir()
+                   if p.is_dir() and (p / "face.png").exists()])
+
+
+def load_checkpoint(name):
+    """Returns (face_image, reference_image)."""
+    d = CHECKPOINTS_DIR / name
+    face = Image.open(str(d / "face.png")) if (d / "face.png").exists() else None
+    ref = Image.open(str(d / "reference.png")) if (d / "reference.png").exists() else None
+    return face, ref
+
+
+def delete_checkpoint(name):
+    import shutil
+    d = CHECKPOINTS_DIR / name
+    if d.exists():
+        shutil.rmtree(d)
