@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Document No.** | JDS-PRJ-SFW-001 |
-| **Revision** | W |
+| **Revision** | Y |
 | **Date** | 2026-04-07 |
 | **Status** | CURRENT |
 | **Author** | N. Johansson |
@@ -43,6 +43,7 @@ Double-click to launch. Close to quit. Nothing stays running.
 - **Face checkpoints** — save/reuse faces across sessions (FaceSwapLab concept)
 - **Cloud generation** — HuggingFace (free) / AI Horde (free) / Prodia (free key) / Replicate (free tier) for SDXL, Flux, NSFW-capable models
 - **Cloud video** — image-to-video via HuggingFace SVD (free) or Replicate (free tier), generates 25-frame .mp4 from any image
+- **Qwen AI Edit** — direct neural image editing: type "remove her clothes" or "change to bikini" and Qwen-Image-Edit (Rapid-AIO NSFW v23) edits the image directly. Cloud (free via HuggingFace) or local (GGUF Q4 for M1). Vision analysis, edit suggestions, prompt engineering.
 - **Avatar Creator** — full character builder: ethnicity, age, face shape, skin tone, eye shape/colour, hair style/colour, makeup, lips, expression, breast size, butt size, body type, height/weight, pose, outfit, setting — builds optimized prompt from selections
 - **Prompt Enhance** — one-click quality anchors (photorealistic/Asian realism/gravure/K-beauty/portrait/cinematic), lighting presets, lens simulation (photorealistic/gravure/portrait/cinematic), lighting presets (studio/golden hour/Rembrandt/ring light), lens simulation (85mm/50mm/135mm bokeh)
 - **Gravure presets** — optimized prompts for Japanese glamour photography (swimwear, lingerie, portrait)
@@ -114,6 +115,7 @@ JDS-PRJ-SFW-001_local-image-generator/
 
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
+| Y | 2026-04-08 | N. Johansson | Qwen AI integration: Qwen-Image-Edit (Rapid-AIO NSFW v23 by Phr00t) for direct neural image editing — type natural language instructions to edit images. Qwen2.5-VL-72B for vision analysis, prompt engineering, edit suggestions. Cloud (free via HuggingFace) + local (GGUF Q4 for M1). GUI: AI Edit button, Analyze, Suggest, cloud/local toggle. Unrestricted system prompt. New qwen.py module. Version 5.1.0 |
 | W | 2026-04-07 | N. Johansson | Avatar Creator: full character builder with 17 customizable attributes (ethnicity, age, face shape, skin tone, eye shape/colour, hair style/colour, makeup, lips, expression, breast size, butt size, body type, height/weight, pose, outfit, setting). Builds complete optimized prompt from selections. Asian Realism + K-Beauty quality anchors, Asian realism negative preset. Default cloud backend changed to HuggingFace Flux Dev (free). 11 prompt templates. Version 5.0.0 |
 | V | 2026-04-07 | N. Johansson | Cloud video generation (image-to-video): HuggingFace SVD-XT (free) and Replicate backends. Replicate as 4th cloud backend for Flux models. Video button in edit panel, video backend selector, Replicate token in Cloud Settings. All free backends prioritized. Version 4.3.0 |
 | U | 2026-04-07 | N. Johansson | Prompt Enhance system: quality anchors (Photorealistic/Gravure/Portrait/Cinematic), 6 lighting presets, 4 lens presets, enhanced master negative prompt. Enhance checkbox in GUI with dynamic dropdowns. prompts.py enhance() function. Version 4.2.0 |
