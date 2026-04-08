@@ -578,10 +578,11 @@ class App(ctk.CTk):
             fg_color=C["fill"], text_color=C["text"], border_width=0)
         self.qwen_instruction.pack(side="left", fill="x", expand=True, padx=(0, 4))
         self.qwen_mode_menu = ctk.CTkOptionMenu(
-            qwen_row, values=["cloud", "local", "local-pruned"],
-            font=("SF Pro Text", 10), width=90, height=24,
+            qwen_row, values=["cloud", "local", "local-full", "local-pruned"],
+            font=("SF Pro Text", 10), width=100, height=24,
             fg_color=C["fill"], text_color=C["accent"],
-            button_color=C["sep"], button_hover_color=C["muted"])
+            button_color=C["sep"], button_hover_color=C["muted"],
+            command=self._qwen_mode_changed)
         self.qwen_mode_menu.set("cloud")
         self.qwen_mode_menu.pack(side="right")
         ctk.CTkButton(self.p_edit, text="AI Edit (Qwen)",
@@ -1390,19 +1391,36 @@ class App(ctk.CTk):
 
     # --- Qwen AI ---
 
+    def _qwen_mode_changed(self, value):
+        """Preload model when user selects local mode."""
+        _status = lambda m: self.after(
+            0, lambda: self.qwen_status.configure(text=m))
+        if "local" in value:
+            hw = qwen.system_info()
+            self.qwen_status.configure(text=f"Detected: {hw} — preloading...")
+            qwen.preload(status=_status)
+        else:
+            qwen.unload()
+            self.qwen_status.configure(
+                text="Cloud mode — free, no download needed.")
+
     def _qwen_edit(self):
         """Direct AI image edit via Qwen-Image-Edit."""
         img = self.current_image or self.input_image
         instruction = self.qwen_instruction.get().strip()
 
-        # Save mode
+        # Save mode from dropdown
         cfg = qwen.load_settings()
         selected = self.qwen_mode_menu.get()
         cfg["mode"] = "local" if "local" in selected else "cloud"
-        cfg["local_model"] = "pruned" if selected == "local-pruned" else "rapid"
+        if selected == "local-pruned":
+            cfg["local_model"] = "pruned"
+        elif selected == "local-full":
+            cfg["local_model"] = "full"
+        else:
+            cfg["local_model"] = "auto"
         qwen.save_settings(cfg)
 
-        # No image = text-to-image, no instruction = error
         if not img and not instruction:
             self._msg("Enter an instruction (and optionally load an image).")
             return
@@ -1420,7 +1438,8 @@ class App(ctk.CTk):
             self.after(0, lambda: show_error("Qwen Error", str(msg)))
             self.after(0, lambda: self.qwen_status.configure(text="Failed."))
 
-        _status = lambda m: self.after(0, lambda: self.qwen_status.configure(text=m))
+        _status = lambda m: self.after(
+            0, lambda: self.qwen_status.configure(text=m))
 
         if img:
             qwen.edit(img, instruction, status=_status, done=_ok, error=_fail)
