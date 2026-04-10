@@ -52,6 +52,7 @@ This is the master list of all documents in the JDS system. Every document must 
 | [JDS-TMP-LOG-006](../../projects/JDS-PRJ-MEC-002_vessel-supervision-system/03-program-templates/JDS-TMP-LOG-006_supervision-round-template.md) | Supervision Round Record Template | A | 2026-04-10 | APPROVED | N. Johansson |
 | [JDS-TMP-LOG-007](../../projects/JDS-PRJ-MEC-002_vessel-supervision-system/03-program-templates/JDS-TMP-LOG-007_annual-review-template.md) | Annual Supervision Program Review Template | A | 2026-04-10 | APPROVED | N. Johansson |
 | [JDS-TMP-LOG-008](../../projects/JDS-PRJ-MEC-002_vessel-supervision-system/03-program-templates/JDS-TMP-LOG-008_inventory-template.md) | Equipment Inventory Template (Auto-Classification) | A | 2026-04-10 | APPROVED | N. Johansson |
+| [JDS-TMP-LOG-009](../../projects/JDS-PRJ-MEC-002_vessel-supervision-system/03-program-templates/JDS-TMP-LOG-009_lifetime-journal-template.md) | Equipment Lifetime Journal Template | A | 2026-04-10 | APPROVED | N. Johansson |
 
 ## Reports (RPT)
 
@@ -101,6 +102,9 @@ This is the master list of all documents in the JDS system. Every document must 
 | [JDS-LOG-MEC-005](../../projects/JDS-PRJ-MEC-002_vessel-supervision-system/01-system/JDS-LOG-MEC-005_program-register.md) | Supervision Program Register | A | 2026-04-10 | APPROVED | N. Johansson |
 | [JDS-LOG-MEC-006](../../projects/JDS-PRJ-MEC-002_vessel-supervision-system/04-active-programs/JDS-LOG-MEC-006_example-inventory.md) | Example: Equipment Inventory — Gothenburg Workshop (Auto-Classified) | B | 2026-04-10 | EXAMPLE | N. Johansson |
 | [JDS-LOG-MEC-007](../../projects/JDS-PRJ-MEC-002_vessel-supervision-system/04-active-programs/JDS-LOG-MEC-007_example-program.md) | Example: Supervision Program — Gothenburg Workshop (AFS 2017:3 Compliant) | A | 2026-04-10 | EXAMPLE | N. Johansson |
+| [JDS-LOG-MEC-008](../../projects/JDS-PRJ-MEC-002_vessel-supervision-system/04-active-programs/JDS-LOG-MEC-008_example-lifetime-journal.md) | Example: Equipment Lifetime Journal — Gothenburg Workshop | A | 2026-04-10 | EXAMPLE | N. Johansson |
+| [JDS-LOG-MEC-009](../../projects/JDS-PRJ-MEC-002_vessel-supervision-system/04-active-programs/JDS-LOG-MEC-009_example-round.md) | Example: Supervision Round Record — Gothenburg Workshop | A | 2026-04-10 | EXAMPLE | N. Johansson |
+| [JDS-LOG-MEC-010](../../projects/JDS-PRJ-MEC-002_vessel-supervision-system/04-active-programs/JDS-LOG-MEC-010_example-review.md) | Example: Annual Supervision Review — Gothenburg Workshop | A | 2026-04-10 | EXAMPLE | N. Johansson |
 
 ## Correspondence (COR)
 

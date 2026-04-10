@@ -40,3 +40,7 @@ Each entry shows:
 | 2026-04-10 | jds-classify.py --program | — | N. Johansson | Rewritten for full §17 compliance: regulatory basis traceability table, §6 mandatory checks, §14 coordination person, §16 monitoring, §18 lifetime journal, §19 deviation reports, Bilaga 1 driftprov + examination tables, sanction fees |
 | 2026-04-10 | JDS-LOG-MEC-006 (Example Inventory) | B | N. Johansson | Regenerated with corrected classification: PV-002 and PV-007 now Exempt (air/N2 per §10) |
 | 2026-04-10 | JDS-LOG-MEC-007 (Example Program) | A | N. Johansson | Generated from corrected inventory — fully §17-compliant supervision program |
+| 2026-04-10 | JDS-TMP-LOG-009 (Lifetime Journal Template) | A | N. Johansson | New template — tracks wall thickness, corrosion rate, remaining life, fatigue, creep per §18 |
+| 2026-04-10 | JDS-LOG-MEC-008 (Example Lifetime Journal) | A | N. Johansson | Example: 4 vessels tracked. PV-003 tube plate flagged CRITICAL (1.3 yr remaining). Demonstrates corrosion rate calc, fatigue tracking, creep, and §18 lifetime extension |
+| 2026-04-10 | JDS-LOG-MEC-009 (Example Round Record) | A | N. Johansson | Example monthly supervision round — auto-generated from example program |
+| 2026-04-10 | JDS-LOG-MEC-010 (Example Annual Review) | A | N. Johansson | Example annual review — auto-generated from example program |
