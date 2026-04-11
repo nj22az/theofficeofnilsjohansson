@@ -52,3 +52,8 @@ Each entry shows:
 | 2026-04-11 | JDS-TMP-LOG-001 | — | N. Johansson | Marked SUPERSEDED — replaced by JDS-TMP-LOG-008 |
 | 2026-04-11 | JDS-TMP-LOG-002 | — | N. Johansson | Marked SUPERSEDED — replaced by JDS-TMP-LOG-008 |
 | 2026-04-11 | JDS-TMP-LOG-003 | — | N. Johansson | Marked SUPERSEDED — replaced by JDS-TMP-LOG-006 |
+| 2026-04-11 | JDS-TMP-LOG-005 (Supervision Program) | B | N. Johansson | Added coordination person sign-off block (AFS 4 Kap §14), updated project reference |
+| 2026-04-11 | JDS-TMP-LOG-008 (Equipment Inventory) | B | N. Johansson | Added placement and environmental risk checklist (AFS 2 Kap §2-3) |
+| 2026-04-11 | JDS-TMP-LOG-009 (Lifetime Journal) | B | N. Johansson | Added previous experience assessment (AFS 2 Kap §1), renumbered sections |
+| 2026-04-11 | JDS-TMP-RPT-004 (Risk Assessment) | A | N. Johansson | New template — 5x5 P×C matrix with pre-populated risk scenarios for 6 vessel types |
+| 2026-04-11 | 05-flt-program/README.md | — | N. Johansson | Created FLT program folder — complete document index for performing ongoing supervision |

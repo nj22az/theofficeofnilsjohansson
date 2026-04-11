@@ -7,7 +7,7 @@
 | **Date** | YYYY-MM-DD |
 | **Status** | DRAFT |
 | **Author** | [Author name] |
-| **Project** | JDS-PRJ-MEC-002 |
+| **Project** | JDS-PRJ-MEC-001 |
 | **Client** | [Client name] |
 | **Site** | [Site name / address] |
 | **Program ID** | SP-[NNN] |
@@ -190,7 +190,31 @@ This program shall be reviewed at least **annually** or sooner if:
 
 ---
 
-## 9. Approval
+## 9. Coordination Responsibility (AFS 2017:3, 4 Kap. §14)
+
+A physical person must be appointed to coordinate all work on pressurised equipment at this site, including assembly, installation, maintenance, and inspection. This person ensures written instructions exist and that supervision is carried out and documented.
+
+| | |
+|---|---|
+| **Coordination Person** | [Full name] |
+| **Role / Title** | [Title] |
+| **Phone** | [Contact number] |
+| **Email** | [Contact email] |
+| **Appointed date** | YYYY-MM-DD |
+| **Competence ref.** | [JDS-PRO-009 record reference] |
+
+### Deputy
+
+| | |
+|---|---|
+| **Deputy Coordination Person** | [Full name] |
+| **Role / Title** | [Title] |
+| **Phone** | [Contact number] |
+| **Appointed date** | YYYY-MM-DD |
+
+---
+
+## 10. Approval
 
 | | |
 |---|---|

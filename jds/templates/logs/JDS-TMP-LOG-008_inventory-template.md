@@ -7,7 +7,7 @@
 | **Date** | YYYY-MM-DD |
 | **Status** | DRAFT |
 | **Author** | [Author name] |
-| **Project** | JDS-PRJ-MEC-002 |
+| **Project** | JDS-PRJ-MEC-001 |
 | **Client** | [Client name] |
 | **Site** | [Site name / address] |
 
@@ -102,7 +102,30 @@ This register is the master inventory of all pressurised vessels at [site name].
 
 ---
 
-## 8. Documentation Checklist
+## 8. Placement and Environmental Risk (AFS 2017:3, 2 Kap. §2-3)
+
+For each vessel, assess whether placement meets regulatory requirements. Mark OK / Not OK / N/A.
+
+| Check | PV-001 | PV-002 | PV-003 |
+|-------|--------|--------|--------|
+| Accessible for maintenance, repair, and inspection | | | |
+| Protected from damage by nearby activities | | | |
+| Personnel can shut off equipment if needed | | | |
+| Personnel can evacuate if needed | | | |
+| Pressure waves would not harm personnel | | | |
+| Load-bearing structures not at risk | | | |
+| Ambient temperature within design range | | | |
+| Not exposed to frost below design minimum | | | |
+
+**Findings:**
+
+| Vessel ID | Issue | Proposed Action | Status |
+|-----------|-------|----------------|--------|
+| | | | |
+
+---
+
+## 9. Documentation Checklist
 
 | Check | PV-001 | PV-002 | PV-003 |
 |-------|--------|--------|--------|

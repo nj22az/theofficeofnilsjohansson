@@ -7,7 +7,7 @@
 | **Date** | YYYY-MM-DD |
 | **Status** | DRAFT |
 | **Author** | [Author name] |
-| **Project** | JDS-PRJ-MEC-002 |
+| **Project** | JDS-PRJ-MEC-001 |
 | **Client** | [Client name] |
 | **Site** | [Site name] |
 
@@ -34,9 +34,29 @@ Three primary mechanisms limit vessel lifetime. Each vessel must be assessed for
 
 ---
 
-## 3. Vessel Lifetime Data
+## 3. Previous Experience Assessment (AFS 2017:3, 2 Kap. §1)
 
-### 3.1 Design Parameters
+For each vessel, document whether the following risk factors have been considered:
+
+| Vessel ID | Usage experience considered? | Remaining lifetime data available? | Repairs/modifications considered? | Accidents/incidents considered? | Deviation reports considered? | Continuous monitoring required? |
+|-----------|:---:|:---:|:---:|:---:|:---:|:---:|
+| PV-001 | Yes / No | Yes / No | Yes / No | Yes / No | Yes / No | Yes / No |
+| PV-002 | Yes / No | Yes / No | Yes / No | Yes / No | Yes / No | Yes / No |
+| PV-003 | Yes / No | Yes / No | Yes / No | Yes / No | Yes / No | Yes / No |
+
+**Notes on previous experience:**
+
+| Vessel ID | Experience Summary |
+|-----------|-------------------|
+| PV-001 | [Any known history — prior incidents, recurring issues, modifications, operating anomalies] |
+| PV-002 | |
+| PV-003 | |
+
+---
+
+## 4. Vessel Lifetime Data
+
+### 4.1 Design Parameters
 
 | Vessel ID | Material | Original Wall (mm) | Min. Required (mm) | Corrosion Allow. (mm) | Design Cycles | Design Temp. (°C) |
 |-----------|---------|-------------------|--------------------|--------------------|--------------|------------------|
@@ -48,7 +68,7 @@ Three primary mechanisms limit vessel lifetime. Each vessel must be assessed for
 > **Minimum required wall thickness:** from design calculation (PED, EN 13445, or equivalent).
 > **Corrosion allowance:** original wall minus minimum required = available material for degradation.
 
-### 3.2 Active Degradation Mechanisms
+### 4.2 Active Degradation Mechanisms
 
 | Vessel ID | General Corrosion | Pitting | CUI Risk | Fatigue | Creep |
 |-----------|:----------------:|:-------:|:--------:|:-------:|:-----:|
@@ -58,7 +78,7 @@ Three primary mechanisms limit vessel lifetime. Each vessel must be assessed for
 
 ---
 
-## 4. Wall Thickness Measurements
+## 5. Wall Thickness Measurements
 
 ### How to Read This Section
 
@@ -121,7 +141,7 @@ Remaining life (years) = (measured thickness - minimum required) / corrosion rat
 
 ---
 
-## 5. Fatigue Tracking (If Applicable)
+## 6. Fatigue Tracking (If Applicable)
 
 | Vessel ID | Design Cycles | Counted Cycles | Remaining | Usage Rate (/yr) | Est. Life (yr) |
 |-----------|:------------:|:-------------:|:---------:|:----------------:|:--------------:|
@@ -134,7 +154,7 @@ Estimated remaining life (years) = Remaining cycles / Usage rate per year
 
 ---
 
-## 6. Creep Tracking (If Applicable)
+## 7. Creep Tracking (If Applicable)
 
 | Vessel ID | Design Hours | Logged Hours | Remaining | Usage (hr/yr) | Est. Life (yr) |
 |-----------|:-----------:|:-----------:|:---------:|:-------------:|:--------------:|
@@ -147,7 +167,7 @@ Estimated remaining life (years) = Remaining hours / Usage rate per year
 
 ---
 
-## 7. Lifetime Summary
+## 8. Lifetime Summary
 
 | Vessel ID | Limiting Mechanism | Remaining Life (yr) | Status | Next Measurement |
 |-----------|-------------------|:-------------------:|--------|-----------------|
@@ -166,7 +186,7 @@ Estimated remaining life (years) = Remaining hours / Usage rate per year
 
 ---
 
-## 8. Lifetime Extension (§18, Second Paragraph)
+## 9. Lifetime Extension (§18, Second Paragraph)
 
 If a vessel has reached its documented lifetime, it may only remain pressurised if:
 

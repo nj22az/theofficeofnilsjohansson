@@ -17,6 +17,13 @@ All changes to the JDS documentation system itself are recorded here. This provi
 
 ### Added
 - **`projects/index.md`** — project index listing all JDS projects by document number with status.
+- **JDS-TMP-RPT-004**: Risk Assessment Template for Pressurised Vessels — 5x5 P×C matrix with pre-populated risk scenarios for accumulators, boilers, cisterns, heat exchangers, piping, and cryogenic vessels. Translated from AH_Automation.xlsm "Risker" sheet.
+- **`05-flt-program/`** folder in JDS-PRJ-MEC-001 — complete document index for performing ongoing supervision. Links all templates, procedures, manuals, regulatory references, examples, and automation tools.
+
+### Enhanced
+- **JDS-TMP-LOG-005 Rev B**: Added coordination person sign-off block per AFS 2017:3 4 Kap. §14 (physical person responsible for supervision).
+- **JDS-TMP-LOG-008 Rev B**: Added placement and environmental risk checklist per AFS 2017:3 2 Kap. §2-3 (accessibility, blast zone, temperature, structural risk).
+- **JDS-TMP-LOG-009 Rev B**: Added previous experience assessment per AFS 2017:3 2 Kap. §1 (usage history, repairs, incidents, deviations, monitoring need).
 
 ---
 

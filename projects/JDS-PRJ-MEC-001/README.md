@@ -62,6 +62,9 @@ JDS-PRJ-MEC-001/
 │   ├── JDS-LOG-MEC-006..010             ← Gothenburg Workshop examples
 │   └── example-vessels.csv               ← Example data for automation
 │
+├── 05-flt-program/                       ← COMPLETE FLT PACKAGE (start here)
+│   └── README.md                         ← Document index for performing FLT
+│
 ├── AH_Automation.xlsm                    ← Reference Excel (heritage)
 └── CHANGELOG.md                          ← Master log of ALL changes
 ```

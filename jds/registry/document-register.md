@@ -1,6 +1,6 @@
 # JDS Document Register
 
-**Last updated:** 2026-04-11
+**Last updated:** 2026-04-11 (rev 2)
 
 This is the master list of all documents in the JDS system. Every document must be registered here when created.
 
@@ -48,11 +48,12 @@ This is the master list of all documents in the JDS system. Every document must 
 | [JDS-TMP-LOG-003](../templates/logs/JDS-TMP-LOG-003_supervision-checklist-template.md) | Supervision Checklist Template | A | 2026-03-25 | SUPERSEDED | N. Johansson |
 | [JDS-TMP-LOG-004](../templates/logs/JDS-TMP-LOG-004_inspection-plan-template.md) | Annual Inspection Plan Template | A | 2026-03-25 | APPROVED | N. Johansson |
 | [JDS-TMP-RPT-003](../templates/reports/JDS-TMP-RPT-003_inspection-report-template.md) | Inspection Report Template | A | 2026-03-25 | APPROVED | N. Johansson |
-| [JDS-TMP-LOG-005](../templates/logs/JDS-TMP-LOG-005_supervision-program-template.md) | Supervision Program Template | A | 2026-04-10 | APPROVED | N. Johansson |
+| [JDS-TMP-RPT-004](../templates/reports/JDS-TMP-RPT-004_risk-assessment-pressure-vessels.md) | Risk Assessment Template — Pressurised Vessels | A | 2026-04-11 | APPROVED | N. Johansson |
+| [JDS-TMP-LOG-005](../templates/logs/JDS-TMP-LOG-005_supervision-program-template.md) | Supervision Program Template | B | 2026-04-11 | APPROVED | N. Johansson |
 | [JDS-TMP-LOG-006](../templates/logs/JDS-TMP-LOG-006_supervision-round-template.md) | Supervision Round Record Template | A | 2026-04-10 | APPROVED | N. Johansson |
 | [JDS-TMP-LOG-007](../templates/logs/JDS-TMP-LOG-007_annual-review-template.md) | Annual Supervision Program Review Template | A | 2026-04-10 | APPROVED | N. Johansson |
-| [JDS-TMP-LOG-008](../templates/logs/JDS-TMP-LOG-008_inventory-template.md) | Equipment Inventory Template (Auto-Classification) | A | 2026-04-10 | APPROVED | N. Johansson |
-| [JDS-TMP-LOG-009](../templates/logs/JDS-TMP-LOG-009_lifetime-journal-template.md) | Equipment Lifetime Journal Template | A | 2026-04-10 | APPROVED | N. Johansson |
+| [JDS-TMP-LOG-008](../templates/logs/JDS-TMP-LOG-008_inventory-template.md) | Equipment Inventory Template (Auto-Classification) | B | 2026-04-11 | APPROVED | N. Johansson |
+| [JDS-TMP-LOG-009](../templates/logs/JDS-TMP-LOG-009_lifetime-journal-template.md) | Equipment Lifetime Journal Template | B | 2026-04-11 | APPROVED | N. Johansson |
 
 ## Reports (RPT)
 
