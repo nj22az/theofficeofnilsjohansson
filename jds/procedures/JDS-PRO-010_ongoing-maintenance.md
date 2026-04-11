@@ -68,7 +68,7 @@ Create a new client folder under `03-active-programs/`:
 
 ### Step 2 — Build the Equipment Register
 
-1. Use template **JDS-TMP-LOG-002** (Supervision Inventory Template)
+1. Use template **JDS-TMP-LOG-008** (Equipment Inventory Template)
 2. Walk the site and record every pressure vessel
 3. Photograph every nameplate
 4. Fill in all mandatory fields (marked M)
@@ -102,10 +102,11 @@ Record the classification in the equipment register.
 
 ### Step 5 — Establish Supervision Routines
 
-1. Use template **JDS-TMP-LOG-003** (Supervision Checklist Template)
-2. Define a monthly or quarterly walk-around checklist
-3. Assign responsible person for each walk-around
-4. File completed checklists in the `supervision/` folder
+1. Use template **JDS-TMP-LOG-005** (Supervision Program Template) to create the site program
+2. Use template **JDS-TMP-LOG-006** (Supervision Round Record Template) for each round
+3. Define round frequency (monthly or quarterly) based on risk class
+4. Assign coordination person responsible for supervision (AFS 2017:3 4 Kap. §14)
+5. File completed round records in the client folder
 
 ---
 
@@ -120,14 +121,14 @@ Once set up, the program runs on an annual cycle:
 | Review inspection plan for the year | JDS-LOG-MEC-NNN | TMP-LOG-004 |
 | Book inspectors for planned inspections | — | — |
 | Review overdue items from previous year | Inspection plan | — |
-| Update equipment register if vessels added/removed | JDS-LOG-MEC-NNN | TMP-LOG-002 |
+| Update equipment register if vessels added/removed | JDS-LOG-MEC-NNN | TMP-LOG-008 |
 
 ### Q2–Q3 (April–September) — Execution
 
 | Task | Document | Template |
 |---|---|---|
 | Perform scheduled inspections | JDS-RPT-MEC-NNN | TMP-RPT-003 |
-| Perform routine supervision | JDS-LOG-MEC-NNN | TMP-LOG-003 |
+| Perform supervision rounds | JDS-LOG-MEC-NNN | TMP-LOG-006 |
 | Test safety devices per schedule | Safety device register | — |
 | Document findings and corrective actions | JDS-RPT-MEC-NNN | — |
 
@@ -189,9 +190,12 @@ All findings follow JDS-PRO-008 (Corrective Action Procedure).
 
 | Activity | JDS Document Type | Template |
 |---|---|---|
-| Equipment inventory | LOG (register) | JDS-TMP-LOG-002 |
+| Equipment inventory | LOG (register) | JDS-TMP-LOG-008 |
 | Annual inspection plan | LOG (plan) | JDS-TMP-LOG-004 |
-| Routine supervision | LOG (checklist) | JDS-TMP-LOG-003 |
+| Supervision program | LOG (program) | JDS-TMP-LOG-005 |
+| Supervision round record | LOG (round) | JDS-TMP-LOG-006 |
+| Annual program review | LOG (review) | JDS-TMP-LOG-007 |
+| Equipment lifetime journal | LOG (journal) | JDS-TMP-LOG-009 |
 | Inspection report | RPT (report) | JDS-TMP-RPT-003 |
 | Risk assessment | RPT (assessment) | JDS-TMP-RPT-001 |
 | Corrective action | CA log entry | JDS-PRO-008 |
@@ -221,7 +225,7 @@ All findings follow JDS-PRO-008 (Corrective Action Procedure).
 | JDS-LOG-MEC-001 | Equipment Register (Framework Template) |
 | JDS-LOG-MEC-002 | Pressure Vessel Inventory Guide |
 
-> **Regulatory traceability:** For a full mapping of how this procedure satisfies specific regulatory requirements, see the [Regulatory Traceability Matrix](../../projects/JDS-PRJ-MEC-001_pressure-vessel-maintenance/02-regulations/SE-sweden/regulatory-traceability-matrix.md).
+> **Regulatory traceability:** For a full mapping of how this procedure satisfies specific regulatory requirements, see the [Regulatory Traceability Matrix](../../projects/JDS-PRJ-MEC-001/02-regulations/SE-sweden/regulatory-traceability-matrix.md).
 
 ---
 

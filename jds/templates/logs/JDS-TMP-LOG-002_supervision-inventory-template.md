@@ -1,11 +1,13 @@
 # Equipment Inventory — Ongoing Maintenance Program
 
+> **SUPERSEDED** — This template is superseded by JDS-TMP-LOG-008 (Equipment Inventory Template) which includes auto-classification support and integrated placement risk assessment. Do not use this template for new documents.
+
 | | |
 |---|---|
 | **Document No.** | JDS-LOG-MEC-[NNN] |
 | **Revision** | DRAFT |
 | **Date** | YYYY-MM-DD |
-| **Status** | DRAFT |
+| **Status** | SUPERSEDED |
 | **Author** | [Author name] |
 | **Project** | JDS-PRJ-MEC-001 |
 | **Client** | [Client name] |

@@ -4,6 +4,22 @@ All changes to the JDS documentation system itself are recorded here. This provi
 
 ---
 
+## [3.3] — 2026-04-11
+
+### Changed — Project Restructure & Consolidation
+- **JDS-PRJ-MEC-002 merged into JDS-PRJ-MEC-001** — the Vessel Supervision System is now a subfolder (`03-supervision/`) inside the Pressure Vessel Ongoing Maintenance Program. One project, one folder, one changelog.
+- **Project folder naming simplified** — folders now use JDS codes only (`JDS-PRJ-MEC-001/`) without descriptive suffixes. CLAUDE.md updated accordingly.
+- **Templates centralised** — JDS-TMP-LOG-005 through 009 moved from project folder to `jds/templates/logs/` alongside all other system templates.
+- **Older templates superseded** — JDS-TMP-LOG-001 (replaced by TMP-LOG-008), JDS-TMP-LOG-002 (replaced by TMP-LOG-008), JDS-TMP-LOG-003 (replaced by TMP-LOG-006). All marked SUPERSEDED with pointers to replacements.
+- **AFS PDFs consolidated** — duplicate regulatory PDFs removed from `projects/` root; single copies now in `JDS-PRJ-MEC-001/02-regulations/SE-sweden/`.
+- **JDS-PRO-010 updated** — template references changed from superseded TMP-LOG-001/002/003 to current TMP-LOG-005/006/008. Supervision workflow now includes program creation, round records, and annual reviews.
+- **Document register updated** — all paths corrected for new folder structure. JDS-PRJ-MEC-002 marked SUPERSEDED. TMP-LOG-001/002/003 marked SUPERSEDED.
+
+### Added
+- **`projects/index.md`** — project index listing all JDS projects by document number with status.
+
+---
+
 ## [3.2] — 2026-04-10
 
 ### Added — Vessel Supervision System (JDS-PRJ-MEC-002)

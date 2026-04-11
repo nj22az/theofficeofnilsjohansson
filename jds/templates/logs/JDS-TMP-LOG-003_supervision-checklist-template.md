@@ -1,11 +1,13 @@
 # Supervision Checklist — Routine Walk-Around
 
+> **SUPERSEDED** — This template is superseded by JDS-TMP-LOG-006 (Supervision Round Record Template) which includes per-vessel checks, severity classification, findings follow-up, and sign-off. Do not use this template for new documents.
+
 | | |
 |---|---|
 | **Document No.** | JDS-LOG-MEC-[NNN] |
 | **Revision** | DRAFT |
 | **Date** | YYYY-MM-DD |
-| **Status** | DRAFT |
+| **Status** | SUPERSEDED |
 | **Author** | [Inspector name] |
 | **Project** | JDS-PRJ-MEC-001 |
 | **Client** | [Client name] |

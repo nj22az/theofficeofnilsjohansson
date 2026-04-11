@@ -9,8 +9,8 @@ Four root folders. Everything lives in one of them.
 
 - `jds/` - System governance (quality manual, procedures, templates, registry, assets, quick reference)
 - `projects/` - All work output
-  - Engineering projects: `projects/JDS-PRJ-[DOM]-NNN_name/`
-  - 3D models: `projects/3d-modeling/JDS-DWG-[DOM]-NNN_name/`
+  - Engineering projects: `projects/JDS-PRJ-[DOM]-NNN/`
+  - 3D models: `projects/3d-modeling/JDS-DWG-[DOM]-NNN/`
   - Blog: `projects/blog/` (Jekyll, GitHub Pages)
   - Software projects: `projects/software/` (created on demand)
 - `scripts/` - JDS automation tools (PDF generation, validation, office documents)
@@ -31,14 +31,14 @@ Four root folders. Everything lives in one of them.
 - See `jds/README.md` for full documentation system reference
 
 ## 3D Modeling Projects
-- Each 3D project gets a DWG number with domain: `projects/3d-modeling/JDS-DWG-MEC-001_name/`
+- Each 3D project gets a DWG number with domain: `projects/3d-modeling/JDS-DWG-MEC-001/`
 - Standard subfolders: `source/`, `exports/`, `references/`, `renders/`
 - Mandatory exports: STEP + 3MF + STL (always all three)
 - Every project folder has a README.md project card
 - See JDS-PRO-003 for full procedure
 
 ## Engineering Projects
-- Each project gets a PRJ number with domain: `projects/JDS-PRJ-[DOM]-NNN_name/`
+- Each project gets a PRJ number with domain: `projects/JDS-PRJ-[DOM]-NNN/`
 - Every project has a README.md and CHANGELOG.md (master change log)
 - All document changes within a project are logged in CHANGELOG.md
 - Every document has a status block at the top: Doc No | Rev | CURRENT/SUPERSEDED | Date | Author
