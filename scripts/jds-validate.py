@@ -684,6 +684,55 @@ def check_claude_md(result):
             result.warn(f'CLAUDE.md: missing {description} ({keyword})')
 
 
+def check_example_status_consistency(result):
+    """Check that example documents use EXAMPLE status consistently."""
+    for filepath in glob.glob(os.path.join(REPO_ROOT, 'jds', 'examples', 'JDS-*.md')):
+        content = safe_read(filepath)
+        if content is None:
+            continue
+        rel = os.path.relpath(filepath, REPO_ROOT)
+        status_match = re.search(r'\*\*Status\*\*\s*\|\s*(\w+)', content)
+        if status_match:
+            status = status_match.group(1)
+            if status != 'EXAMPLE':
+                result.warn(f'{rel}: example document has Status "{status}" (expected EXAMPLE)')
+            else:
+                result.ok(f'{rel}: status is EXAMPLE')
+
+
+def check_pro007_css_compliance(result):
+    """Check that md2pdf.py CSS matches PRO-007 specifications."""
+    pdf_script = os.path.join(SCRIPTS_DIR, 'md2pdf.py')
+    if not os.path.exists(pdf_script):
+        result.warn('md2pdf.py not found — cannot check PRO-007 CSS compliance')
+        return
+
+    content = safe_read(pdf_script)
+    if content is None:
+        return
+
+    # Check heading sizes (PRO-007 §4: H1=20pt, H2=14pt, H3=12pt)
+    h1_match = re.search(r'h1\s*\{[^}]*font-size:\s*([\d.]+)pt', content, re.DOTALL)
+    if h1_match and float(h1_match.group(1)) != 20.0:
+        result.warn(f'md2pdf.py: H1 font-size is {h1_match.group(1)}pt (PRO-007 §4 says 20pt)')
+    elif h1_match:
+        result.ok('md2pdf.py: H1 font-size matches PRO-007 (20pt)')
+
+    h2_match = re.search(r'h2\s*\{[^}]*font-size:\s*([\d.]+)pt', content, re.DOTALL)
+    if h2_match and float(h2_match.group(1)) != 14.0:
+        result.warn(f'md2pdf.py: H2 font-size is {h2_match.group(1)}pt (PRO-007 §4 says 14pt)')
+    elif h2_match:
+        result.ok('md2pdf.py: H2 font-size matches PRO-007 (14pt)')
+
+    # Check language policy — no unexplained foreign terms in comments
+    foreign_terms = ['Ma (', 'Bento (', 'Zukai', 'Monozukuri', 'Komplekt']
+    for term in foreign_terms:
+        if term in content:
+            result.warn(f'md2pdf.py: contains foreign term "{term}" — language policy §15 requires English terminology')
+
+    result.ok('md2pdf.py: PRO-007 CSS compliance checked')
+
+
 def main():
     quick = '--quick' in sys.argv
     show_fix = '--fix' in sys.argv
@@ -721,9 +770,15 @@ def main():
         print('[9/10] Checking version consistency...')
         check_changelog_version(result)
 
-        print('[10/10] Checking system integrity...')
+        print('[10/12] Checking system integrity...')
         check_corrective_action_log(result)
         check_claude_md(result)
+
+        print('[11/12] Checking example status consistency...')
+        check_example_status_consistency(result)
+
+        print('[12/12] Checking PRO-007 CSS compliance...')
+        check_pro007_css_compliance(result)
     else:
         print('[3-10] Skipped (quick mode)')
 

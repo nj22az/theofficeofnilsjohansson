@@ -99,7 +99,7 @@ Common corrective actions in JDS:
 | Procedure gap | Revise the procedure (JDS-PRO-002) |
 | Template missing/inadequate | Create or update template |
 | Knowledge gap | Add to project Knowledge Gaps section |
-| Checklist incomplete | Update komplekt checklist (JDS-PRO-006) |
+| Checklist incomplete | Update document set checklist (JDS-PRO-006) |
 | Review missed | Adjust review triggers (JDS-PRO-005) |
 
 ### 4.5 Verify Effectiveness
@@ -141,7 +141,7 @@ Track all corrective actions using this format in a Git issue or markdown file:
 | **Horizontal deployment** | [Other areas checked/updated] |
 ```
 
-For a sole-proprietor practice, a single corrective action log file (`jds/registry/corrective-action-log.md`) is sufficient. Create individual entries as nonconformances arise.
+For most organisations, a single corrective action log file (`jds/registry/corrective-action-log.md`) is sufficient. Create individual entries as nonconformances arise. Larger teams may split into separate logs per department or project.
 
 ## 6. Integration with Other JDS Procedures
 
@@ -149,7 +149,7 @@ For a sole-proprietor practice, a single corrective action log file (`jds/regist
 |-----------|-------------------|
 | JDS-PRO-002 (Revision Control) | Corrective actions that change documents trigger a revision |
 | JDS-PRO-005 (Review & Audit) | Audit findings feed into corrective action process |
-| JDS-PRO-006 (Komplekt) | Missing komplekt items may be raised as nonconformances |
+| JDS-PRO-006 (Complete Document Set) | Missing document set items may be raised as nonconformances |
 | Quality Manual §16 (Tiered Change Control) | Severity determines the change control tier |
 | Quality Manual §17 (Knowledge Gaps) | Unknown root causes documented as knowledge gaps |
 

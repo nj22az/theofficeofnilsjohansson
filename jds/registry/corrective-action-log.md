@@ -1,6 +1,6 @@
 # Corrective Action Log
 
-**Last updated:** 2026-03-25
+**Last updated:** 2026-03-26
 
 This log tracks all nonconformances and corrective actions raised under [JDS-PRO-008](../procedures/JDS-PRO-008_corrective-action.md).
 
@@ -79,4 +79,38 @@ This log tracks all nonconformances and corrective actions raised under [JDS-PRO
 
 ---
 
-**Next number:** CA-2026-005
+### CA-2026-005 — Language policy violation: "Komplekt" used as primary label | CLOSED
+
+| | |
+|---|---|
+| **Date** | 2026-03-26 |
+| **Source** | Full repo audit |
+| **Description** | QMS-000 §15 defines "Complete Document Set" as the JDS term, with "Komplekt" as reference only. However, "Komplekt" was the primary label in PRO-006 filename, title, and ~40 occurrences across 11 files. |
+| **Root Cause** | Term adopted from ESKD tradition before language policy was formalised. Validator only checked md2pdf.py CSS, not document content. |
+
+**Corrective Action:**
+1. Renamed PRO-006 file from `project-komplekt` to `complete-document-set`
+2. Replaced all ~40 "Komplekt" occurrences with "Complete Document Set" / "document set"
+3. Updated all internal links across README, registry, QMS-000, templates, and procedures
+4. Bumped PRO-006 to Rev B with language policy compliance note
+5. Only retained "Komplekt" in QMS-000 §15.2 glossary (reference column) and PRO-006 revision history
+
+---
+
+### CA-2026-006 — PRO-004 stored in project folder instead of procedures | CLOSED
+
+| | |
+|---|---|
+| **Date** | 2026-03-26 |
+| **Source** | Full repo audit |
+| **Description** | JDS-PRO-004 (Inspection Planning) was located in `projects/JDS-PRJ-MEC-001.../01-framework/` instead of `jds/procedures/`. All other procedures are in `jds/procedures/`. |
+| **Root Cause** | PRO-004 was created as part of the project setup before the single-location principle was enforced. |
+
+**Corrective Action:**
+1. Moved PRO-004 to `jds/procedures/`
+2. Updated registry link to new location
+3. Updated project README to note the move
+
+---
+
+**Next number:** CA-2026-007

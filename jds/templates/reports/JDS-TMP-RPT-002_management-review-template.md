@@ -6,7 +6,7 @@
 | **Revision** | DRAFT |
 | **Date** | YYYY-MM-DD |
 | **Status** | DRAFT |
-| **Author** | Nils Johansson |
+| **Author** | [Author Name] |
 | **Review period** | [e.g., Q1 2026 / Annual 2026] |
 
 ---
@@ -73,7 +73,7 @@
 - [ ] Revision control procedure working effectively
 - [ ] Templates adequate for current work
 - [ ] Registry accurate and up to date
-- [ ] Komplekts being completed for finished projects
+- [ ] Document sets being completed for finished projects
 - [ ] Information design standards being followed
 
 **Issues identified:** [Describe any process issues, or "None"]
@@ -119,7 +119,7 @@
 | Revisions traceable | 100% | [%] | On track / Behind |
 | Templates used consistently | 100% | [%] | On track / Behind |
 | Quarterly audits completed | 4/year | [N] | On track / Behind |
-| Komplekts complete | 100% | [%] | On track / Behind |
+| Document sets complete | 100% | [%] | On track / Behind |
 
 ## 3. Overall Assessment
 
@@ -135,4 +135,4 @@
 
 | Rev | Date | Author | Description |
 |-----|------|--------|-------------|
-| DRAFT | YYYY-MM-DD | Nils Johansson | Initial draft |
+| DRAFT | YYYY-MM-DD | [Author Name] | Initial draft |
