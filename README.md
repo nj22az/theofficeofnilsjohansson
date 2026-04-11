@@ -101,7 +101,7 @@ Non-JDS content. Uses JDS principles for structure but not JDS document numbers.
 
 | JDS No. | Title | Status |
 |---------|-------|--------|
-| [JDS-PRJ-MEC-001](projects/JDS-PRJ-MEC-001_pressure-vessel-maintenance/) | Pressure Vessel Ongoing Maintenance Program | Active |
+| [JDS-PRJ-MEC-001](projects/JDS-PRJ-MEC-001/) | Pressure Vessel Ongoing Maintenance Program | Active |
 
 ### Published Blog
 
