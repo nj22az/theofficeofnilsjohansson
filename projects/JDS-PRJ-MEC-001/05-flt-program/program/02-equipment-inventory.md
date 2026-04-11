@@ -1,6 +1,6 @@
 # 02 — What Equipment Do You Have
 
-Walk your site and list every pressurised vessel. For each one, read the nameplate and write down the data. Then classify each vessel to determine what inspections it needs.
+> **Note:** Walk your site and list every pressurised vessel. For each one, read the nameplate and write down the data. Then classify each vessel to determine what inspections it needs.
 
 ---
 
@@ -119,7 +119,7 @@ Use **PS x V** from the table above and the **medium** to determine the risk cla
 | | SV / BD / PS | | | | |
 | | SV / BD / PS | | | | |
 
-> **SV** = Safety valve (spring-loaded, lifts to release pressure). **BD** = Bursting disc (ruptures at set pressure, single-use). **PS** = Pressure switch (triggers alarm or shutdown).
+> **Note:** **SV** = Safety valve (spring-loaded, lifts to release pressure). **BD** = Bursting disc (ruptures at set pressure, single-use). **PS** = Pressure switch (triggers alarm or shutdown).
 
 ---
 
@@ -161,3 +161,99 @@ Use **PS x V** from the table above and the **medium** to determine the risk cla
 | **Name** | |
 | **Signature** | |
 | **Date** | |
+
+---
+
+## Blank Continuation Pages
+
+> **Note:** Print the pages below when you have more than 10 vessels. The tables are identical to sections 1-6 above but without pre-filled numbers — write your own Nr starting from where you left off.
+
+---
+
+### Vessel Register (continuation)
+
+| Nr | Vessel ID | Description | Location |
+|:--:|-----------|-------------|----------|
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+
+---
+
+### Technical Data (continuation)
+
+| Nr | PS (bar) | Temp. max (C) | Volume (L) | PS x V | Medium |
+|:--:|:--------:|:-------------:|:----------:|:------:|--------|
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+
+---
+
+### Classification (continuation)
+
+| Nr | Vessel ID | Medium | Group | PS x V | Class | Inspector |
+|:--:|-----------|--------|:-----:|:------:|:-----:|-----------|
+| | | | 1 / 2 | | A / B / - | |
+| | | | 1 / 2 | | A / B / - | |
+| | | | 1 / 2 | | A / B / - | |
+| | | | 1 / 2 | | A / B / - | |
+| | | | 1 / 2 | | A / B / - | |
+| | | | 1 / 2 | | A / B / - | |
+| | | | 1 / 2 | | A / B / - | |
+| | | | 1 / 2 | | A / B / - | |
+| | | | 1 / 2 | | A / B / - | |
+| | | | 1 / 2 | | A / B / - | |
+
+**Totals:** Class A: \_\_\_\_ | Class B: \_\_\_\_ | Exempt: \_\_\_\_ | **Total vessels:** \_\_\_\_
+
+---
+
+### Safety Devices (continuation)
+
+| Device | Type | Protects vessel | Set pressure (bar) | Last test | Next test |
+|--------|------|---------:|:------------------:|:---------:|:---------:|
+| | SV / BD / PS | | | | |
+| | SV / BD / PS | | | | |
+| | SV / BD / PS | | | | |
+| | SV / BD / PS | | | | |
+| | SV / BD / PS | | | | |
+
+---
+
+### Placement Check (continuation)
+
+| Check | | | | | |
+|-------|:-:|:-:|:-:|:-:|:-:|
+| Can be maintained and inspected | | | | | |
+| Protected from nearby activities | | | | | |
+| Personnel can shut off if needed | | | | | |
+| Personnel can evacuate if needed | | | | | |
+| Temperature within design range | | | | | |
+
+---
+
+### Document Check (continuation)
+
+| Check | | | | | |
+|-------|:-:|:-:|:-:|:-:|:-:|
+| Nameplate readable on vessel | | | | | |
+| EU Declaration of Conformity on file | | | | | |
+| Classification confirmed (section 3) | | | | | |
+| Safety devices documented (section 4) | | | | | |
+| Current inspection certificate on file | | | | | |
+| Operating instructions available | | | | | |

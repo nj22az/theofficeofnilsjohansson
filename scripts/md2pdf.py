@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""JDS PDF Generator — JDS-PRO-007 Information Design Standard (Rev B).
+"""JDS PDF Generator — JDS-PRO-007 Information Design Standard (Rev C).
 
-Converts JDS markdown documents to PDF with a design philosophy that blends
-Japanese information design (Ma, Bento, Zukai, Monozukuri) with Apple-style
-softness and warmth. Playful but professional.
+Converts JDS markdown documents to PDF following Japanese information design
+principles: thick flat lines, bento compartments, and semantic colour coding.
+Every colour carries meaning — red = critical, navy = authority, green = done.
 
 Usage: python3 md2pdf.py <input.md> [output.pdf]
 """
@@ -21,6 +21,7 @@ from weasyprint import HTML
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.join(SCRIPT_DIR, '..', 'jds', 'assets')
+FONTS_DIR = os.path.join(ASSETS_DIR, 'fonts')
 LOGO_PATH_PNG = os.path.join(ASSETS_DIR, 'logo.png')
 LOGO_PATH_SVG = os.path.join(ASSETS_DIR, 'logo.svg')
 LOGO_VARIANTS_DIR = os.path.join(ASSETS_DIR, 'logo-variants')
@@ -53,6 +54,34 @@ def get_logo_data_uri(category=None):
         return f'data:image/svg+xml;base64,{data}'
 
     return None
+
+
+def get_font_face_css():
+    """Build @font-face declarations for M PLUS Rounded 1c.
+
+    Uses file:// URLs so WeasyPrint loads the TTF files directly
+    from the assets/fonts/ directory. Three weights: Regular (400),
+    Medium (500), Bold (700).
+    """
+    fonts_abs = os.path.abspath(FONTS_DIR)
+    weights = [
+        ('400', 'normal', 'MPLUSRounded1c-Regular.ttf'),
+        ('500', 'normal', 'MPLUSRounded1c-Medium.ttf'),
+        ('700', 'normal', 'MPLUSRounded1c-Bold.ttf'),
+    ]
+    declarations = []
+    for weight, style, filename in weights:
+        font_path = os.path.join(fonts_abs, filename)
+        if os.path.exists(font_path):
+            declarations.append(
+                f"@font-face {{\n"
+                f"    font-family: 'M PLUS Rounded 1c';\n"
+                f"    src: url('file://{font_path}');\n"
+                f"    font-weight: {weight};\n"
+                f"    font-style: {style};\n"
+                f"}}"
+            )
+    return '\n'.join(declarations)
 
 
 def extract_category(doc_no):
@@ -114,9 +143,9 @@ CSS = """
     @top-left {{
         content: "{doc_no}";
         font-size: 7.5pt;
-        font-weight: 600;
+        font-weight: 500;
         color: #1B3A5C;
-        font-family: 'Noto Sans', 'Inter', 'Calibri', sans-serif;
+        font-family: 'M PLUS Rounded 1c', 'Noto Sans', sans-serif;
         letter-spacing: 0.5pt;
         border-bottom: 0.5pt solid #e8ecf0;
         padding-bottom: 6pt;
@@ -125,7 +154,7 @@ CSS = """
         content: string(doc-title);
         font-size: 7pt;
         color: #999;
-        font-family: 'Noto Sans', 'Inter', 'Calibri', sans-serif;
+        font-family: 'M PLUS Rounded 1c', 'Noto Sans', sans-serif;
         border-bottom: 0.5pt solid #e8ecf0;
         padding-bottom: 6pt;
     }}
@@ -133,7 +162,7 @@ CSS = """
         content: "UNCONTROLLED COPY";
         font-size: 6.5pt;
         color: #bbb;
-        font-family: 'Noto Sans', 'Inter', 'Calibri', sans-serif;
+        font-family: 'M PLUS Rounded 1c', 'Noto Sans', sans-serif;
         letter-spacing: 0.3pt;
         text-transform: uppercase;
         border-bottom: 0.5pt solid #e8ecf0;
@@ -144,7 +173,7 @@ CSS = """
         content: "Rev {revision}";
         font-size: 7pt;
         color: #999;
-        font-family: 'Noto Sans', 'Inter', 'Calibri', sans-serif;
+        font-family: 'M PLUS Rounded 1c', 'Noto Sans', sans-serif;
         border-top: 0.5pt solid #e8ecf0;
         padding-top: 6pt;
     }}
@@ -152,7 +181,7 @@ CSS = """
         content: "Page " counter(page) " of " counter(pages);
         font-size: 7.5pt;
         color: #999;
-        font-family: 'Noto Sans', 'Inter', 'Calibri', sans-serif;
+        font-family: 'M PLUS Rounded 1c', 'Noto Sans', sans-serif;
         border-top: 0.5pt solid #e8ecf0;
         padding-top: 6pt;
     }}
@@ -160,7 +189,7 @@ CSS = """
         content: "{date}";
         font-size: 7pt;
         color: #999;
-        font-family: 'Noto Sans', 'Inter', 'Calibri', sans-serif;
+        font-family: 'M PLUS Rounded 1c', 'Noto Sans', sans-serif;
         border-top: 0.5pt solid #e8ecf0;
         padding-top: 6pt;
     }}
@@ -175,7 +204,7 @@ CSS = """
    ═══════════════════════════════════════════════════════════════════════════ */
 
 body {{
-    font-family: 'Noto Sans', 'Inter', 'Calibri', sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Noto Sans', sans-serif;
     font-size: 10pt;
     line-height: 1.6;
     color: #1d1d1f;
@@ -213,7 +242,7 @@ p {{
     color: #86868b;
     letter-spacing: 1.5pt;
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 500;
     vertical-align: middle;
 }}
 
@@ -225,9 +254,9 @@ h1 {{
     font-size: 22pt;
     font-weight: 700;
     color: #1B3A5C;
-    border-bottom: 2.5pt solid #1B3A5C;
+    border-bottom: 3.5pt solid #1B3A5C;
     padding-bottom: 10pt;
-    margin: 6pt 0 12pt 0;
+    margin: 6pt 0 14pt 0;
     string-set: doc-title content();
     letter-spacing: -0.3pt;
     line-height: 1.2;
@@ -239,13 +268,13 @@ h2 {{
     color: #1B3A5C;
     margin: 30pt 0 12pt 0;
     padding-bottom: 6pt;
-    border-bottom: 1pt solid #e8ecf0;
+    border-bottom: 2pt solid #1B3A5C;
     page-break-after: avoid;
 }}
 
 h3 {{
     font-size: 11pt;
-    font-weight: 600;
+    font-weight: 700;
     color: #4A90A4;
     margin: 24pt 0 8pt 0;
     page-break-after: avoid;
@@ -253,7 +282,7 @@ h3 {{
 
 h4 {{
     font-size: 10.5pt;
-    font-weight: 600;
+    font-weight: 500;
     font-style: italic;
     color: #555;
     margin: 14pt 0 6pt 0;
@@ -291,12 +320,13 @@ table:first-of-type td {{
 table:first-of-type th {{
     background: none;
     color: #86868b;
-    font-weight: 600;
+    font-weight: 500;
     text-transform: uppercase;
     font-size: 7pt;
     letter-spacing: 0.5pt;
     width: 28%;
     vertical-align: top;
+    border-bottom: 0.5pt solid #eef1f4;
 }}
 
 table:first-of-type td {{
@@ -330,15 +360,15 @@ table {{
 }}
 
 th {{
-    background-color: #f5f7f9;
-    color: #1B3A5C;
-    font-weight: 600;
+    background-color: #1B3A5C;
+    color: #ffffff;
+    font-weight: 700;
     font-size: 8pt;
     text-align: left;
     text-transform: uppercase;
     letter-spacing: 0.3pt;
     padding: 9pt 10pt;
-    border-bottom: 1pt solid #e2e6ea;
+    border-bottom: 2pt solid #132d4a;
     border-left: none;
     border-right: none;
     border-top: none;
@@ -395,7 +425,7 @@ div.rev-history table {{
 }}
 
 div.rev-history th {{
-    background-color: transparent;
+    background-color: #fafbfc;
     color: #86868b;
     font-size: 7.5pt;
     border-bottom: 0.5pt solid #e2e6ea;
@@ -416,8 +446,8 @@ div.rev-history tr:nth-child(even) {{
 
 hr {{
     border: none;
-    border-top: 1pt solid #e2e6ea;
-    margin: 24pt 0;
+    border-top: 2.5pt solid #1B3A5C;
+    margin: 28pt 0;
 }}
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -425,9 +455,9 @@ hr {{
    ═══════════════════════════════════════════════════════════════════════════ */
 
 blockquote {{
-    border-left: 3pt solid #4A90A4;
+    border-left: 4pt solid #4A90A4;
     margin: 18pt 0;
-    padding: 12pt 18pt;
+    padding: 14pt 18pt;
     background-color: #f0f6f9;
     border-radius: 0 8pt 8pt 0;
     color: #2c2c2e;
@@ -445,13 +475,13 @@ blockquote p:last-child {{
 
 /* Warning bento — red squircle compartment (Compartment Design) */
 div.warning blockquote {{
-    border: 2pt solid #C0392B;
-    border-left: 2pt solid #C0392B;
+    border: 3pt solid #C0392B;
+    border-left: 3pt solid #C0392B;
     border-radius: 16pt;
-    background-color: #ffffff;
+    background-color: #fff8f7;
     color: #7B1A1A;
     padding: 16pt 22pt;
-    margin: 20pt 0;
+    margin: 22pt 0;
 }}
 
 div.warning blockquote strong {{
@@ -461,17 +491,33 @@ div.warning blockquote strong {{
 
 /* Success bento — green squircle compartment */
 div.success blockquote {{
-    border: 2pt solid #3D8B6E;
-    border-left: 2pt solid #3D8B6E;
+    border: 3pt solid #3D8B6E;
+    border-left: 3pt solid #3D8B6E;
     border-radius: 16pt;
-    background-color: #ffffff;
+    background-color: #f7fdf9;
     color: #1a4a35;
     padding: 16pt 22pt;
-    margin: 20pt 0;
+    margin: 22pt 0;
 }}
 
 div.success blockquote strong {{
     color: #2E7D5A;
+    font-size: 9.5pt;
+}}
+
+/* Note bento — navy squircle compartment (informational) */
+div.note blockquote {{
+    border: 3pt solid #1B3A5C;
+    border-left: 3pt solid #1B3A5C;
+    border-radius: 16pt;
+    background-color: #f5f8fb;
+    color: #1B3A5C;
+    padding: 16pt 22pt;
+    margin: 22pt 0;
+}}
+
+div.note blockquote strong {{
+    color: #1B3A5C;
     font-size: 9.5pt;
 }}
 
@@ -549,7 +595,7 @@ p {{
 
 strong {{
     color: #1d1d1f;
-    font-weight: 600;
+    font-weight: 700;
 }}
 
 em {{
@@ -593,6 +639,8 @@ def wrap_callout_variants(html_content):
                        '<strong>Caution:</strong>']
     success_markers = ['<strong>Done.</strong>', '<strong>Done:</strong>',
                        '<strong>Complete:</strong>']
+    note_markers = ['<strong>Note:</strong>', '<strong>Ref:</strong>',
+                    '<strong>Definition:</strong>']
 
     # Single-pass: find every <blockquote> and check if it contains a marker
     result = []
@@ -622,6 +670,11 @@ def wrap_callout_variants(html_content):
             for marker in success_markers:
                 if marker in bq_html:
                     wrapper = 'success'
+                    break
+        if not wrapper:
+            for marker in note_markers:
+                if marker in bq_html:
+                    wrapper = 'note'
                     break
 
         if wrapper:
@@ -689,8 +742,11 @@ def md_to_pdf(input_path, output_path=None):
     revision = meta.get('revision', '')
     date = meta.get('date', '')
 
+    # Build @font-face declarations for M PLUS Rounded 1c
+    font_face_css = get_font_face_css()
+
     # Format CSS with metadata
-    formatted_css = CSS.format(
+    formatted_css = font_face_css + '\n' + CSS.format(
         doc_no=doc_no,
         revision=revision,
         date=date,
