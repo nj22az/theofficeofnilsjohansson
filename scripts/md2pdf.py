@@ -32,7 +32,14 @@ def get_logo_data_uri(category=None):
     If a category is provided (e.g. 'PRO', 'COR', 'RPT') and an SVG colour
     variant exists, use that. Otherwise fall back to the default SVG, then PNG.
     """
-    # Try category-specific SVG variant first
+    # Use PNG for reliable rendering (SVG path transforms render inconsistently
+    # across PDF engines). The PNG is 752x752px which is crisp at 52pt display.
+    if os.path.exists(LOGO_PATH_PNG):
+        with open(LOGO_PATH_PNG, 'rb') as f:
+            data = base64.b64encode(f.read()).decode('utf-8')
+        return f'data:image/png;base64,{data}'
+
+    # Fall back to SVG if PNG not available
     if category:
         variant_path = os.path.join(LOGO_VARIANTS_DIR, f'logo-{category.lower()}.svg')
         if os.path.exists(variant_path):
@@ -40,17 +47,10 @@ def get_logo_data_uri(category=None):
                 data = base64.b64encode(f.read().encode('utf-8')).decode('utf-8')
             return f'data:image/svg+xml;base64,{data}'
 
-    # Fall back to default SVG
     if os.path.exists(LOGO_PATH_SVG):
         with open(LOGO_PATH_SVG, 'r', encoding='utf-8') as f:
             data = base64.b64encode(f.read().encode('utf-8')).decode('utf-8')
         return f'data:image/svg+xml;base64,{data}'
-
-    # Fall back to PNG
-    if os.path.exists(LOGO_PATH_PNG):
-        with open(LOGO_PATH_PNG, 'rb') as f:
-            data = base64.b64encode(f.read()).decode('utf-8')
-        return f'data:image/png;base64,{data}'
 
     return None
 
