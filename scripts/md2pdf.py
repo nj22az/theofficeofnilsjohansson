@@ -443,6 +443,38 @@ blockquote p:last-child {{
     margin-bottom: 0;
 }}
 
+/* Warning bento — red squircle compartment (Compartment Design) */
+div.warning blockquote {{
+    border: 2pt solid #C0392B;
+    border-left: 2pt solid #C0392B;
+    border-radius: 16pt;
+    background-color: #ffffff;
+    color: #7B1A1A;
+    padding: 16pt 22pt;
+    margin: 20pt 0;
+}}
+
+div.warning blockquote strong {{
+    color: #C0392B;
+    font-size: 9.5pt;
+}}
+
+/* Success bento — green squircle compartment */
+div.success blockquote {{
+    border: 2pt solid #3D8B6E;
+    border-left: 2pt solid #3D8B6E;
+    border-radius: 16pt;
+    background-color: #ffffff;
+    color: #1a4a35;
+    padding: 16pt 22pt;
+    margin: 20pt 0;
+}}
+
+div.success blockquote strong {{
+    color: #2E7D5A;
+    font-size: 9.5pt;
+}}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    CODE — Rounded pill for inline, rounded block for pre
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -546,6 +578,62 @@ h2 + *, h3 + * {{
 """
 
 
+def wrap_callout_variants(html_content):
+    """Detect blockquotes starting with specific markers and wrap them in
+    styled div containers for warning (red) and success (green) callouts.
+
+    Convention:
+      > **Warning:** ...   -> red bento (danger, critical notes)
+      > **Important:** ... -> red bento
+      > **Done:** ...      -> green bento (success, confirmation)
+      > **Tip:** ...       -> default blue bento (unchanged)
+    """
+    warning_markers = ['<strong>Warning:</strong>', '<strong>Important:</strong>',
+                       '<strong>Danger:</strong>', '<strong>Dangerous fluids:</strong>',
+                       '<strong>Caution:</strong>']
+    success_markers = ['<strong>Done.</strong>', '<strong>Done:</strong>',
+                       '<strong>Complete:</strong>']
+
+    # Single-pass: find every <blockquote> and check if it contains a marker
+    result = []
+    pos = 0
+    while pos < len(html_content):
+        bq_start = html_content.find('<blockquote>', pos)
+        if bq_start == -1:
+            result.append(html_content[pos:])
+            break
+        bq_end = html_content.find('</blockquote>', bq_start)
+        if bq_end == -1:
+            result.append(html_content[pos:])
+            break
+        bq_end += len('</blockquote>')
+        bq_html = html_content[bq_start:bq_end]
+
+        # Append everything before the blockquote
+        result.append(html_content[pos:bq_start])
+
+        # Check if this blockquote contains a warning or success marker
+        wrapper = None
+        for marker in warning_markers:
+            if marker in bq_html:
+                wrapper = 'warning'
+                break
+        if not wrapper:
+            for marker in success_markers:
+                if marker in bq_html:
+                    wrapper = 'success'
+                    break
+
+        if wrapper:
+            result.append(f'<div class="{wrapper}">{bq_html}</div>')
+        else:
+            result.append(bq_html)
+
+        pos = bq_end
+
+    return ''.join(result)
+
+
 def wrap_revision_history(html_content):
     """Wrap the last table in a div.rev-history container."""
     last_table_pos = html_content.rfind('<table>')
@@ -615,6 +703,9 @@ def md_to_pdf(input_path, output_path=None):
 
     # Post-process: wrap revision history table
     html_content = wrap_revision_history(html_content)
+
+    # Post-process: wrap warning/success callout blockquotes
+    html_content = wrap_callout_variants(html_content)
 
     # Post-process: inject logo header (category-coloured SVG if available)
     category = extract_category(doc_no)
