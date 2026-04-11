@@ -90,23 +90,16 @@ def extract_metadata(md_text):
 
 
 # ---------------------------------------------------------------------------
-# JDS-PRO-007 Rev B — Apple-Inspired Soft Design
+# JDS-PRO-007 — Information Design Standard Implementation
 #
-# Design philosophy:
-#   Rounded warmth  — Soft corners, subtle shadows, approachable
-#   Ma (間)         — Space has meaning. Every gap is intentional.
-#   Bento (弁当)    — Self-contained compartments with clear boundaries.
-#   Monozukuri      — Precision visible in every choice.
-#   Playful rigour  — Professional without being cold.
-#
-# Key changes from previous version:
-#   - Rounded corners on all containers (tables, blockquotes, code)
-#   - Subtle box-shadows for depth
-#   - Warmer colour temperature (warm blacks, soft grays)
-#   - Logo integrated into first page header
-#   - Softer table headers (no heavy navy rules)
-#   - More generous padding throughout
-#   - Card-like containers for metadata and tables
+# Design principles (JDS-owned terminology):
+#   Active Space       — White space organises information. Every gap is intentional.
+#   Compartment Design — Self-contained sections with clear boundaries.
+#   Visual Explanation — If you can't diagram it, you don't understand it.
+#   Craft Precision    — Alignment, spacing, and precision reflect engineering quality.
+#   Colour is Language — Navy = authority, Steel Blue = support, Red = critical.
+#   Three-Level Reading — Glance (0.5s), Scan (5s), Read (minutes).
+#   6pt Grid           — All spacing in multiples of 6pt.
 # ---------------------------------------------------------------------------
 
 CSS = """
@@ -192,6 +185,14 @@ body {{
 }}
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   PARAGRAPHS — Active Space between text blocks
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+p {{
+    margin: 0 0 8pt 0;
+}}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    LOGO HEADER — First page brand identity
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -225,28 +226,28 @@ h1 {{
     font-weight: 700;
     color: #1B3A5C;
     border-bottom: 2.5pt solid #1B3A5C;
-    padding-bottom: 8pt;
-    margin: 4pt 0 8pt 0;
+    padding-bottom: 10pt;
+    margin: 6pt 0 12pt 0;
     string-set: doc-title content();
     letter-spacing: -0.3pt;
     line-height: 1.2;
 }}
 
 h2 {{
-    font-size: 15pt;
+    font-size: 14pt;
     font-weight: 700;
     color: #1B3A5C;
-    margin: 28pt 0 12pt 0;
-    padding-bottom: 4pt;
+    margin: 30pt 0 12pt 0;
+    padding-bottom: 6pt;
     border-bottom: 1pt solid #e8ecf0;
     page-break-after: avoid;
 }}
 
 h3 {{
-    font-size: 11.5pt;
+    font-size: 11pt;
     font-weight: 600;
     color: #4A90A4;
-    margin: 20pt 0 8pt 0;
+    margin: 24pt 0 8pt 0;
     page-break-after: avoid;
 }}
 
@@ -266,8 +267,8 @@ table:first-of-type {{
     width: auto;
     min-width: 50%;
     max-width: 65%;
-    margin: 8pt 0 20pt 0;
-    font-size: 8.5pt;
+    margin: 12pt 0 24pt 0;
+    font-size: 9pt;
     border: 1pt solid #e8ecf0;
     border-radius: 8pt;
     overflow: hidden;
@@ -283,7 +284,7 @@ table:first-of-type th,
 table:first-of-type td {{
     border: none;
     border-bottom: 0.5pt solid #eef1f4;
-    padding: 5pt 12pt;
+    padding: 7pt 14pt;
     background: none;
 }}
 
@@ -320,7 +321,7 @@ table {{
     border-collapse: separate;
     border-spacing: 0;
     width: 100%;
-    margin: 8pt 0 14pt 0;
+    margin: 12pt 0 18pt 0;
     font-size: 9pt;
     page-break-inside: avoid;
     border: 1pt solid #e2e6ea;
@@ -332,11 +333,11 @@ th {{
     background-color: #f5f7f9;
     color: #1B3A5C;
     font-weight: 600;
-    font-size: 8.5pt;
+    font-size: 8pt;
     text-align: left;
     text-transform: uppercase;
     letter-spacing: 0.3pt;
-    padding: 8pt 10pt;
+    padding: 9pt 10pt;
     border-bottom: 1pt solid #e2e6ea;
     border-left: none;
     border-right: none;
@@ -344,12 +345,13 @@ th {{
 }}
 
 td {{
-    padding: 7pt 10pt;
+    padding: 9pt 10pt;
     border-bottom: 0.5pt solid #eef1f4;
     border-left: none;
     border-right: none;
     vertical-align: top;
     text-align: left;
+    min-height: 18pt;
 }}
 
 tr:nth-child(even) {{
@@ -414,8 +416,8 @@ div.rev-history tr:nth-child(even) {{
 
 hr {{
     border: none;
-    border-top: 1pt solid #eef1f4;
-    margin: 20pt 0;
+    border-top: 1pt solid #e2e6ea;
+    margin: 24pt 0;
 }}
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -424,12 +426,13 @@ hr {{
 
 blockquote {{
     border-left: 3pt solid #4A90A4;
-    margin: 14pt 0;
-    padding: 10pt 16pt;
+    margin: 18pt 0;
+    padding: 12pt 18pt;
     background-color: #f0f6f9;
     border-radius: 0 8pt 8pt 0;
     color: #2c2c2e;
     font-size: 9.5pt;
+    line-height: 1.5;
 }}
 
 blockquote p {{
@@ -477,7 +480,7 @@ pre code {{
    ═══════════════════════════════════════════════════════════════════════════ */
 
 ul, ol {{
-    margin: 6pt 0 8pt 0;
+    margin: 8pt 0 12pt 0;
     padding-left: 20pt;
 }}
 
